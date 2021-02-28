@@ -17,26 +17,26 @@ class ServerProtocol(asyncio.Protocol):
     def data_received(self, data: bytes):
         data_deocde = json.loads(data.decode())
         if data_deocde['type'] == "auth":
-            print("Запрос на авторизацию")
             new_data = self._check_auth(data_deocde)
             self.send_message(new_data)
         else:
-            self.send_message(data)
+            self.send_message(data_deocde)
 
     def connection_made(self, transport: asyncio.transports.Transport):
         self.server.clients.append(self)
         self.transport = transport
-
         print("Пришел новый клиент")
 
     def connection_lost(self, exc: Optional[Exception]):
         self.server.clients.remove(self)
         print("Клиент вышел")
 
-    def send_message(self, content: bytes):
+    def send_message(self, content: dict):
         """ Возврат сообщения всем пользователям """
+        data = json.dumps(content).encode()
+
         for user in self.server.clients:
-            user.transport.write(content)
+            user.transport.write(data)
 
     @staticmethod
     def _check_auth(data: dict):
