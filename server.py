@@ -2,6 +2,7 @@
 # Серверное приложение для соединений
 #
 
+import json
 import asyncio
 from typing import Optional
 
@@ -14,8 +15,13 @@ class ServerProtocol(asyncio.Protocol):
         self.server = server
 
     def data_received(self, data: bytes):
-        print(data.decode())
-        self.send_message(data)
+        data_deocde = json.loads(data.decode())
+        if data_deocde['type'] == "auth":
+            print("Запрос на авторизацию")
+            new_data = self._check_auth(data_deocde)
+            self.send_message(new_data)
+        else:
+            self.send_message(data)
 
     def connection_made(self, transport: asyncio.transports.Transport):
         self.server.clients.append(self)
@@ -25,14 +31,18 @@ class ServerProtocol(asyncio.Protocol):
 
     def connection_lost(self, exc: Optional[Exception]):
         self.server.clients.remove(self)
-
         print("Клиент вышел")
 
     def send_message(self, content: bytes):
-        # message = f"{content}\n"
-
+        """ Возврат сообщения всем пользователям """
         for user in self.server.clients:
             user.transport.write(content)
+
+    @staticmethod
+    def _check_auth(data: dict):
+        """ Проверка на авторизацию """
+        data['auth'] = True
+        return data
 
 
 class Server:
