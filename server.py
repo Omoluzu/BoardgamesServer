@@ -15,12 +15,15 @@ class ServerProtocol(asyncio.Protocol):
         self.server = server
 
     def data_received(self, data: bytes):
-        data_deocde = json.loads(data.decode())
-        if data_deocde['type'] == "auth":
-            new_data = self._check_auth(data_deocde)
-            self.send_message(new_data)
+        data_decode = json.loads(data.decode())
+        if data_decode['type'] == "auth":
+            new_data = self._check_auth(data_decode)
+        elif data_decode['type'] == "register":
+            new_data = self._check_register(data_decode)
         else:
-            self.send_message(data_deocde)
+            new_data = data_decode
+
+        self.send_message(new_data)
 
     def connection_made(self, transport: asyncio.transports.Transport):
         self.server.clients.append(self)
@@ -42,6 +45,11 @@ class ServerProtocol(asyncio.Protocol):
     def _check_auth(data: dict):
         """ Проверка на авторизацию """
         data['auth'] = True
+        return data
+
+    def _check_register(self, data: dict):
+        """ Регистрация нового пользователя """
+        data['register'] = True
         return data
 
 
