@@ -21,12 +21,13 @@ class ServerProtocol(asyncio.Protocol, ORM):
         data_decode = json.loads(data.decode())
         if data_decode['type'] == "auth":
             new_data = self._check_auth(data_decode)
+            self.send_message(new_data, command='self')
         elif data_decode['type'] == "register":
             new_data = self._check_register(data_decode)
+            self.send_message(new_data, command='self')
         else:
             new_data = data_decode
-
-        self.send_message(new_data)
+            self.send_message(new_data)
 
     def connection_made(self, transport: asyncio.transports.Transport):
         self.server.clients.append(self)
@@ -37,12 +38,17 @@ class ServerProtocol(asyncio.Protocol, ORM):
         self.server.clients.remove(self)
         print("Клиент вышел")
 
-    def send_message(self, content: dict):
+    def send_message(self, content: dict, command: str = None):
         """ Возврат сообщения всем пользователям """
         data = json.dumps(content).encode()
 
         for user in self.server.clients:
-            user.transport.write(data)
+            if command == "self":  # Отправка сообщения только клиенту который общался с сервером
+                if self == user:
+                    user.transport.write(data)
+                    break
+            else:  # Отправка сообщения всем пользователям
+                user.transport.write(data)
 
     def _check_auth(self, data: dict):
         """ Проверка на авторизацию """
