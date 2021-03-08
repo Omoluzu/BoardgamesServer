@@ -46,12 +46,13 @@ class ServerProtocol(asyncio.Protocol, ORM):
 
     def _check_auth(self, data: dict):
         """ Проверка на авторизацию """
-        print(data)
-
         user_db = self.databases.query(Users).filter_by(login=str(data['login'])).all()
         if user_db:
-            print(user_db[0].password)
-            data['auth'] = True
+            if data['password'] == user_db[0].password.decode():
+                data['auth'] = True
+            else:
+                data['auth'] = False
+                data['exception'] = "Введен неправильный пароль"
         else:
             data['auth'] = False
             data['exception'] = "Нету такого пользователя в базе данных"
@@ -71,6 +72,7 @@ class ServerProtocol(asyncio.Protocol, ORM):
             data['register'] = True
         else:
             data['register'] = False
+            data['exception'] = "Имя уже занято"
 
         return data
 
