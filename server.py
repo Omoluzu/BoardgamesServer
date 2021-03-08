@@ -44,10 +44,18 @@ class ServerProtocol(asyncio.Protocol, ORM):
         for user in self.server.clients:
             user.transport.write(data)
 
-    @staticmethod
-    def _check_auth(data: dict):
+    def _check_auth(self, data: dict):
         """ Проверка на авторизацию """
-        data['auth'] = True
+        print(data)
+
+        user_db = self.databases.query(Users).filter_by(login=str(data['login'])).all()
+        if user_db:
+            print(user_db[0].password)
+            data['auth'] = True
+        else:
+            data['auth'] = False
+            data['exception'] = "Нету такого пользователя в базе данных"
+
         return data
 
     def _check_register(self, data: dict):
