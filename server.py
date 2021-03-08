@@ -52,12 +52,18 @@ class ServerProtocol(asyncio.Protocol, ORM):
 
     def _check_register(self, data: dict):
         """ Регистрация нового пользователя """
-        print(data)
         user_db = self.databases.query(Users).filter_by(login=str(data['login'])).all()
+        if not user_db:
+            self.databases.add(Users(
+                login=data['login'],
+                password=data['password'].encode(),
+                active=True
+            ))
+            self.databases.commit()
+            data['register'] = True
+        else:
+            data['register'] = False
 
-        print(user_db)
-
-        data['register'] = True
         return data
 
 
