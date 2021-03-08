@@ -6,12 +6,15 @@ import json
 import asyncio
 from typing import Optional
 
+from modules.orm import *
 
-class ServerProtocol(asyncio.Protocol):
+
+class ServerProtocol(asyncio.Protocol, ORM):
     server: 'Server'
     transport: asyncio.transports.Transport
 
     def __init__(self, server: 'Server'):
+        super().__init__()
         self.server = server
 
     def data_received(self, data: bytes):
@@ -49,6 +52,11 @@ class ServerProtocol(asyncio.Protocol):
 
     def _check_register(self, data: dict):
         """ Регистрация нового пользователя """
+        print(data)
+        user_db = self.databases.query(Users).filter_by(login=str(data['login'])).all()
+
+        print(user_db)
+
         data['register'] = True
         return data
 
