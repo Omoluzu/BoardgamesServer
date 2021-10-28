@@ -25,8 +25,18 @@ class ServerProtocol(asyncio.Protocol, ORM):
         elif data_decode['type'] == "register":
             new_data = self._check_register(data_decode)
             self.send_message(new_data, command='self')
+        elif data_decode['type'] == "message":
+            self.send_message(data_decode)
+        elif data_decode['type'] == "create_games":
+            self.send_message(data_decode)
+            self.send_message({
+                "type": "message",
+                "message": f"Создал игру {data_decode['ru']}",
+                "user": data_decode['user']
+            })
         else:
             new_data = data_decode
+            print(f"Ко мне пришло непонятное сообщение: {data_decode['type']} = {data_decode}")
             self.send_message(new_data)
 
     def connection_made(self, transport: asyncio.transports.Transport):

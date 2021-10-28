@@ -16,8 +16,18 @@ class Users(DeclarativeBase):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     login = Column(String(90))  # Логин пользователя
-    password = Column(Binary)  # Пароль пользователя
+    password = Column(LargeBinary)  # Пароль пользователя
     active = Column(Boolean)  # Проверка на то активирован ли пользователь
+
+
+# class ListGames(DeclarativeBase):
+#
+#     __tablename__ = "list_games"
+#
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     create_user_id = Column(Integer, ForeignKey(Users.id))
+#     games_config = Column(Text)
+#     name_games = Column(String(60))
 
 
 class ORM:
