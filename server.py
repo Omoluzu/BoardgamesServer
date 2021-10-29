@@ -6,7 +6,8 @@ import json
 import asyncio
 from typing import Optional
 
-from modules.orm import *
+from modules.ORM.orm import *
+import modules
 
 
 class ServerProtocol(asyncio.Protocol, ORM):
@@ -28,11 +29,11 @@ class ServerProtocol(asyncio.Protocol, ORM):
         elif data_decode['type'] == "message":
             self.send_message(data_decode)
         elif data_decode['type'] == "create_games":
-            self.send_message(data_decode)
+            self.send_message(modules.create_games(data_decode))
             self.send_message({
                 "type": "message",
-                "message": f"Создал игру {data_decode['ru']}",
-                "user": data_decode['user']
+                "message": f"Пользователь {data_decode['user']}: Создал игру {data_decode['ru']}",
+                "user": "System"
             })
         else:
             new_data = data_decode
@@ -62,7 +63,7 @@ class ServerProtocol(asyncio.Protocol, ORM):
 
     def _check_auth(self, data: dict):
         """ Проверка на авторизацию """
-        user_db = self.databases.query(Users).filter_by(login=str(data['login'])).all()
+        user_db = self.databases.query(UsersDB).filter_by(login=str(data['login'])).all()
         if user_db:
             if data['password'] == user_db[0].password.decode():
                 data['auth'] = True
@@ -77,9 +78,9 @@ class ServerProtocol(asyncio.Protocol, ORM):
 
     def _check_register(self, data: dict):
         """ Регистрация нового пользователя """
-        user_db = self.databases.query(Users).filter_by(login=str(data['login'])).all()
+        user_db = self.databases.query(UsersDB).filter_by(login=str(data['login'])).all()
         if not user_db:
-            self.databases.add(Users(
+            self.databases.add(UsersDB(
                 login=data['login'],
                 password=data['password'].encode(),
                 active=True

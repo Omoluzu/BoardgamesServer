@@ -10,7 +10,7 @@ import settings
 DeclarativeBase = declarative_base()
 
 
-class Users(DeclarativeBase):
+class UsersDB(DeclarativeBase):
 
     __tablename__ = "users"
 
@@ -20,23 +20,23 @@ class Users(DeclarativeBase):
     active = Column(Boolean)  # Проверка на то активирован ли пользователь
 
 
-# class ListGames(DeclarativeBase):
-#
-#     __tablename__ = "list_games"
-#
-#     id = Column(Integer, primary_key=True, autoincrement=True)
-#     create_user_id = Column(Integer, ForeignKey(Users.id))
-#     games_config = Column(Text)
-#     name_games = Column(String(60))
+class ListGamesDB(DeclarativeBase):
+
+    __tablename__ = "list_games"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    create_user_id = Column(Integer, ForeignKey(UsersDB.id))
+    games = Column(String(60))
+    games_config = Column(Text)
 
 
 class ORM:
     """ Класс для работы с ORM """
+    config = None
     databases = None
 
-    def __init__(self):
-
+    if not databases:
         _engine = create_engine(URL(**settings.DATABASE))
         DeclarativeBase.metadata.create_all(_engine)
         _Session = sessionmaker(bind=_engine)
-        ORM.databases = _Session()
+        databases = _Session()
