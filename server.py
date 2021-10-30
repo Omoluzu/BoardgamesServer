@@ -20,6 +20,8 @@ class ServerProtocol(asyncio.Protocol, ORM):
 
     def data_received(self, data: bytes):
         data_decode = json.loads(data.decode())
+        print(f">> Получен запрос от клиента: {data_decode}")
+
         if data_decode['type'] == "auth":
             new_data = self._check_auth(data_decode)
             self.send_message(new_data, command='self')
@@ -30,11 +32,6 @@ class ServerProtocol(asyncio.Protocol, ORM):
             self.send_message(data_decode)
         elif data_decode['type'] == "create_games":
             self.send_message(modules.create_games(data_decode))
-            self.send_message({
-                "type": "message",
-                "message": f"Пользователь {data_decode['user']}: Создал игру {data_decode['ru']}",
-                "user": "System"
-            })
         else:
             new_data = data_decode
             print(f"Ко мне пришло непонятное сообщение: {data_decode['type']} = {data_decode}")
@@ -49,17 +46,27 @@ class ServerProtocol(asyncio.Protocol, ORM):
         self.server.clients.remove(self)
         print("Клиент вышел")
 
-    def send_message(self, content: dict, command: str = None):
-        """ Возврат сообщения всем пользователям """
-        data = json.dumps(content).encode()
+    def send_message(self, *args, command: str = None, ):
+        """ Отправка сообщений клиенту
+
+        :param command: Управление отправкой сообщений. Может принимать следующий команды
+            :self: Отправка сообщения только пользователю который выполнил запрос к БД
+        """
+        def send_message_user(users, content):
+            for data in content:
+                if type(data) is tuple:
+                    send_message_user(users, *content)
+                else:
+                    print(f"<< Отправка сообщения клиенту: {data}")
+                    users.transport.write(json.dumps(data).encode())
 
         for user in self.server.clients:
             if command == "self":  # Отправка сообщения только клиенту который общался с сервером
                 if self == user:
-                    user.transport.write(data)
+                    send_message_user(user, args)
                     break
             else:  # Отправка сообщения всем пользователям
-                user.transport.write(data)
+                send_message_user(user, args)
 
     def _check_auth(self, data: dict):
         """ Проверка на авторизацию """
