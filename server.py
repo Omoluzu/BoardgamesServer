@@ -47,10 +47,10 @@ class ServerProtocol(asyncio.Protocol, ORM):
             self.send_message(data_decode)
         elif data_decode['command'] == "create_games":
             self.send_message(modules.create_games(data_decode))
+        elif data_decode['command'] == "user_connect":
+            self.send_message(modules.user_connect(data_decode))
         else:
-            new_data = data_decode
             print(f"Ко мне пришло непонятное сообщение: {data_decode['command']} = {data_decode}")
-            self.send_message(new_data)
 
     def connection_made(self, transport: asyncio.transports.Transport):
         self.server.clients.append(self)
