@@ -15,7 +15,7 @@ def create_games(data: dict):
     :return:
     """
     message_chat = {
-        "type": "message",
+        "command": "message",
         "message": f"Пользователь {data['user']}: Создал игру {data['ru']}",
         "user": "System"
     }

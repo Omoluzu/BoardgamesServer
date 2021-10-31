@@ -22,19 +22,34 @@ class ServerProtocol(asyncio.Protocol, ORM):
         data_decode = json.loads(data.decode())
         print(f">> Получен запрос от клиента: {data_decode}")
 
-        if data_decode['type'] == "auth":
+        # match data_decode.get('command'):
+        #     case "auth":
+        #         new_data = self._check_auth(data_decode)
+        #         self.send_message(new_data, command='self')
+        #     case "register":
+        #         new_data = self._check_register(data_decode)
+        #         self.send_message(new_data, command='self')
+        #     case "message":
+        #         self.send_message(data_decode)
+        #     case "create_games":
+        #         self.send_message(modules.create_games(data_decode))
+        #     case _:
+        #         print(f"Ко мне пришло непонятное сообщение: {data_decode['command']} = {data_decode}")
+        #         self.send_message(data_decode)
+
+        if data_decode['command'] == "auth":
             new_data = self._check_auth(data_decode)
             self.send_message(new_data, command='self')
-        elif data_decode['type'] == "register":
+        elif data_decode['command'] == "register":
             new_data = self._check_register(data_decode)
             self.send_message(new_data, command='self')
-        elif data_decode['type'] == "message":
+        elif data_decode['command'] == "message":
             self.send_message(data_decode)
-        elif data_decode['type'] == "create_games":
+        elif data_decode['command'] == "create_games":
             self.send_message(modules.create_games(data_decode))
         else:
             new_data = data_decode
-            print(f"Ко мне пришло непонятное сообщение: {data_decode['type']} = {data_decode}")
+            print(f"Ко мне пришло непонятное сообщение: {data_decode['command']} = {data_decode}")
             self.send_message(new_data)
 
     def connection_made(self, transport: asyncio.transports.Transport):
@@ -116,7 +131,7 @@ class Server:
         coroutine = await loop.create_server(
             self.build_protocol,
             "127.0.0.1",
-            8888
+            8889
         )
 
         print("Сервер запущен ... ")
