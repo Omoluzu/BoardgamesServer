@@ -5,6 +5,8 @@
 """
 
 import json
+from pprint import pprint
+
 from modules.ORM.orm import ORM, ListGamesDB
 from modules.ORM.Users import Users
 
@@ -33,3 +35,24 @@ class ListGames(ORM):
         data['games_id'] = new_games.id
 
         return data
+
+    @classmethod
+    def get_current_action_games(cls) -> dict:
+        """
+        Возврат списка активных игр
+        :return:
+        """
+        list_games = []
+
+        for games in cls.databases.query(ListGamesDB).all():
+            list_games.append({
+                "id": games.id,
+                "create_user_id": Users.get_user_name(games.create_user_id),
+                "games": games.games,
+                "games_config": games.games_config,
+            })
+
+        return {
+            "command": "update_list_games",
+            "list_games": list_games,
+        }

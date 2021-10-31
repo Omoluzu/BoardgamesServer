@@ -7,7 +7,7 @@
 from modules.ORM.ListGames import ListGames
 
 
-def create_games(data: dict):
+def create_games(data: dict) -> tuple:
     """
     Запрос на создание игры в БД
 

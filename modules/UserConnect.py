@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 """
-Запрос на создание игр
+Запрос на инициализацию подключения пользователя в систему
 """
+from modules.ORM.ListGames import ListGames
 
 
-def user_connect(info) -> dict:
+def user_connect(info) -> tuple:
     """
     Инициализация подключения пользователя в систему
 
@@ -19,4 +20,4 @@ def user_connect(info) -> dict:
         "user": "System"
     }
 
-    return message
+    return message, ListGames.get_current_action_games()

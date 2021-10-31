@@ -14,3 +14,8 @@ class Users(ORM):
     def get_user_id(cls, user_name: str) -> int:
         """ Получение ИД пользователя """
         return cls.databases.query(UsersDB).filter_by(login=user_name).one().id
+
+    @classmethod
+    def get_user_name(cls, user_id: int) -> str:
+        """ Получение имени пользователя """
+        return cls.databases.query(UsersDB).filter_by(id=user_id).one().login
