@@ -22,21 +22,6 @@ class ServerProtocol(asyncio.Protocol, ORM):
         data_decode = json.loads(data.decode())
         print(f">> Получен запрос от клиента: {data_decode}")
 
-        # match data_decode.get('command'):
-        #     case "auth":
-        #         new_data = self._check_auth(data_decode)
-        #         self.send_message(new_data, command='self')
-        #     case "register":
-        #         new_data = self._check_register(data_decode)
-        #         self.send_message(new_data, command='self')
-        #     case "message":
-        #         self.send_message(data_decode)
-        #     case "create_games":
-        #         self.send_message(modules.create_games(data_decode))
-        #     case _:
-        #         print(f"Ко мне пришло непонятное сообщение: {data_decode['command']} = {data_decode}")
-        #         self.send_message(data_decode)
-
         if data_decode['command'] == "auth":
             new_data = self._check_auth(data_decode)
             self.send_message(new_data, command='self')
@@ -49,6 +34,8 @@ class ServerProtocol(asyncio.Protocol, ORM):
             self.send_message(modules.create_games(data_decode))
         elif data_decode['command'] == "user_connect":
             self.send_message(modules.user_connect(data_decode))
+        elif data_decode['command'] == "game_canceled":
+            self.send_message(modules.game_canceled(data_decode))
         else:
             print(f"Ко мне пришло непонятное сообщение: {data_decode['command']} = {data_decode}")
 
@@ -131,7 +118,7 @@ class Server:
         coroutine = await loop.create_server(
             self.build_protocol,
             "127.0.0.1",
-            8889
+            8888
         )
 
         print("Сервер запущен ... ")
