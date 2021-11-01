@@ -47,7 +47,7 @@ class ListGames(ORM):
         for games in cls.databases.query(ListGamesDB).all():
             list_games.append({
                 "id": games.id,
-                "create_user_id": Users.get_user_name(games.create_user_id),
+                "user": Users.get_user_name(games.create_user_id),
                 "games": games.games,
                 "games_config": games.games_config,
             })

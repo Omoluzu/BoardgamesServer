@@ -12,6 +12,7 @@ def user_connect(info) -> tuple:
 
     :return:
         Приветственное сообщение
+        Информация о списке активных игр
     """
 
     message = {
