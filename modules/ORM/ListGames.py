@@ -56,3 +56,12 @@ class ListGames(ORM):
             "command": "update_list_games",
             "list_games": list_games,
         }
+
+    @classmethod
+    def del_games(cls, game_id) -> None:
+        """
+        Удаление информации об игре из БД
+        :param game_id:
+        :return:
+        """
+        cls.databases.query(ListGamesDB).filter_by(id=game_id).delete()

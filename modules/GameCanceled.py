@@ -7,7 +7,7 @@
 from modules.ORM.ListGames import ListGames
 
 
-def game_canceled(info) -> dict:
+def game_canceled(info) -> tuple:
 
     message = {
         "command": "message",
@@ -15,7 +15,9 @@ def game_canceled(info) -> dict:
         "user": "System"
     }
 
-    return message
+    ListGames.del_games(info['game_id'])
+
+    return message, ListGames.get_current_action_games()
 
 
 
