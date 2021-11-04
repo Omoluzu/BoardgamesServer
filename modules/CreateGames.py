@@ -19,6 +19,7 @@ def create_games(data: dict) -> tuple:
         "message": f"Пользователь {data['user']}: Создал игру {data['ru']}",
         "user": "System"
     }
+    ListGames.create_new_games(data)
 
-    return ListGames.create_new_games(data), message_chat
+    return ListGames.get_current_action_games(), message_chat
 
