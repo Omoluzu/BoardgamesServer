@@ -14,6 +14,7 @@ COMMAND = {
     "create_games": modules.create_games,
     "user_connect": modules.user_connect,
     "game_canceled": modules.game_canceled,
+    "message": modules.message,
 }
 
 
@@ -35,10 +36,8 @@ class ServerProtocol(asyncio.Protocol, ORM):
         elif data_decode['command'] == "register":
             new_data = self._check_register(data_decode)
             self.send_message(new_data, command='self')
-        elif data_decode['command'] == "message":
-            self.send_message(data_decode)
-        else:
 
+        else:
             if command := COMMAND.get(data_decode['command']):
                 self.send_message(command(data_decode))
             else:
