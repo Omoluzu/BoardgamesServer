@@ -65,3 +65,4 @@ class ListGames(ORM):
         :return:
         """
         cls.databases.query(ListGamesDB).filter_by(id=game_id).delete()
+        cls.databases.commit()

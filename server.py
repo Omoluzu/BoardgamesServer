@@ -30,18 +30,16 @@ class ServerProtocol(asyncio.Protocol, ORM):
         data_decode = json.loads(data.decode())
         print(f">> Получен запрос от клиента: {data_decode}")
 
-        if data_decode['command'] == "auth":
-            new_data = self._check_auth(data_decode)
-            self.send_message(new_data, command='self')
-        elif data_decode['command'] == "register":
-            new_data = self._check_register(data_decode)
-            self.send_message(new_data, command='self')
-
-        else:
-            if command := COMMAND.get(data_decode['command']):
-                self.send_message(command(data_decode))
-            else:
-                print(f"Ко мне пришло непонятное сообщение: {data_decode['command']} = {data_decode}")
+        match data_decode['command']:
+            case "auth":
+                self.send_message(self._check_auth(data_decode), command='self')
+            case "register":
+                self.send_message(self._check_register(data_decode), command='self')
+            case _:
+                if command := COMMAND.get(data_decode['command']):
+                    self.send_message(command(data_decode))
+                else:
+                    print(f"Ко мне пришло непонятное сообщение: {data_decode['command']} = {data_decode}")
 
     def connection_made(self, transport: asyncio.transports.Transport):
         self.server.clients.append(self)
