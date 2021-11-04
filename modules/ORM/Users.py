@@ -11,6 +11,12 @@ from modules.ORM.orm import UsersDB
 class Users(ORM):
 
     @classmethod
+    def get_user(cls, name_user=None):
+        """ Получение информации о пользователе """
+        if name_user:
+            return cls.databases.query(UsersDB).filter_by(login=name_user).one()
+
+    @classmethod
     def get_user_id(cls, user_name: str) -> int:
         """ Получение ИД пользователя """
         return cls.databases.query(UsersDB).filter_by(login=user_name).one().id

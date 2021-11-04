@@ -2,32 +2,54 @@
 
 from sqlalchemy import *
 from sqlalchemy.engine.url import URL
+from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 
 import settings
 
+
 DeclarativeBase = declarative_base()
+
+association_table = Table(
+    'association', DeclarativeBase.metadata,
+    Column('list_game_id', ForeignKey('list_game.id'), primary_key=True),
+    Column('user_id', ForeignKey('user.id'), primary_key=True),
+)
 
 
 class UsersDB(DeclarativeBase):
 
-    __tablename__ = "users"
+    __tablename__ = "user"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     login = Column(String(90))  # Логин пользователя
     password = Column(LargeBinary)  # Пароль пользователя
     active = Column(Boolean)  # Проверка на то активирован ли пользователь
 
+    list_games = relationship(
+        "ListGamesDB",
+        secondary=association_table,
+        back_populates="users",
+        passive_deletes=True
+    )
+
 
 class ListGamesDB(DeclarativeBase):
 
-    __tablename__ = "list_games"
+    __tablename__ = "list_game"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     create_user_id = Column(Integer, ForeignKey(UsersDB.id))
     games = Column(String(60))
     games_config = Column(Text)
+    canceled = Column(Boolean, default=False)  # Временная колонка для пометки игры на удаление
+
+    users = relationship(
+        "UsersDB",
+        secondary=association_table,
+        back_populates="list_games",
+        cascade="all, delete",
+    )
 
 
 class ORM:

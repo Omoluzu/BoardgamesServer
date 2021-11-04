@@ -15,6 +15,7 @@ COMMAND = {
     "user_connect": modules.user_connect,
     "game_canceled": modules.game_canceled,
     "message": modules.message,
+    "game_join": modules.game_join,
 }
 
 

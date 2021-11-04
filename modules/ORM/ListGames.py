@@ -29,6 +29,9 @@ class ListGames(ORM):
             games_config=json.dumps(data['games_config']),
         )
 
+        user = Users.get_user(name_user=data['user'])
+        new_games.users.append(user)
+
         cls.databases.add(new_games)
         cls.databases.commit()
 
@@ -64,5 +67,7 @@ class ListGames(ORM):
         :param game_id:
         :return:
         """
-        cls.databases.query(ListGamesDB).filter_by(id=game_id).delete()
+
+        game = cls.databases.query(ListGamesDB).filter_by(id=game_id).one()
+        game.canceled = True
         cls.databases.commit()
