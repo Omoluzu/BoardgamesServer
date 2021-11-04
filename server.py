@@ -10,6 +10,13 @@ from modules.ORM.orm import *
 import modules
 
 
+COMMAND = {
+    "create_games": modules.create_games,
+    "user_connect": modules.user_connect,
+    "game_canceled": modules.game_canceled,
+}
+
+
 class ServerProtocol(asyncio.Protocol, ORM):
     server: 'Server'
     transport: asyncio.transports.Transport
@@ -30,14 +37,12 @@ class ServerProtocol(asyncio.Protocol, ORM):
             self.send_message(new_data, command='self')
         elif data_decode['command'] == "message":
             self.send_message(data_decode)
-        elif data_decode['command'] == "create_games":
-            self.send_message(modules.create_games(data_decode))
-        elif data_decode['command'] == "user_connect":
-            self.send_message(modules.user_connect(data_decode))
-        elif data_decode['command'] == "game_canceled":
-            self.send_message(modules.game_canceled(data_decode))
         else:
-            print(f"Ко мне пришло непонятное сообщение: {data_decode['command']} = {data_decode}")
+
+            if command := COMMAND.get(data_decode['command']):
+                self.send_message(command(data_decode))
+            else:
+                print(f"Ко мне пришло непонятное сообщение: {data_decode['command']} = {data_decode}")
 
     def connection_made(self, transport: asyncio.transports.Transport):
         self.server.clients.append(self)
