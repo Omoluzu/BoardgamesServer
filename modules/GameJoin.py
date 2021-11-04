@@ -15,4 +15,6 @@ def game_join(data: dict) -> tuple:
         "user": "System"
     }
 
-    return message_chat
+    ListGames.join_game(data)
+
+    return message_chat, ListGames.get_current_action_games()

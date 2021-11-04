@@ -40,6 +40,15 @@ class ListGames(ORM):
         return data
 
     @classmethod
+    def join_game(cls, data):
+        """ ДОбавление пользователя к игре """
+
+        user = Users.get_user(name_user=data['user'])
+        game = cls.databases.query(ListGamesDB).filter_by(id=data['game_id']).one()
+        game.users.append(user)
+        cls.databases.commit()
+
+    @classmethod
     def get_current_action_games(cls) -> dict:
         """
         Возврат списка активных игр
