@@ -60,6 +60,7 @@ class ListGames(ORM):
             if not games.canceled:
                 list_games.append({
                     "id": games.id,
+                    "status": games.status,
                     "create_user": Users.get_user_name(games.create_user_id),
                     "games": games.games,
                     "games_config": games.games_config,

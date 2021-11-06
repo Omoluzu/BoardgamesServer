@@ -39,17 +39,22 @@ class ListGamesDB(DeclarativeBase):
     __tablename__ = "list_game"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    status = Column(String(30), default="Await")  # Статус игры. Такие как Ожидание игроков, Активно (Играется).
     create_user_id = Column(Integer, ForeignKey(UsersDB.id))
     games = Column(String(60))
     games_config = Column(Text)
     canceled = Column(Boolean, default=False)  # Временная колонка для пометки игры на удаление
-
     users = relationship(
         "UsersDB",
         secondary=association_table,
         back_populates="list_games",
         cascade="all, delete",
     )
+
+    """
+    status
+        Await: - В ожидании игроков
+    """
 
 
 class ORM:
