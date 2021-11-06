@@ -46,6 +46,10 @@ class ListGames(ORM):
         user = Users.get_user(name_user=data['user'])
         game = cls.databases.query(ListGamesDB).filter_by(id=data['game_id']).one()
         game.users.append(user)
+
+        if json.loads(game.games_config)['select_players'] == len(game.users):
+            game.status = "Active"
+
         cls.databases.commit()
 
     @classmethod

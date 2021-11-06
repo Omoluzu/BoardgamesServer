@@ -11,7 +11,7 @@ def game_join(data: dict) -> tuple:
 
     message_chat = {
         "command": "message",
-        "message": f"Пользователь <b>{data['user']}</b>: Пытается присоединится к игре {data['games']}",
+        "message": f"Пользователь <b>{data['user']}</b>: присоединился к игре {data['games']}",
         "user": "System"
     }
 

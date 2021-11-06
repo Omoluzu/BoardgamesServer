@@ -54,6 +54,7 @@ class ListGamesDB(DeclarativeBase):
     """
     status
         Await: - В ожидании игроков
+        Active: - Игра играется игроками
     """
 
 
