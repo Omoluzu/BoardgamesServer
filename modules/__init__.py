@@ -3,4 +3,5 @@ from modules.GameJoin import game_join
 from modules.UserConnect import user_connect
 from modules.CreateGames import create_games
 from modules.GameCanceled import game_canceled
+from modules.GameInformation import game_information
 from modules.UpdateListGames import update_list_games

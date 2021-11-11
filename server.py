@@ -18,6 +18,7 @@ COMMAND = {
     "game_canceled": modules.game_canceled,
     "message": modules.message,
     "game_join": modules.game_join,
+    "information_games": modules.game_information,
 }
 
 

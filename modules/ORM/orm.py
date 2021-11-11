@@ -44,6 +44,7 @@ class ListGamesDB(DeclarativeBase):
     games = Column(String(60))
     games_config = Column(Text)
     canceled = Column(Boolean, default=False)  # Временная колонка для пометки игры на удаление
+    # game_path = Column(String(60), default=None)  # Путь с
     users = relationship(
         "UsersDB",
         secondary=association_table,

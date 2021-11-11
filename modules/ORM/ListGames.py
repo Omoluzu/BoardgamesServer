@@ -4,6 +4,7 @@
 Модуль для работы с БД LisGames
 """
 
+import os
 import json
 from pprint import pprint
 
@@ -51,6 +52,19 @@ class ListGames(ORM):
             game.status = "Active"
 
         cls.databases.commit()
+
+    @classmethod
+    def get_path_games(cls, id_games) -> str:
+        """
+        Запрос пути сохранения игры
+
+        :param id_games:
+        :return:
+        """
+
+        games = cls.databases.query(ListGamesDB).filter_by(id=id_games).one()
+
+        return os.path.join("GameSave", (os.path.join(games.games, f"{games.id}.csv")))
 
     @classmethod
     def get_current_action_games(cls) -> dict:
