@@ -9,6 +9,8 @@ from typing import Optional
 from modules.ORM.orm import *
 import modules
 
+from modules.ORM.ListGames import ListGames
+
 
 COMMAND = {
     "create_games": modules.create_games,
@@ -36,6 +38,8 @@ class ServerProtocol(asyncio.Protocol, ORM):
                 self.send_message(self._check_auth(data_decode), command='self')
             case "register":
                 self.send_message(self._check_register(data_decode), command='self')
+            case "update_list_games":
+                self.send_message(modules.update_list_games(), command='self')
             case _:
                 if command := COMMAND.get(data_decode['command']):
                     self.send_message(command(data_decode))
