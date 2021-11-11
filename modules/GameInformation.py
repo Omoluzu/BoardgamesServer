@@ -4,6 +4,8 @@
 Запрос на обновление списка активныз игр
 """
 
+import os
+
 from modules.ORM.ListGames import ListGames
 
 
@@ -13,9 +15,13 @@ def game_information(data: dict):
     :return: 
     """
 
-    print("Запрос на информацию по игре")
-
     path_games = ListGames.get_path_games(id_games=data['game_id'])
 
-    print(path_games)
+    if not os.path.isfile(path_games):
+        return {
+            "command": "game_info",
+            "game_id": data['game_id'],
+            "game_info": None
+        }
+
 
