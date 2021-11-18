@@ -5,6 +5,7 @@
 """
 
 import os
+import csv
 
 from modules.ORM.ListGames import ListGames
 
@@ -16,13 +17,16 @@ def game_information(data: dict):
     """
 
     path_games = ListGames.get_path_games(id_games=data['game_id'])
+    game_info = None
 
-    if not os.path.isfile(path_games):
-        return {
-            **ListGames.get_games_info(data['game_id']),
-            "command": "game_info",
-            "game_id": data['game_id'],
-            "game_info": None
-        }
+    if os.path.isfile(path_games):
+        with open(path_games) as f:
+            reader = csv.reader(f)
+            game_info = list(reader)[-2][1]
 
-
+    return {
+        **ListGames.get_games_info(data['game_id']),
+        "command": "game_info",
+        "game_id": data['game_id'],
+        "game_info": game_info
+    }
