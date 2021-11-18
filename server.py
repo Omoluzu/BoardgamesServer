@@ -43,6 +43,8 @@ class ServerProtocol(asyncio.Protocol, ORM):
                 self.send_message(modules.update_list_games(), command='self')
             case "game_connect":
                 self.send_message(modules.game_information(data_decode), command='self')
+            case "approved_games":
+                self.send_message(modules.approved_games(data_decode), command='self')
             case _:
                 if command := COMMAND.get(data_decode['command']):
                     self.send_message(command(data_decode))
