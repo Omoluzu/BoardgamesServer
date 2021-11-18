@@ -5,6 +5,7 @@
 """
 
 import csv
+import json
 
 from modules.ORM.ListGames import ListGames
 from modules.GameInformation import game_information
@@ -16,7 +17,7 @@ def approved_games(data):
 
     create_data_games = [
         ["ID", "INFO GAMES"],
-        [1, data['info_game']]
+        [1, json.dumps(data['info_game'])]
     ]
 
     with open(path_games, 'w') as f:
