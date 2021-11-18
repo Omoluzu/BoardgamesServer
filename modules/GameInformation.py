@@ -19,6 +19,7 @@ def game_information(data: dict):
 
     if not os.path.isfile(path_games):
         return {
+            **ListGames.get_games_info(data['game_id']),
             "command": "game_info",
             "game_id": data['game_id'],
             "game_info": None

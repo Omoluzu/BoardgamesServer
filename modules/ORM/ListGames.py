@@ -67,6 +67,22 @@ class ListGames(ORM):
         return os.path.join("GameSave", (os.path.join(games.games, f"{games.id}.csv")))
 
     @classmethod
+    def get_games_info(cls, games_id) -> dict:
+        """
+        Запрос на получение информации конкретной игры
+        :param id:
+        :return:
+        """
+        games = cls.databases.query(ListGamesDB).filter_by(id=games_id).one()
+
+        return {
+            "create_user": Users.get_user_name(games.create_user_id),
+            "games_config": json.loads(games.games_config),
+            "games": games.games,
+            "users": list(Users.get_user_name(user.id) for user in games.users)
+        }
+
+    @classmethod
     def get_current_action_games(cls) -> dict:
         """
         Возврат списка активных игр
