@@ -19,6 +19,7 @@ COMMAND = {
     "message": modules.message,
     "game_join": modules.game_join,
     "information_games": modules.game_information,
+    "game_update": modules.game_update,
 }
 
 
