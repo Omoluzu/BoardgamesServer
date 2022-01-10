@@ -5,6 +5,7 @@
 """
 import os
 import csv
+import json
 
 from modules.ORM.ListGames import ListGames
 
@@ -27,5 +28,5 @@ def game_information(data: dict):
         **ListGames.get_games_info(data['game_id']),
         "command": "game_info",
         "game_id": data['game_id'],
-        "game_info": game_info
+        "game_info": json.loads(game_info)
     }
