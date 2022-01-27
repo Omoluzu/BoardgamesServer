@@ -30,5 +30,6 @@ def game_update(data: dict):
     return {
         'command': 'game_update',
         'game_id': data['game_id'],
+        'game_info': data['game_info'],
         'game_command': data['game_command'],
     }
