@@ -8,8 +8,7 @@ from typing import Optional
 
 from modules.ORM.orm import *
 import modules
-
-from modules.ORM.ListGames import ListGames
+import settings
 
 
 COMMAND = {
@@ -130,8 +129,8 @@ class Server:
 
         coroutine = await loop.create_server(
             self.build_protocol,
-            "127.0.0.1",
-            8888
+            settings.SERVER['host'],
+            settings.SERVER['port']
         )
 
         print("Сервер запущен ... ")
