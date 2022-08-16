@@ -6,7 +6,6 @@
 
 import os
 import json
-from pprint import pprint
 
 from modules.ORM.orm import ORM, ListGamesDB
 from modules.ORM.Users import Users
@@ -61,10 +60,8 @@ class ListGames(ORM):
         :param id_games:
         :return:
         """
-
         games = cls.databases.query(ListGamesDB).filter_by(id=id_games).one()
-
-        return os.path.join("GameSave", (os.path.join(games.games, f"{games.id}.csv")))
+        return os.path.join("GameSave", games.games)
 
     @classmethod
     def get_games_info(cls, games_id) -> dict:

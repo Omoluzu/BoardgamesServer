@@ -4,6 +4,7 @@
 Запрос на подтверждение создание игры
 """
 
+import os
 import csv
 import json
 
@@ -13,7 +14,12 @@ from modules.GameInformation import game_information
 
 def approved_games(data):
 
-    path_games = ListGames.get_path_games(id_games=data['game_id'])
+    path = ListGames.get_path_games(id_games=data['game_id'])
+
+    if not os.path.exists(path):
+        os.mkdir(path)
+
+    path_games = os.path.join(path, f"{str(data['game_id'])}.csv")
 
     create_data_games = [
         ["ID", "INFO GAMES"],
