@@ -61,7 +61,8 @@ class ListGames(ORM):
         :return:
         """
         games = cls.databases.query(ListGamesDB).filter_by(id=id_games).one()
-        return os.path.join("GameSave", games.games)
+        return os.path.join("GameSave", (os.path.join(games.games, f"{games.id}.csv")))
+        # return os.path.join("GameSave", games.games)
 
     @classmethod
     def get_games_info(cls, games_id) -> dict:
