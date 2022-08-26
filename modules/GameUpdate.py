@@ -5,11 +5,30 @@
 import os
 import csv
 import json
+from pprint import pprint
 
 from modules.ORM.ListGames import ListGames
+from modules.GameInformation import game_information
+from modules.Game.IGNIS.expose_unit import expose_unit
+
+
+def update_ignis(data: dict):
+    """ Обновление информации по игре Игнис """
+    match data['game_command']['command']:
+        case 'expose_unit':
+            game = game_information(data)
+            data_expose = expose_unit(game['game_info']['field'], **data['game_command'])
+            data['game_info']['field'] = data_expose['field']
+            data['game_command']['move'] = data_expose['move']
+
+    return data
 
 
 def game_update(data: dict):
+
+    match data['games']:
+        case 'ignis':
+            data = update_ignis(data)
 
     if not data.get('test'):
 
@@ -29,6 +48,7 @@ def game_update(data: dict):
 
     return {
         'command': 'game_update',
+        'user': data.get('user', None),
         'game_id': data['game_id'],
         'game_info': data['game_info'],
         'game_command': data['game_command'],

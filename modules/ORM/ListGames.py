@@ -68,7 +68,7 @@ class ListGames(ORM):
     def get_games_info(cls, games_id) -> dict:
         """
         Запрос на получение информации конкретной игры
-        :param id:
+        :param games_id:
         :return:
         """
         games = cls.databases.query(ListGamesDB).filter_by(id=games_id).one()
