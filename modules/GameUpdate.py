@@ -5,11 +5,10 @@
 import os
 import csv
 import json
-from pprint import pprint
 
 from modules.ORM.ListGames import ListGames
 from modules.GameInformation import game_information
-from modules.Game.IGNIS.expose_unit import expose_unit
+from modules.Game.IGNIS import destroy_field, expose_unit
 
 
 def update_ignis(data: dict):
@@ -18,8 +17,11 @@ def update_ignis(data: dict):
         case 'expose_unit':
             game = game_information(data)
             data_expose = expose_unit(game['game_info']['field'], **data['game_command'])
-            data['game_info']['field'] = data_expose['field']
+            data_destroy = destroy_field(data_expose['field'])
+
+            data['game_info']['field'] = data_destroy['field']
             data['game_command']['move'] = data_expose['move']
+            data['game_command']['destroy'] = data_destroy['destroy']
 
     return data
 
