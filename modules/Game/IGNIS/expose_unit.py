@@ -3,6 +3,7 @@
 Выставление юнита на поле
 
 """
+from pprint import pprint
 
 
 def expose_unit(field, route, position, tile, *args, **kwargs) -> dict:
@@ -15,14 +16,15 @@ def expose_unit(field, route, position, tile, *args, **kwargs) -> dict:
         x = position if route in ['left', 'right'] else i
         y = i if route in ['left', 'right'] else position
 
-        if field[x][y]:
-            current_tile = field[x][y]
+        if field[x][y] != 'X':
+            if field[x][y]:
+                current_tile = field[x][y]
 
-        if save_tile:
-            current_move['new_pos'] = [x, y]
-            tile.append(current_move)
-            field[x][y], save_tile = save_tile, current_tile
-            current_move = {'tile': save_tile, 'old_pos': [x, y]}
+            if save_tile:
+                current_move['new_pos'] = [x, y]
+                tile.append(current_move)
+                field[x][y], save_tile = save_tile, current_tile
+                current_move = {'tile': save_tile, 'old_pos': [x, y]}
 
     return {"field": field, 'move': tile}
 
@@ -37,6 +39,38 @@ if __name__ == '__main__':
         ['', '', 'W', 'F', '', ''],
         ['W', '', '', '', '', 'F'],
         ['W', 'W', '', '', 'F', 'F']
+    ]
+    data_x_button = [
+        ['X', 'X', 'X', 'X', 'X', 'X'],
+        ['F', 'F', '', '', 'W', 'W'],
+        ['F', '', 'F', 'W', '', 'W'],
+        ['', '', 'W', 'F', '', 'E'],
+        ['W', '', '', '', '', 'F'],
+        ['W', 'W', '', '', 'F', 'F']
+    ]
+    data_x_up = [
+        ['F', 'F', '', '', 'W', 'W'],
+        ['F', '', '', '', '', 'W'],
+        ['', '', 'F', 'W', '', ''],
+        ['', '', 'W', 'F', '', 'F'],
+        ['W', '', '', '', 'F', 'F'],
+        ['X', 'X', 'X', 'X', 'X', 'X']
+    ]
+    data_x_left = [
+            ['F', 'F', '', 'W', 'W', 'X'],
+            ['F', '', '', '', 'W', 'X'],
+            ['', '', 'F', 'W', '', 'X'],
+            ['', '', 'W', 'F', '', 'X'],
+            ['W', '', '', '', '', 'X'],
+            ['W', 'W', '', '', 'F', 'X']
+        ]
+    data_x_right = [
+        ['X', 'F', 'F', '', 'W', 'W'],
+        ['X', 'F', '', '', '', 'W'],
+        ['X', '', 'F', 'W', '', ''],
+        ['X', '', 'W', 'F', '', ''],
+        ['X', '', '', '', '', 'F'],
+        ['X', 'W', '', '', 'F', 'F']
     ]
 
     assert expose_unit(copy.deepcopy(data), 'left', 0, 'earth') == {
@@ -152,6 +186,20 @@ if __name__ == '__main__':
             {'tile': 'W', 'old_pos': [1, 5], 'new_pos': [1, 4]}
         ]
     }
+    assert expose_unit(copy.deepcopy(data_x_left), 'left', 1, 'air') == {
+        "field": [
+            ['F', 'F', '', 'W', 'W', 'X'],
+            ['F', '', '', 'W', 'A', 'X'],
+            ['', '', 'F', 'W', '', 'X'],
+            ['', '', 'W', 'F', '', 'X'],
+            ['W', '', '', '', '', 'X'],
+            ['W', 'W', '', '', 'F', 'X']
+        ],
+        'move': [
+            {'tile': 'A', 'old_pos': None, 'new_pos': [1, 4]},
+            {'tile': 'W', 'old_pos': [1, 4], 'new_pos': [1, 3]}
+        ]
+    }
     assert expose_unit(copy.deepcopy(data), 'left', 2, 'air') == {
         "field": [
             ['F', 'F', '', '', 'W', 'W'],
@@ -233,6 +281,20 @@ if __name__ == '__main__':
         'move': [
             {'tile': 'E', 'old_pos': None, 'new_pos': [1, 0]},
             {'tile': 'F', 'old_pos': [1, 0], 'new_pos': [1, 1]}
+        ]
+    }
+    assert expose_unit(copy.deepcopy(data_x_right), 'right', 1, 'earth') == {
+        "field": [
+            ['X', 'F', 'F', '', 'W', 'W'],
+            ['X', 'E', 'F', '', '', 'W'],
+            ['X', '', 'F', 'W', '', ''],
+            ['X', '', 'W', 'F', '', ''],
+            ['X', '', '', '', '', 'F'],
+            ['X', 'W', '', '', 'F', 'F']
+        ],
+        'move': [
+            {'tile': 'E', 'old_pos': None, 'new_pos': [1, 1]},
+            {'tile': 'F', 'old_pos': [1, 1], 'new_pos': [1, 2]}
         ]
     }
     assert expose_unit(copy.deepcopy(data), 'right', 2, 'earth') == {
@@ -441,6 +503,20 @@ if __name__ == '__main__':
             {'tile': 'F', 'old_pos': [5, 4], 'new_pos': [4, 4]}
         ]
     }
+    assert expose_unit(copy.deepcopy(data_x_up), 'up', 4, 'earth') == {
+        "field": [
+            ['F', 'F', '', '', 'W', 'W'],
+            ['F', '', '', '', '', 'W'],
+            ['', '', 'F', 'W', '', ''],
+            ['', '', 'W', 'F', 'F', 'F'],
+            ['W', '', '', '', 'E', 'F'],
+            ['X', 'X', 'X', 'X', 'X', 'X']
+        ],
+        'move': [
+            {'tile': 'E', 'old_pos': None, 'new_pos': [4, 4]},
+            {'tile': 'F', 'old_pos': [4, 4], 'new_pos': [3, 4]}
+        ]
+    }
     assert expose_unit(copy.deepcopy(data), 'up', 5, 'earth') == {
         "field": [
             ['F', 'F', '', '', 'W', 'W'],
@@ -609,6 +685,20 @@ if __name__ == '__main__':
             {'tile': 'W', 'old_pos': [0, 4], 'new_pos': [1, 4]}
         ]
     }
+    assert expose_unit(copy.deepcopy(data_x_button), 'button', 4, 'earth') == {
+        "field": [
+            ['X', 'X', 'X', 'X', 'X', 'X'],
+            ['F', 'F', '', '', 'E', 'W'],
+            ['F', '', 'F', 'W', 'W', 'W'],
+            ['', '', 'W', 'F', '', 'E'],
+            ['W', '', '', '', '', 'F'],
+            ['W', 'W', '', '', 'F', 'F']
+        ],
+        'move': [
+            {'tile': 'E', 'old_pos': None, 'new_pos': [1, 4]},
+            {'tile': 'W', 'old_pos': [1, 4], 'new_pos': [2, 4]}
+        ]
+    }
     assert expose_unit(copy.deepcopy(data), 'button', 5, 'earth') == {
         "field": [
             ['F', 'F', '', '', 'W', 'E'],
@@ -708,3 +798,19 @@ if __name__ == '__main__':
             {'tile': 'W', 'old_pos': [1, 5], 'new_pos': [2, 5]}
         ]
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
