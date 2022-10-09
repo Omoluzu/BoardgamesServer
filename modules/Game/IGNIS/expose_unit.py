@@ -27,7 +27,9 @@ def expose_unit(field, route, position, tile, *args, **kwargs) -> dict:
                 current_move = {'tile': save_tile, 'old_pos': [x, y]}
     else:
         if save_tile:
-            tile.append({'tile': save_tile, 'old_pos': [x, y], 'new_pos': 'X'})
+            # print(field[x][y])
+            # print(tile[-1]['new_pos'])
+            tile.append({'tile': save_tile, 'old_pos': tile[-1]['new_pos'], 'new_pos': 'X'})
 
     return {"field": field, 'move': tile}
 
@@ -83,6 +85,14 @@ if __name__ == '__main__':
         ['W', '', '', '', '', 'F'],
         ['W', 'W', '', '', 'F', 'F']
     ]
+    data_full_2 = [
+        ['X', 'F', 'E', 'E', 'W', 'W'],
+        ['X', '', '', '', '', 'W'],
+        ['X', '', 'F', 'W', '', ''],
+        ['X', '', 'W', 'F', '', ''],
+        ['X', '', '', '', '', 'F'],
+        ['X', 'W', '', '', 'F', 'F']
+    ]
 
     assert expose_unit(copy.deepcopy(data), 'left', 0, 'earth') == {
         "field": [
@@ -116,6 +126,24 @@ if __name__ == '__main__':
             {'new_pos': [0, 1], 'old_pos': [0, 2], 'tile': 'E'},
             {'new_pos': [0, 0], 'old_pos': [0, 1], 'tile': 'F'},
             {'new_pos': 'X', 'old_pos': [0, 0], 'tile': 'F'}
+        ]
+    }
+    assert expose_unit(copy.deepcopy(data_full_2), 'left', 0, 'earth') == {
+        "field": [
+            ['X', 'E', 'E', 'W', 'W', 'E'],
+            ['X', '', '', '', '', 'W'],
+            ['X', '', 'F', 'W', '', ''],
+            ['X', '', 'W', 'F', '', ''],
+            ['X', '', '', '', '', 'F'],
+            ['X', 'W', '', '', 'F', 'F']
+        ],
+        "move": [
+            {'new_pos': [0, 5], 'old_pos': None, 'tile': 'E'},
+            {'new_pos': [0, 4], 'old_pos': [0, 5], 'tile': 'W'},
+            {'new_pos': [0, 3], 'old_pos': [0, 4], 'tile': 'W'},
+            {'new_pos': [0, 2], 'old_pos': [0, 3], 'tile': 'E'},
+            {'new_pos': [0, 1], 'old_pos': [0, 2], 'tile': 'E'},
+            {'new_pos': 'X', 'old_pos': [0, 1], 'tile': 'F'}
         ]
     }
     assert expose_unit(copy.deepcopy(data), 'left', 1, 'earth') == {
@@ -828,5 +856,4 @@ if __name__ == '__main__':
             {'tile': 'W', 'old_pos': [1, 5], 'new_pos': [2, 5]}
         ]
     }
-
 
