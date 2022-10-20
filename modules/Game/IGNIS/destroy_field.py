@@ -100,3 +100,15 @@ def destroy_field(field, save_field=True):
         }
 
     return destroy_tile
+
+
+if __name__ == '__main__':
+    data = [
+        ["X", "X", "X", "X", "X", "X"],
+        ["X", "X", "X", "X", "X", "X"],
+        ["", "E", "E", "E", "E", "E"],
+        ["", "F", "E", "E", "W", "F"],
+        ["X", "X", "X", "X", "X", "X"],
+        ["X", "X", "X", "X", "X", "X"]
+    ]
+
