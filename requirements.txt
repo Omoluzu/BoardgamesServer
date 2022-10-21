@@ -1,2 +1,4 @@
-sqlalchemy==1.4.40
-psycopg2==2.9.3
+pip==22.3
+setuptools==65.5.0
+sqlalchemy==1.4.42
+psycopg2==2.9.4
