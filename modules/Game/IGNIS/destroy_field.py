@@ -4,6 +4,7 @@
 И возврат новой позиции на поле
 
 """
+from pprint import pprint
 
 
 def destroy_field(field, save_field=True):
@@ -14,6 +15,9 @@ def destroy_field(field, save_field=True):
 
     for i in range(5):
         if all(field[i]):
+            new_field = list(filter(lambda x: x != 'X', field[i]))
+            if len(new_field) == 1:
+                break
             set_field_up = set(field[i])
             if "X" in set_field_up:
                 set_field_up.remove('X')
@@ -32,6 +36,9 @@ def destroy_field(field, save_field=True):
 
     for i in range(5, -1, -1):
         if all(field[i]):
+            new_field = list(filter(lambda x: x != 'X', field[i]))
+            if len(new_field) == 1:
+                break
             set_field_button = set(field[i])
             if "X" in set_field_button:
                 set_field_button.remove('X')
@@ -51,6 +58,9 @@ def destroy_field(field, save_field=True):
     for i in range(5):
         field_left = list(_field[i] for _field in field)
         if all(field_left):
+            new_field = list(filter(lambda x: x != 'X', field_left))
+            if len(new_field) == 1:
+                break
             set_field_left = list(set(field_left))
             if 'X' in set_field_left:
                 set_field_left.remove('X')
@@ -71,6 +81,9 @@ def destroy_field(field, save_field=True):
     for i in range(5, -1, -1):
         field_right = list(_field[i] for _field in field)
         if all(field_right):
+            new_field = list(filter(lambda x: x != 'X', field_right))
+            if len(new_field) == 1:
+                break
             set_field_right = list(set(field_right))
             if 'X' in set_field_right:
                 set_field_right.remove('X')
@@ -103,12 +116,22 @@ def destroy_field(field, save_field=True):
 
 
 if __name__ == '__main__':
+    # data = [
+    #     ["X", "X", "X", "X", "X", "X"],
+    #     ["X", "X", "X", "X", "X", "X"],
+    #     ["X", "X", "X", "X", "X", "X"],
+    #     ["F", "F", "E", "E", "W", "F"],
+    #     ["X", "X", "X", "X", "X", "X"],
+    #     ["X", "X", "X", "X", "X", "X"]
+    # ]
     data = [
-        ["X", "X", "X", "X", "X", "X"],
-        ["X", "X", "X", "X", "X", "X"],
-        ["", "E", "E", "E", "E", "E"],
-        ["", "F", "E", "E", "W", "F"],
-        ["X", "X", "X", "X", "X", "X"],
-        ["X", "X", "X", "X", "X", "X"]
+        ["X", "X", "E", "X", "X", "X"],
+        ["X", "X", "E", "X", "X", "X"],
+        ["X", "X", "A", "X", "X", "X"],
+        ["X", "X", "E", "X", "X", "X"],
+        ["X", "X", "F", "X", "X", "X"],
+        ["X", "X", "F", "X", "X", "X"]
     ]
+
+    pprint(destroy_field(data))
 

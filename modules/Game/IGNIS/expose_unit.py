@@ -3,7 +3,6 @@
 Выставление юнита на поле
 
 """
-from pprint import pprint
 
 
 def expose_unit(field, route, position, tile, *args, **kwargs) -> dict:
@@ -27,8 +26,6 @@ def expose_unit(field, route, position, tile, *args, **kwargs) -> dict:
                 current_move = {'tile': save_tile, 'old_pos': [x, y]}
     else:
         if save_tile:
-            # print(field[x][y])
-            # print(tile[-1]['new_pos'])
             tile.append({'tile': save_tile, 'old_pos': tile[-1]['new_pos'], 'new_pos': 'X'})
 
     return {"field": field, 'move': tile}
