@@ -26,14 +26,14 @@ def update_ignis(data: dict):
 
             data['game_info'] = {
                 "field": data_destroy['field'],
-                "count": count,
+                "count": count['count'],
                 "active_player": new_active_player,
                 "kind": game['game_info']['kind']
             }
             data['game_command'] = {
                 "move": data_expose['move'],
                 "destroy": data_destroy['destroy'],
-                "count": count,
+                "count": count['count'],
                 "active_player": new_active_player
             }
 
