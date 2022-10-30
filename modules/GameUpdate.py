@@ -34,7 +34,8 @@ def update_ignis(data: dict):
                 "move": data_expose['move'],
                 "destroy": data_destroy['destroy'],
                 "count": count['count'],
-                "active_player": new_active_player
+                "active_player": new_active_player,
+                "game_over": count['game_over']
             }
 
     return data

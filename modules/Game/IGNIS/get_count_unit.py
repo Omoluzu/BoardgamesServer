@@ -5,7 +5,17 @@ def get_count_unit(field) -> dict:
     for line_field in field:
         f += line_field.count('F')
         w += line_field.count('W')
-    return {"count": f"F{f}W{w}"}
+
+    game_over = None
+    match [f, w]:
+        case [0, 0]:
+            game_over = "draw"
+        case [0, _]:
+            game_over = "F"
+        case [_, 0]:
+            game_over = "W"
+
+    return {"count": f"F{f}W{w}", "game_over": game_over}
 
 
 if __name__ == "__main__":
@@ -19,7 +29,7 @@ if __name__ == "__main__":
             ['W', '', '', '', '', 'F'],
             ['W', 'W', '', '', 'F', 'F']
         ]
-    ) == {"count": "F8W8"}
+    ) == {"count": "F8W8", "game_over": None}
 
     assert get_count_unit(
         field=[
@@ -30,7 +40,7 @@ if __name__ == "__main__":
             ['W', '', '', '', '', ''],
             ['W', 'W', '', '', '', 'F']
         ]
-    ) == {"count": "F4W6"}
+    ) == {"count": "F4W6", "game_over": None}
 
     assert get_count_unit(
         field=[
@@ -41,7 +51,7 @@ if __name__ == "__main__":
             ['W', '', '', '', '', ''],
             ['W', 'W', '', '', '', '']
         ]
-    ) == {"count": "F0W6"}
+    ) == {"count": "F0W6", "game_over": "F"}
 
     assert get_count_unit(
         field=[
@@ -52,7 +62,7 @@ if __name__ == "__main__":
             ['', '', '', '', '', ''],
             ['', '', '', '', '', 'F']
         ]
-    ) == {"count": "F4W0"}
+    ) == {"count": "F4W0", "game_over": "W"}
 
     assert get_count_unit(
         field=[
@@ -63,4 +73,4 @@ if __name__ == "__main__":
             ['', '', '', '', '', ''],
             ['', '', '', '', '', '']
         ]
-    ) == {"count": "F0W0"}
+    ) == {"count": "F0W0", "game_over": "draw"}
