@@ -38,6 +38,9 @@ def update_ignis(data: dict):
                 "game_over": count['game_over']
             }
 
+            if count['game_over']:
+                ListGames.del_games(data['game_id'])
+
     return data
 
 

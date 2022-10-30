@@ -107,7 +107,7 @@ class ListGames(ORM):
     @classmethod
     def del_games(cls, game_id) -> None:
         """
-        Удаление информации об игре из БД
+        Пометка о завершении игры в БД
         :param game_id:
         :return:
         """
