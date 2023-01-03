@@ -1,4 +1,6 @@
 venv
 .idea
+.venv
 settings.py
 GameSave
+*\__pycache__
