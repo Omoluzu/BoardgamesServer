@@ -1,5 +1,5 @@
-pip==22.3.1
-setuptools==65.5.0
-sqlalchemy==1.4.42
-psycopg2==2.9.4
+pip==23.0.1
+setuptools==67.6.1
+sqlalchemy==1.4.46
+psycopg2==2.9.5
 jmespath==1.0.1
