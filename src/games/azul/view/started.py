@@ -1,3 +1,4 @@
+from src.games.azul.models import Bag, Factories
 
 
 def started_configure(data: dict):
@@ -6,4 +7,7 @@ def started_configure(data: dict):
 
     data: Данный пришедшие с сервера.
     """
-    ...
+    bag = Bag.new()
+    factories = Factories.new(bag=bag, players=data.get('players'))
+
+
