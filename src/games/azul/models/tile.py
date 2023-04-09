@@ -1,11 +1,10 @@
-from enum import IntEnum, auto
+from enum import Enum
 
 
-class Tile(IntEnum):
-    NONE = 0
-    FIRST_PLAYER = auto()
-    BLACK = auto()
-    BLUE = auto()
-    DARK_BLUE = auto()
-    YELLOW = auto()
-    RED = auto()
+class Tile(Enum):
+    FIRST_PLAYER = "f"
+    BLACK = "d"
+    BLUE = "b"
+    DARK_BLUE = "g"
+    YELLOW = "y"
+    RED = "r"
