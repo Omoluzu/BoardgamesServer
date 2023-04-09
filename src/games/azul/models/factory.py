@@ -8,7 +8,7 @@ class Factory:
     tiles: list
 
     @classmethod
-    def new_factory(cls, bag: Bag) -> 'Factory':
+    def new(cls, bag: Bag) -> 'Factory':
         """
         Инициализация новой фабрики.
 
@@ -23,15 +23,15 @@ class Factory:
 
 if __name__ == '__main__':
 
-    bag_ = Bag.new_bag()
+    bag_ = Bag.new()
 
-    factory = Factory.new_factory(bag_)
+    factory = Factory.new(bag_)
     print(factory.tiles)
-    factory1 = Factory.new_factory(bag_)
+    factory1 = Factory.new(bag_)
     print(factory1.tiles)
-    factory2 = Factory.new_factory(bag_)
+    factory2 = Factory.new(bag_)
     print(factory2.tiles)
-    factory3 = Factory.new_factory(bag_)
+    factory3 = Factory.new(bag_)
     print(factory3.tiles)
 
     print(len(bag_))

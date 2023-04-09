@@ -9,7 +9,7 @@ class Bag:
     tiles: list
 
     @classmethod
-    def new_bag(cls) -> 'Bag':
+    def new(cls) -> 'Bag':
         """Инициализация новой мешка по умолчанию"""
         return cls(
             tiles=[Tile.RED.value, Tile.BLUE.value, Tile.BLACK.value, Tile.DARK_BLUE.value, Tile.YELLOW.value] * 20)

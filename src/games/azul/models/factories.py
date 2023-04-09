@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
-from src.games.azul.models import Factory
-from src.games.azul.models import Bag
+from src.games.azul.models import Factory, Bag
 
 
 COUNT_FACTORY = {
@@ -29,14 +28,14 @@ class Factories:
         """
         def get_factory():
             for _ in range(COUNT_FACTORY[players]):
-                yield Factory.new_factory(bag)
+                yield Factory.new(bag)
 
         return cls(factory=list(get_factory()))
 
 
 if __name__ == '__main__':
 
-    _bag = Bag.new_bag()
+    _bag = Bag.new()
 
     fact = Factories.new(_bag, players=2)
 
