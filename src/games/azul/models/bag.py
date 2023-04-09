@@ -1,6 +1,5 @@
 from random import randint
 from dataclasses import dataclass
-from collections.abc import Iterable
 
 from src.games.azul.models import Tile
 
@@ -41,7 +40,7 @@ class Bag:
         """
         return f"bag:{''.join(self.tiles)}"
 
-    def give_me_tile(self, count: int = 1) -> Iterable[str]:
+    def give_me_tile(self, count: int = 1) -> list:
         """
         Получение необходимого кол-ва тайлов из мешка
 
