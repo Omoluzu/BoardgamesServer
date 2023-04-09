@@ -21,7 +21,7 @@ class Factories:
 
         Parameters:
             bag: Bag - Текущий игровой мешок с тайлами
-            players: imt - Кол-во игроков
+            players: int - Кол-во игроков
 
         Returned:
             Созданный экземпляр класса Factories
@@ -32,6 +32,19 @@ class Factories:
 
         return cls(factory=list(get_factory()))
 
+    def export(self) -> str:
+        """
+        Экспорт содержимого фабрик игрового поля.
+
+        Returned:
+            fac:ygbr.rbdd.rydy.rrrr.dbgr
+        """
+        def export_factory():
+            for factory in self.factory:
+                yield factory.export()
+
+        return f"fac:{'.'.join(export_factory())}"
+
 
 if __name__ == '__main__':
 
@@ -40,4 +53,9 @@ if __name__ == '__main__':
     fact = Factories.new(_bag, players=2)
 
     print(len(_bag))
-    print(fact.factory)
+    print(fact.export())
+
+    """
+    fac:1234.__34.12_4.12__.1234
+    
+    """

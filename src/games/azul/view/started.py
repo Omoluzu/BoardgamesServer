@@ -10,4 +10,11 @@ def started_configure(data: dict):
     bag = Bag.new()
     factories = Factories.new(bag=bag, players=data.get('players'))
 
+    print(factories.export())
+
+
+if __name__ == '__main__':
+    started_configure({
+        'players': 2
+    })
 

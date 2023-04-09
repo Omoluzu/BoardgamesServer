@@ -20,6 +20,15 @@ class Factory:
         """
         return cls(tiles=bag.give_me_tile(count=4))
 
+    def export(self) -> str:
+        """
+        Экспорт содерживого фабрики
+
+        Returned:
+            ygbr
+        """
+        return ''.join(self.tiles)
+
 
 if __name__ == '__main__':
 
