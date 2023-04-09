@@ -10,12 +10,36 @@ class Bag:
     tiles: list
 
     @classmethod
-    def new_bag(cls):
+    def new_bag(cls) -> 'Bag':
+        """Инициализация новой мешка по умолчанию"""
         return cls(
             tiles=[Tile.RED.value, Tile.BLUE.value, Tile.BLACK.value, Tile.DARK_BLUE.value, Tile.YELLOW.value] * 20)
 
+    @classmethod
+    def upload(cls, tiles: str) -> 'Bag':
+        """
+        Загрузго мешка из Экспортированного мешка
+
+        Parameters:
+            tiles (str) - строковое представление содержимого мешка.
+                Где каждый символ строки это отдельный элемент в мешке
+                Пример:
+                    bag:rbdgyrdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbgyrbgyrbdgyrbdgyrbdy
+        """
+        assert tiles.startswith('bag:')
+        return cls(tiles=list(tiles[4:]))
+
     def __len__(self):
         return len(self.tiles)
+
+    def export(self) -> str:
+        """
+        Экспорт содержимого мешка
+
+        Returned:
+            bag:rbdgyrdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbdgyrbgyrbgyrbdgyrbdgyrbdy
+        """
+        return f"bag:{''.join(self.tiles)}"
 
     def give_me_tile(self, count: int = 1) -> Iterable[str]:
         """
@@ -31,17 +55,6 @@ class Bag:
 
         return list(get_tile())
 
-    def export(self) -> str:
-        return f"bag:{''.join(self.tiles)}"
-
 
 if __name__ == '__main__':
     ...
-
-    bag = Bag.new_bag()
-
-    # print(bag.tiles)
-    print(bag.export())
-    print(list(bag.give_me_tile(count=4)))
-    # print(len(bag))
-    print(bag.export())

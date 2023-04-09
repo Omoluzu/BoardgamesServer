@@ -20,6 +20,7 @@ COMMAND = {
     "information_games": modules.game_information,
     "game_update": modules.game_update,
     "game_over": modules.game_over,
+    # "game_started_configured": modules.game_started_configured
 }
 
 
@@ -32,8 +33,8 @@ class ServerProtocol(asyncio.Protocol, ORM):
         self.server = server
 
     def data_received(self, data: bytes):
+        print(f">> Получен запрос от клиента: {data}")
         data_decode = json.loads(data.decode())
-        print(f">> Получен запрос от клиента: {data_decode}")
 
         match data_decode['command']:
             case "auth":
@@ -74,6 +75,7 @@ class ServerProtocol(asyncio.Protocol, ORM):
                 else:
                     print(f"<< Отправка сообщения клиенту: {data}")
                     users.transport.write(json.dumps(data).encode())
+                    asyncio.sleep(1)
 
         for user in self.server.clients:
             if command == "self":  # Отправка сообщения только клиенту который общался с сервером
