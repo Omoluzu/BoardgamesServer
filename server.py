@@ -75,7 +75,7 @@ class ServerProtocol(asyncio.Protocol, ORM):
                 else:
                     print(f"<< Отправка сообщения клиенту: {data}")
                     users.transport.write(json.dumps(data).encode())
-                    asyncio.sleep(1)
+                    # asyncio.sleep(1)
 
         for user in self.server.clients:
             if command == "self":  # Отправка сообщения только клиенту который общался с сервером

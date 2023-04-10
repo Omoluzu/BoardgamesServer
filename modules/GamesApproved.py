@@ -13,20 +13,22 @@ from modules.GameInformation import game_information
 
 
 def approved_games(data):
+    print(data)
 
-    path_games = ListGames.get_path_games(id_games=data['game_id'])
+    # path_games = ListGames.get_path_games(id_games=data['game_id'])
 
-    if not os.path.exists(os.path.dirname(path_games)):
-        os.mkdir(os.path.dirname(path_games))
+    # if not os.path.exists(os.path.dirname(path_games)):
+    #     os.mkdir(os.path.dirname(path_games))
 
-    create_data_games = [
-        ["ID", "INFO GAMES"],
-        [1, json.dumps(data['info_game'])]
-    ]
+    # create_data_games = [
+    #     ["ID", "INFO GAMES"],
+    #     [1, json.dumps(data['info_game'])]
+    # ]
 
-    with open(path_games, 'w') as f:
-        writer = csv.writer(f)
-        for row in create_data_games:
-            writer.writerow(row)
+    # with open(path_games, 'w') as f:
+    #     writer = csv.writer(f)
+    #     for row in create_data_games:
+    #         writer.writerow(row)
 
-    return game_information(data)
+    return data
+    # return game_information(data)
