@@ -1,7 +1,7 @@
 from src.games.azul.models import Bag, Factories
 
 
-def started_configure(games_config: dict):
+def started_configure(games_config: dict) -> dict:
     """
     Создание стартовой конфигурации для игры AZUL
 
@@ -10,7 +10,10 @@ def started_configure(games_config: dict):
     bag = Bag.new()
     factories = Factories.new(bag=bag, players=games_config.get('select_players'))
 
-    return factories.export()
+    return {
+        "bag": bag.export(),
+        "factories": factories.export()
+    }
 
 
 if __name__ == '__main__':

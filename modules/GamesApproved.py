@@ -36,5 +36,10 @@ def approved_games(data):
     #     for row in create_data_games:
     #         writer.writerow(row)
 
-    return data
+    return {
+        "command": "game_info",
+        "game_id": data['game_id'],
+        "games": 'azul',
+        "game_info": game_data.get('factories')
+    }
     # return game_information(data)
