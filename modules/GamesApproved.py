@@ -40,6 +40,6 @@ def approved_games(data):
         "command": "game_info",
         "game_id": data['game_id'],
         "games": 'azul',
-        "game_info": game_data.get('factories')
+        "game_info": game_data.get('players')
     }
     # return game_information(data)

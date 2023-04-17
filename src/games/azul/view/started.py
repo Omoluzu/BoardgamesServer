@@ -11,8 +11,8 @@ def started_configure(games_config: dict) -> dict:
     factories = Factories.new(bag=bag, players=games_config.get('select_players'))
 
     return {
-        "bag": bag.export(),
-        "factories": factories.export()
+        "server": bag.export(),
+        "players": factories.export()
     }
 
 

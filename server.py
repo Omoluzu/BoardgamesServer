@@ -98,7 +98,7 @@ class ServerProtocol(asyncio.Protocol, ORM):
             data['auth'] = False
             data['exception'] = "Нету такого пользователя в базе данных"
 
-        return data
+        return data  # Todo: Не отправлять данные о логине пароле обратно
 
     def _check_register(self, data: dict):
         """ Регистрация нового пользователя """
