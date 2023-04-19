@@ -57,7 +57,7 @@ def game_update(data: dict):
         if os.path.isfile(path_games):
             with open(path_games) as f:
                 reader = csv.reader(f)
-                game_info = list(reader)[-1]
+                game_info = list(reader)[-2]  # Fixme
 
         with open(path_games, 'a') as f:
             writer = csv.writer(f)

@@ -22,7 +22,7 @@ def game_information(data: dict):
     if os.path.isfile(path_games):
         with open(path_games) as f:
             reader = csv.reader(f)
-            game_info = list(reader)[-1][1]
+            game_info = list(reader)[-2][1]  # Fixme
 
     return {
         **ListGames.get_games_info(data['game_id']),
