@@ -7,13 +7,58 @@ def started_configure(games_config: dict) -> dict:
 
     games_config: Данный пришедшие с сервера.
     """
+    select_one = random.sample([1, 2, 3], 2)
+    select_two = random.choice([1, 2, 3])
+
     field = [
-        ["F", "F", "", "", "W", "W"],
-        ["F", "", "", "", "", "W"],
-        ["", "", "F", "W", "", ""],
-        ["", "", "W", "F", "", ""],
-        ["W", "", "", "", "", "F"],
-        ["W", "W", "", "", "F", "F"]
+        [
+            "F" if 1 in select_one else "",
+            "F" if select_two == 1 else "",
+            "F" if select_two == 2 else "",
+            "W" if select_two == 2 else "",
+            "W" if select_two == 1 else "",
+            "W" if 1 in select_one else "",
+        ],
+        [
+            "F" if select_two == 1 else "",
+            "F" if 2 in select_one else "",
+            "F" if select_two == 3 else "",
+            "W" if select_two == 3 else "",
+            "W" if 2 in select_one else "",
+            "W" if select_two == 1 else ""
+        ],
+        [
+            "F" if select_two == 2 else "",
+            "F" if select_two == 3 else "",
+            "F" if 3 in select_one else "",
+            "W" if 3 in select_one else "",
+            "W" if select_two == 3 else "",
+            "W" if select_two == 2 else ""
+        ],
+        [
+            "W" if select_two == 2 else "",
+            "W" if select_two == 3 else "",
+            "W" if 3 in select_one else "",
+            "F" if 3 in select_one else "",
+            "F" if select_two == 3 else "",
+            "F" if select_two == 2 else ""
+        ],
+        [
+            "W" if select_two == 1 else "",
+            "W" if 2 in select_one else "",
+            "W" if select_two == 3 else "",
+            "F" if select_two == 3 else "",
+            "F" if 2 in select_one else "",
+            "F" if select_two == 1 else ""
+        ],
+        [
+            "W" if 1 in select_one else "",
+            "W" if select_two == 1 else "",
+            "W" if select_two == 2 else "",
+            "F" if select_two == 2 else "",
+            "F" if select_two == 1 else "",
+            "F" if 1 in select_one else ""
+        ]
     ]
 
     select_type = random.randint(0, 1)
@@ -32,3 +77,14 @@ def started_configure(games_config: dict) -> dict:
         "server": "",
         "players": data,
     }
+
+
+if __name__ == '__main__':
+    start = started_configure(
+        games_config={
+            "users": ['player1', 'player2']
+        }
+    )
+
+    for fields in start['players']['field']:
+        print(fields)
