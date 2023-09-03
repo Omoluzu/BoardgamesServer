@@ -55,11 +55,11 @@ def game_update(data: dict):
         path_games = ListGames.get_path_games(id_games=data['game_id'])
 
         if os.path.isfile(path_games):
-            with open(path_games) as f:
+            with open(path_games, encoding='utf-8', newline='') as f:
                 reader = csv.reader(f)
-                game_info = list(reader)[-2]  # Fixme
+                game_info = list(reader)[-1]
 
-        with open(path_games, 'a') as f:
+        with open(path_games, 'a', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
             writer.writerow([
                 int(game_info[0]) + 1,

@@ -20,9 +20,9 @@ def game_information(data: dict):
     game_info = None
 
     if os.path.isfile(path_games):
-        with open(path_games) as f:
+        with open(path_games, encoding='utf-8', newline='') as f:
             reader = csv.reader(f)
-            game_info = list(reader)[-2][1]  # Fixme
+            game_info = list(reader)[-1][1]
 
     return {
         **ListGames.get_games_info(data['game_id']),

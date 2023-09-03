@@ -8,7 +8,7 @@ def started_configure(games_config: dict) -> dict:
     games_config: Данный пришедшие с сервера.
     """
     bag = Bag.new()
-    factories = Factories.new(bag=bag, players=games_config.get('select_players'))
+    factories = Factories.new(bag=bag, players=games_config['games_config']['select_players'])
 
     return {
         "server": bag.export(),
