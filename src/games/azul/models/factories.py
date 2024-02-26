@@ -16,14 +16,16 @@ class Factories:
 
     @classmethod
     def new(cls, bag: Bag, players: int) -> 'Factories':
-        """
-        Инииализация фабрик доступных на игровом поле в зависимости от кол-ва игроков.
+        """Инициализация фабрик доступных на игровом поле
+        в зависимости от кол-ва игроков.
 
-        Parameters:
-            bag: Bag - Текущий игровой мешок с тайлами
-            players: int - Кол-во игроков
+        Args:
+            bag:
+                Bag - Текущий игровой мешок с плитками
+            players:
+                int - Кол-во игроков
 
-        Returned:
+        Returns:
             Созданный экземпляр класса Factories
         """
         def get_factory():
@@ -31,6 +33,27 @@ class Factories:
                 yield Factory.new(bag)
 
         return cls(factory=list(get_factory()))
+
+    @classmethod
+    def imports(cls, fact: str) -> 'Factories':
+        """Импортирование текущего состояния фабрик.
+
+        Args:
+            fact:
+                Текущие содержание фабрик
+                fact:rgyd.rygd.dggb.bygb.yrdr
+
+        Returns:
+            Созданный экземпляр класса Factories
+        """
+        assert fact.startswith('fact:')
+
+        factory = map(
+            lambda tiles: Factory.imports(tiles),
+            fact[5:].split('.')
+        )
+
+        return cls(factory=factory)
 
     def export(self) -> str:
         """
@@ -43,7 +66,7 @@ class Factories:
             for factory in self.factory:
                 yield factory.export()
 
-        return f"fac:{'.'.join(export_factory())}"
+        return f"fact:{'.'.join(export_factory())}"
 
 
 if __name__ == '__main__':

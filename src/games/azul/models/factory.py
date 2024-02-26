@@ -9,20 +9,34 @@ class Factory:
 
     @classmethod
     def new(cls, bag: Bag) -> 'Factory':
-        """
-        Инициализация новой фабрики.
+        """Инициализация новой фабрики.
 
-        Parameter:
-            bag: Текущий мешок для получения тайлов
+        Args:
+            bag:
+                Текущий мешок для получения плиток
 
-        Returned:
+        Returns:
             Экземпляр класса Factory
         """
         return cls(tiles=bag.give_me_tile(count=4))
 
+    @classmethod
+    def imports(cls, fact: str) -> 'Factory':
+        """Импортирование текущеё фабрики.
+
+        Parameter:
+            fact:
+                Текущее состоянии фабрики
+                yrdr
+
+        Returned:
+            Экземпляр класса Factory
+        """
+        return cls(tiles=list(fact))
+
     def export(self) -> str:
         """
-        Экспорт содерживого фабрики
+        Экспорт содержимого фабрики
 
         Returned:
             ygbr

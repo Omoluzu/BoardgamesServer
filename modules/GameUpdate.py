@@ -49,6 +49,11 @@ def game_update(data: dict):
     match data.get('games'):
         case 'ignis':
             data = update_ignis(data)
+        case 'azul':
+            from src.games.azul.view.game_update import game_update
+            data = game_update(data)
+        case _:
+            print(f"Неопределенная игра {data['games']}")
 
     if not data.get('test'):
 
