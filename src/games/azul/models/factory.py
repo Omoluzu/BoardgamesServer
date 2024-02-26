@@ -43,6 +43,50 @@ class Factory:
         """
         return ''.join(self.tiles)
 
+    def count_tile(self, tile: str) -> int:
+        """Получение кол-ва необходимого тайла на фабрике
+
+        Args:
+            tile:
+                Наименование необходимого тайла
+                'r'
+
+        Returns:
+            Количество искомого тайла
+        """
+        return self.tiles.count(tile)
+
+    def get_other_tile(self, tile: str) -> str:
+        """Получение плиток фабрики за исключение указанного
+
+        Args:
+            tile:
+                Наименование необходимого тайла
+                'r'
+
+        Returns:
+            'yd'
+        """
+        return ''.join(filter(
+            lambda t: t != tile,
+            self.tiles
+        ))
+
+    def get_tile(self, tile):
+
+        # current_tile = self.count_tile(tile=tile)
+        # other_tile = self.get_other_tile(tile=tile)
+
+        data = {
+            'desc': self.get_other_tile(tile=tile),
+            'count': self.count_tile(tile=tile)
+        }
+
+        self.tiles = ['-']
+
+        return data
+
+
 
 if __name__ == '__main__':
 

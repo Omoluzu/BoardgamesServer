@@ -53,7 +53,7 @@ class Factories:
             fact[5:].split('.')
         )
 
-        return cls(factory=factory)
+        return cls(factory=list(factory))
 
     def export(self) -> str:
         """
@@ -67,6 +67,12 @@ class Factories:
                 yield factory.export()
 
         return f"fact:{'.'.join(export_factory())}"
+
+    def get_tile(self, factory_number: int, tile: str):
+        factory = self.factory[factory_number - 1]
+        return factory.get_tile(tile=tile)
+        # current_tile = factory.count_tile(tile=tile)
+        # other_tile = factory.get_other_tile(tile=tile)
 
 
 if __name__ == '__main__':
