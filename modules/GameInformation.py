@@ -10,13 +10,16 @@ import json
 from modules.ORM.ListGames import ListGames
 
 
-def game_information(data: dict):
+def game_information(data: dict, test=False):
     """
     Запрос информации об игре
     :return: 
     """
 
     path_games = ListGames.get_path_games(id_games=data['game_id'])
+
+    if test:
+        path_games = os.path.join('..', '..', '..', '..', path_games)
 
     if os.path.isfile(path_games):
         with open(path_games, encoding='utf-8', newline='') as f:

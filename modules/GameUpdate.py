@@ -50,8 +50,8 @@ def game_update(data: dict):
         case 'ignis':
             data = update_ignis(data)
         case 'azul':
-            from src.games.azul.view.game_update import game_update
-            data = game_update(data)
+            from src.games.azul.view.game_update import update_azul
+            data = update_azul(data)
         case _:
             print(f"Неопределенная игра {data['games']}")
 
