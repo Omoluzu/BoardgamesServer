@@ -17,16 +17,20 @@ def game_information(data: dict):
     """
 
     path_games = ListGames.get_path_games(id_games=data['game_id'])
-    game_info = None
 
     if os.path.isfile(path_games):
         with open(path_games, encoding='utf-8', newline='') as f:
             reader = csv.reader(f)
-            game_info = list(reader)[-1][1]
+            (
+                step_id,
+                game_info,
+                server_info
+            ) = list(reader)[-1]
 
     return {
         **ListGames.get_games_info(data['game_id']),
         "command": "game_info",
         "game_id": data['game_id'],
-        "game_info": json.loads(game_info) if game_info else None
+        "game_info": json.loads(game_info) if game_info else None,
+        "server_info": json.loads(server_info) if server_info else None
     }

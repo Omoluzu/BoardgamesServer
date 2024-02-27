@@ -7,7 +7,7 @@ def post(fact: Factories, info):
     return {
         'fact': fact,
         'command': {
-            'fact': int(info['fact']),
+            'clean_fact': int(info['fact']),
             **data
         }
     }
@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
     p1 = post(fact=fact1, info=info1)
     assert p1['fact'].factory[4].export() == '-'
-    assert p1['command']['fact'] == 5
+    assert p1['command']['clean_fact'] == 5
     assert p1['command']['desc'] == 'yd'
     assert p1['command']['count'] == 2
 
@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
     p2 = post(fact=fact2, info=info2)
     assert p2['fact'].factory[3].export() == '-'
-    assert p2['command']['fact'] == 4
+    assert p2['command']['clean_fact'] == 4
     assert p2['command']['desc'] == 'bgb'
     assert p2['command']['count'] == 1
 
