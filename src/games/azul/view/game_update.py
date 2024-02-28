@@ -1,5 +1,7 @@
 import re
 
+from dataclasses import dataclass
+
 from modules.GameInformation import game_information
 from src.games.azul.models import Factories
 
@@ -20,14 +22,25 @@ def split_game_command(info: str) -> dict:
     return data
 
 
+@dataclass
+class Azul:
+    factory: Factories
+
+    @classmethod
+    def open_save(cls, game_id, test=False) -> 'Azul':
+        game = game_information(data={'game_id': game_id}, test=test)
+        match_game_info = re.match(R, game['game_info'])
+
+        return cls(
+            factory=Factories.imports(match_game_info.group('fact'))
+        )
+
+
 def update_azul(data: dict, test=False) -> dict:
     print('game_update', data)
     game_command = split_game_command(data.get('game_command'))
 
-    game = game_information(data, test=test)
-    match_game_info = re.match(R, game['game_info'])
-
-    factory = Factories.imports(match_game_info.group('fact'))
+    game = Azul.open_save(game_id=data['game_id'], test=test)
 
     print('game', game)
     print('game_command', game_command)
