@@ -1,11 +1,4 @@
-import re
-
-from dataclasses import dataclass
-
-from modules.GameInformation import game_information
-from src.games.azul.models import Factories
-
-R = r'(?P<fact>fact:[^;]*)'
+from src.games.azul.view.azul import Azul
 
 
 def split_game_command(info: str) -> dict:
@@ -20,20 +13,6 @@ def split_game_command(info: str) -> dict:
         x = i.split(':')
         data[x[0]] = int(x[1]) if x[1].isdigit() else x[1]
     return data
-
-
-@dataclass
-class Azul:
-    factory: Factories
-
-    @classmethod
-    def open_save(cls, game_id, test=False) -> 'Azul':
-        game = game_information(data={'game_id': game_id}, test=test)
-        match_game_info = re.match(R, game['game_info'])
-
-        return cls(
-            factory=Factories.imports(match_game_info.group('fact'))
-        )
 
 
 def update_azul(data: dict, test=False) -> dict:
