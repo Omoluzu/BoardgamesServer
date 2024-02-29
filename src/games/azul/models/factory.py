@@ -72,20 +72,28 @@ class Factory:
             self.tiles
         ))
 
-    def get_tile(self, tile):
+    def action_get_tile(self, tile: str) -> dict:
+        """Действие игрока на взятия плитки определенного цвета с
+        текущей фабрики
 
-        # current_tile = self.count_tile(tile=tile)
-        # other_tile = self.get_other_tile(tile=tile)
+        Args:
+            tile:
+                Цвет плитки, которую игрок хочет взять к себе на планшет
+                'r'
 
+        Returned:
+            Возвращается словарь с информацией о:
+                Информация о плитках которые добавляются на стол
+                Кол-ва взятых плиток с текущей фабрики.
+        """
         data = {
-            'desc': self.get_other_tile(tile=tile),
+            'add_desc': self.get_other_tile(tile=tile),
             'count': self.count_tile(tile=tile)
         }
 
         self.tiles = ['-']
 
         return data
-
 
 
 if __name__ == '__main__':
