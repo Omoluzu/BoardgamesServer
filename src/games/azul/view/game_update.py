@@ -6,7 +6,6 @@ def split_game_command(info: str) -> dict:
     'command:post;fact:5;color:r;line:3'
     ->
     {'command': 'post', 'fact': 5, 'color': 'r', 'line': 3}
-
     """
     data = {}
     for i in info.split(';'):
@@ -15,31 +14,28 @@ def split_game_command(info: str) -> dict:
     return data
 
 
+def zip_game_command(info: dict) -> str:
+    """
+    {'command': 'post', 'fact': 5, 'color': 'r', 'line': 3}
+    ->
+    'command:post;fact:5;color:r;line:3'
+    """
+    data = ''
+    for key, value in info.items():
+        data += f'{key}:{value};'
+    return data[:-1]
+
+
 def update_azul(data: dict, test=False) -> dict:
-    print('game_update', data)
     game_command = split_game_command(data.get('game_command'))
 
-    game = Azul.open_save(game_id=data['game_id'], test=test)
-
-    print('game', game)
-    print('game_command', game_command)
+    azul = Azul.open_save(game_id=data['game_id'], test=test)
 
     match game_command['command']:
         case 'post':
-            from src.games.azul.commands import post
-            ...
+            response = azul.post(game_command)
+        case _:
+            response = {}
 
+    data['game_command'] = zip_game_command(response.get('command'))
     return data
-
-
-if __name__ == '__main__':
-    info = {
-        'test': True,
-        'command': 'game_update',
-        'user': 'Omoluzu',
-        'games': 'azul',
-        'game_id': 1,
-        'game_command': 'command:post;fact:3;color:g;line:2'
-    }
-
-    update_azul(info, test=True)
