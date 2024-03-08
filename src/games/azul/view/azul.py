@@ -2,7 +2,7 @@ import re
 
 from dataclasses import dataclass
 
-from src.games.azul.models import Factories
+from src.games.azul.models import Factories, Pattern
 
 
 REGULAR = r'(?P<fact>fact:[^;]*)'
@@ -11,6 +11,8 @@ REGULAR = r'(?P<fact>fact:[^;]*)'
 @dataclass
 class Azul:
     factory: Factories
+    patternone: Pattern
+    patterntwo: Pattern
 
     @classmethod
     def open_save(cls, game_id, test=False) -> 'Azul':
@@ -23,16 +25,24 @@ class Azul:
             factory=Factories.imports(match_game_info.group('fact'))
         )
 
-    def post(self, info):
+    def post(self, info: dict) -> dict:
         data = self.factory.get_tile(
             factory_number=int(info['fact']),
             tile=info['color']
         )
+        pattern = getattr(self, f"pattern{info['player']}")
+        pattern.post_tile(
+            line=info['line'],
+            tiles=info['color'] * data['count']
+        )
 
         return {
             'fact': self.factory,
+            'patternone': self.patternone,
+            'patterntwo': self.patterntwo,
             'command': {
                 'clean_fact': int(info['fact']),
+                'post_pattern_line': f"line.{info['line']},player.{info['player']},tile.{info['color']},count.{data['count']}",
                 **data
             }
         }
