@@ -28,7 +28,7 @@ class Pattern:
                 f"line4='{self.line4}', line5='{self.line5}')")
 
     def post_tile(self, line: int, tiles: str) -> None:
-        """Выставление плиток в линию
+        """Выставление плиток на планшет игрока
 
         Args:
             line:
@@ -40,7 +40,7 @@ class Pattern:
         """
 
         pattern: str = getattr(self, f"line{line}")
-        lines = pattern.replace('-', tiles[0], len(tiles))
+        lines = pattern[::-1].replace('-', tiles[0], len(tiles))
         setattr(self, f"line{line}", lines[::-1])
 
     def export(self) -> str:
@@ -54,9 +54,9 @@ class Pattern:
 
 
 if __name__ == '__main__':
-    patterns = Pattern.imports(pattern='patternone:-.--.-rr.----.-----')
-    patterns.post_tile(line=4, tiles='rrr')
+    patterns = Pattern.imports(pattern='patternone:-.--.-rr.---r.-----')
     patterns.post_tile(line=3, tiles='r')
-    patterns.post_tile(line=5, tiles='r')
+    patterns.post_tile(line=4, tiles='rr')
+    patterns.post_tile(line=5, tiles='rrr')
     print(patterns.export())
     print(patterns)
