@@ -21,6 +21,8 @@ def game_information(data: dict, test=False):
     if test:
         path_games = os.path.join('..', '..', '..', '..', path_games)
 
+    game_info = None
+    server_info = None
     if os.path.isfile(path_games):
         with open(path_games, encoding='utf-8', newline='') as f:
             reader = csv.reader(f)
@@ -35,5 +37,5 @@ def game_information(data: dict, test=False):
         "command": "game_info",
         "game_id": data['game_id'],
         "game_info": json.loads(game_info) if game_info else None,
-        "server_info": json.loads(server_info) if server_info else None
+        # "server_info": json.loads(server_info) if server_info else None
     }
