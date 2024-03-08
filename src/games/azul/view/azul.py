@@ -5,7 +5,8 @@ from dataclasses import dataclass
 from src.games.azul.models import Factories, Pattern
 
 
-REGULAR = r'(?P<fact>fact:[^;]*)'
+# REGULAR = r'(?P<fact>fact:[^;]*)'
+REGULAR = r'(?P<fact>fact:[^;]*);(?P<patternone>patternone:[^;]*);(?P<patterntwo>patterntwo:[^;]*);(?P<kind>kind:[^;]*)'
 
 
 @dataclass
@@ -22,7 +23,9 @@ class Azul:
         match_game_info = re.match(REGULAR, game['game_info'])
 
         return cls(
-            factory=Factories.imports(match_game_info.group('fact'))
+            factory=Factories.imports(match_game_info.group('fact')),
+            patternone=Pattern.imports(match_game_info.group('patternone')),
+            patterntwo=Pattern.imports(match_game_info.group('patterntwo'))
         )
 
     def post(self, info: dict) -> dict:

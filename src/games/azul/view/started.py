@@ -21,7 +21,7 @@ def started_configure(games_config: dict) -> dict:
 
     return {
         "server": bag.export(),
-        "players": f"{factories.export()};patternone:-.--.---.----.-----;patternttwo:-.--.---.----.----;{kind}"
+        "players": f"{factories.export()};patternone:-.--.---.----.-----;patterntwo:-.--.---.----.----;{kind}"
     }
 
 
