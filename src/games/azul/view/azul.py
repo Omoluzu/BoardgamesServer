@@ -54,16 +54,20 @@ class Azul:
         Returns:
             Ответ на его действия
         """
-        data = self.factory.get_tile(
-            factory_number=int(info['fact']),
-            tile=info['color']
-        )
+        if info['fact'] != '0':
+            data = self.factory.get_tile(
+                factory_number=int(info['fact']),
+                tile=info['color']
+            )
+            self.table.put(tiles=data['add_desc'])
+        else:
+            data = self.table.get_tile(color=info['color'])
+
         pattern = getattr(self, f"pattern{info['player']}")
         pattern.post_tile(
             line=info['line'],
             tiles=info['color'] * data['count']
         )
-        self.table.put(tiles=data['add_desc'])
 
         return {
             'fact': self.factory,

@@ -54,7 +54,30 @@ def test_factory_post_tile():
 
 def test_table_post_tile():
     """Тестирование выставление тайлов со стола"""
-    ...
+    azul = Azul(
+        factory=Factories.imports(fact='fact:rgyd.rygd.dggb.-.-'),
+        patternone=Pattern.imports(pattern='patternone:-.--.-rr.----.-----'),
+        patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.-----'),
+        table=Table.imports(tiles='table:xydbgb')
+    )
+
+    info = {
+        'command': 'post',
+        'fact': '0',
+        'color': 'b',
+        'line': '2',
+        'player': 'one'
+        # 'user': 'Omoluzu'
+    }
+
+    post_response = azul.post(info=info)
+    assert post_response['fact'].factory[4].export() == '-'
+    assert post_response['fact'].export() == 'fact:rgyd.rygd.dggb.-.-'
+    assert post_response['patternone'].export() == 'patternone:-.bb.-rr.----.-----'
+    assert post_response['table'].export() == 'table:ydg'
+
+    assert post_response['command']['count'] == 2
+    assert post_response['command']['post_pattern_line'] == 'line.2,player.one,tile.b,count.2'
 
 
 test_factory_post_tile()

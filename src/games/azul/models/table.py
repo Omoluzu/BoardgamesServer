@@ -33,6 +33,32 @@ class Table:
         """
         self.tiles.extend(list(tiles))
 
+    def remove(self, color: str) -> None:
+        """Удаление плиток с игрового стола
+
+        Args:
+            color: Цвет плитки необходимый для удаления
+        """
+        for _ in range(self.tiles.count(color)):
+            self.tiles.remove(color)
+
+    def get_tile(self, color: str) -> dict:
+        """Взятие тайла со стола
+
+        Args:
+            color: Цвет плитки необходимый для взятия
+
+        Returns:
+            Словарик с информацией о взятых плитках
+        """
+        count = self.tiles.count(color)
+        self.remove(color)
+        self.tiles.remove('x')
+
+        return {
+            'count': count
+        }
+
     def export(self):
         """Экспортирование содержимое игрового стола
 

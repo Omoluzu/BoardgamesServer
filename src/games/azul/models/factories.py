@@ -68,7 +68,17 @@ class Factories:
 
         return f"fact:{'.'.join(export_factory())}"
 
-    def get_tile(self, factory_number: int, tile: str):
+    def get_tile(self, factory_number: int, tile: str) -> dict:
+        """Взятие плиток с фабрики
+
+        Args:
+            factory_number: Номер фабрики с которой нужно взять плитки.
+            tile: цвет тайла который необходимо взять с фабрики.
+                'r'
+
+        Return:
+            Информация о взятии
+        """
         factory = self.factory[factory_number - 1]
         return factory.action_get_tile(tile=tile)
 
