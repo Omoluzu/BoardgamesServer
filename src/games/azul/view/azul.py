@@ -1,3 +1,7 @@
+"""
+АЗУЛ
+Взаимодействие клиента с сервером
+"""
 import re
 
 from dataclasses import dataclass
@@ -16,13 +20,19 @@ REGULAR = (
 
 @dataclass
 class Azul:
-    factory: Factories
-    patternone: Pattern
-    patterntwo: Pattern
-    table: Table
+    factory: Factories  # Фабрики
+    patternone: Pattern  # Планшет игрока номер 1
+    patterntwo: Pattern  # Планшет игрока номер 2
+    table: Table  # Игровой стол
 
     @classmethod
     def open_save(cls, game_id, test=False) -> 'Azul':
+        """Открытие игровой сессии из базы данных
+
+        Args:
+            game_id: ИД игры
+            test: Тестирование игры
+        """
         from modules.GameInformation import game_information
 
         game = game_information(data={'game_id': game_id}, test=test)
@@ -36,6 +46,14 @@ class Azul:
         )
 
     def post(self, info: dict) -> dict:
+        """Выставление плитки на планшет игрока
+
+        Args:
+            info: Информация пришедшая с клиента
+
+        Returns:
+            Ответ на его действия
+        """
         data = self.factory.get_tile(
             factory_number=int(info['fact']),
             tile=info['color']
