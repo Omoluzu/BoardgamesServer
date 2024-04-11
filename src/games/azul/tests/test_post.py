@@ -13,9 +13,9 @@ def test_factory_post_tile():
 
     info = {
         'command': 'post',
-        'fact': '5',
+        'fact': 5,
         'color': 'r',
-        'line': '3',
+        'line': 3,
         'player': 'one'
         # 'user': 'Omoluzu'
     }
@@ -33,9 +33,9 @@ def test_factory_post_tile():
 
     info = {
         'command': 'post',
-        'fact': '4',
+        'fact': 4,
         'color': 'y',
-        'line': '1',
+        'line': 1,
         'player': 'two'
         # 'user': 'Omoluzu'
     }
@@ -63,9 +63,9 @@ def test_table_post_tile():
 
     info = {
         'command': 'post',
-        'fact': '0',
+        'fact': 0,
         'color': 'b',
-        'line': '2',
+        'line': 2,
         'player': 'one'
         # 'user': 'Omoluzu'
     }
@@ -78,6 +78,7 @@ def test_table_post_tile():
 
     assert post_response['command']['count'] == 2
     assert post_response['command']['post_pattern_line'] == 'line.2,player.one,tile.b,count.2'
+    assert post_response['command'].get('clean_fact') != 0
 
 
 test_factory_post_tile()

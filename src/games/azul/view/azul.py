@@ -54,12 +54,13 @@ class Azul:
         Returns:
             Ответ на его действия
         """
-        if info['fact'] != '0':
+        if info['fact']:
             data = self.factory.get_tile(
                 factory_number=int(info['fact']),
                 tile=info['color']
             )
             self.table.put(tiles=data['add_desc'])
+            data['clean_fact'] = info['fact']
         else:
             data = self.table.get_tile(color=info['color'])
 
@@ -75,7 +76,6 @@ class Azul:
             'patterntwo': self.patterntwo,
             'table': self.table,
             'command': {
-                'clean_fact': int(info['fact']),
                 'post_pattern_line': f"line.{info['line']},player.{info['player']},tile.{info['color']},count.{data['count']}",
                 **data
             }
