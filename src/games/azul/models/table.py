@@ -1,6 +1,8 @@
 """Описание логики игры с игровым столом"""
 from dataclasses import dataclass
 
+from src.games.azul.models import Tile
+
 
 @dataclass
 class Table:
@@ -50,13 +52,21 @@ class Table:
 
         Returns:
             Словарик с информацией о взятых плитках
+                count: кол-во взятых плиток со стола
+                clean_table: Плитки которые необходимо удалит со стола
+                    'xb'
         """
         count = self.tiles.count(color)
         self.remove(color)
-        self.tiles.remove('x')
+        clean_table = color
+
+        if Tile.FIRST_PLAYER.value in self.tiles:
+            self.tiles.remove(Tile.FIRST_PLAYER.value)
+            clean_table = ''.join([Tile.FIRST_PLAYER.value, color])
 
         return {
-            'count': count
+            'count': count,
+            'clean_table': clean_table
         }
 
     def export(self):

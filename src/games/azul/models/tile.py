@@ -3,7 +3,7 @@ from enum import Enum
 
 class Tile(Enum):
     NONE = '_'
-    FIRST_PLAYER = "f"
+    FIRST_PLAYER = "x"
     BLACK = "d"
     BLUE = "b"
     DARK_BLUE = "g"
