@@ -1,5 +1,5 @@
 from src.games.azul.view import Azul
-from src.games.azul.models import Factories, Pattern, Table
+from src.games.azul.models import Factories, Pattern, Table, Floor
 
 
 def test_factory_post_tile():
@@ -8,6 +8,8 @@ def test_factory_post_tile():
         factory=Factories.imports(fact='fact:rgyd.rygd.dggb.bygb.yrdr'),
         patternone=Pattern.imports(pattern='patternone:-.--.---.----.-----'),
         patterntwo=Pattern.imports(pattern='patterntwo:-.--.---.----.-----'),
+        floorone=Floor.imports(elements='floor:'),
+        floortwo=Floor.imports(elements='floor:'),
         table=Table.imports(tiles='table:x')
     )
 
@@ -58,6 +60,8 @@ def test_table_post_tile():
         factory=Factories.imports(fact='fact:rgyd.rygd.dggb.-.-'),
         patternone=Pattern.imports(pattern='patternone:-.--.-rr.----.-----'),
         patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.-----'),
+        floorone=Floor.imports(elements='floor:'),
+        floortwo=Floor.imports(elements='floor:'),
         table=Table.imports(tiles='table:xydbgb')
     )
 

@@ -6,12 +6,14 @@ import re
 
 from dataclasses import dataclass
 
-from src.games.azul.models import Factories, Pattern, Table
+from src.games.azul.models import Factories, Pattern, Table, Floor
 
 
 REGULAR = (
     r'(?P<fact>fact:[^;]*);'
     r'(?P<patternone>patternone:[^;]*);'
+    r'(?P<floorone>floorone:[^;]*);'
+    r'(?P<floortwo>floortwo:[^;]*);'
     r'(?P<patterntwo>patterntwo:[^;]*);'
     r'(?P<kind>kind:[^;]*);'
     r'(?P<table>table:[^;]*)'
@@ -23,6 +25,8 @@ class Azul:
     factory: Factories  # Фабрики
     patternone: Pattern  # Планшет игрока номер 1
     patterntwo: Pattern  # Планшет игрока номер 2
+    floorone: Floor  # Линия пола игрока 1
+    floortwo: Floor  # Линия пола игрока 2
     table: Table  # Игровой стол
 
     @classmethod
@@ -42,6 +46,8 @@ class Azul:
             factory=Factories.imports(match_game_info.group('fact')),
             patternone=Pattern.imports(match_game_info.group('patternone')),
             patterntwo=Pattern.imports(match_game_info.group('patterntwo')),
+            floorone=Floor.imports(match_game_info.group('floorone')),
+            floortwo=Floor.imports(match_game_info.group('floortwo')),
             table=Table.imports(match_game_info.group('table'))
         )
 
