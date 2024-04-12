@@ -83,6 +83,7 @@ def test_table_post_tile():
     assert post_response['command']['post_pattern_line'] == 'line.2,player.one,tile.b,count.2'
     assert post_response['command'].get('clean_fact') != 0
     assert post_response['command']['clean_table'] == 'xb'
+    assert post_response['command']['post_floor'] == 'player:one,tile.x'
 
     info = {
         'command': 'post',
@@ -103,7 +104,35 @@ def test_table_post_tile():
     assert post_response['command']['post_pattern_line'] == 'line.5,player.two,tile.g,count.1'
     assert post_response['command'].get('clean_fact') != 0
     assert post_response['command']['clean_table'] == 'g'
+    assert not post_response['command'].get('post_floor')
+
+
+def test_table_post_floor():
+    azul = Azul(
+        factory=Factories.imports(fact='fact:rgyd.rygd.dggb.-.-'),
+        patternone=Pattern.imports(pattern='patternone:-.bb.-rr.----.-----'),
+        patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.----g'),
+        floorone=Floor.imports(elements='floor:x'),
+        floortwo=Floor.imports(elements='floor:'),
+        table=Table.imports(tiles='table:yd')
+    )
+
+    info = {
+        'command': 'post',
+        'fact': 3,
+        'color': 'g',
+        'line': 1,
+        'player': 'one'
+        # 'user': 'Omoluzu'
+    }
+
+    post_response = azul.post(info=info)
+    assert post_response['patternone'].export() == 'patternone:g.bb.-rr.----.-----'
+
+    assert post_response['command']['post_floor'] == 'player:one,tile.xg'
+
 
 
 test_factory_post_tile()
 test_table_post_tile()
+test_table_post_floor()
