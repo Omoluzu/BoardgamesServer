@@ -1,7 +1,7 @@
 """Описание логики игры с игровым столом"""
 from dataclasses import dataclass
 
-from src.games.azul import models
+from src import models
 
 
 @dataclass
