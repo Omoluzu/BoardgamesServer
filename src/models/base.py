@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from typing import Collection, List
+from dataclasses import dataclass, field
 
 
 @dataclass
@@ -13,7 +14,7 @@ class BaseList:
 
     """
     name: str = 'base'
-    elements: list = ()
+    elements: List[str] = field(default_factory=list)
 
     @classmethod
     def new(cls) -> 'BaseList':
@@ -22,7 +23,7 @@ class BaseList:
         Returns:
             Инициализированный класс с пустой группой элементов
         """
-        return cls(elements=[])
+        return cls()
 
     @classmethod
     def imports(cls, elements: str) -> 'BaseList':
@@ -34,7 +35,7 @@ class BaseList:
         Returns:
             Инициализированный класс с группой элементов из csv
         """
-        return cls(elements=list(elements.replace(f"{cls.name};", '')))
+        return cls(elements=list(elements.replace(f"{cls.name}:", '')))
 
     def export(self) -> str:
         """Экспорт элементов для сохранения в csv
