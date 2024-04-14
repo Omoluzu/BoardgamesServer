@@ -8,8 +8,8 @@ def test_factory_post_tile():
         factory=Factories.imports(fact='fact:rgyd.rygd.dggb.bygb.yrdr'),
         patternone=Pattern.imports(pattern='patternone:-.--.---.----.-----'),
         patterntwo=Pattern.imports(pattern='patterntwo:-.--.---.----.-----'),
-        floorone=Floor.imports(elements='floor:'),
-        floortwo=Floor.imports(elements='floor:'),
+        floorone=Floor.imports(elements='floorone:'),
+        floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:x')
     )
 
@@ -60,8 +60,8 @@ def test_table_post_tile():
         factory=Factories.imports(fact='fact:rgyd.rygd.dggb.-.-'),
         patternone=Pattern.imports(pattern='patternone:-.--.-rr.----.-----'),
         patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.-----'),
-        floorone=Floor.imports(elements='floor:'),
-        floortwo=Floor.imports(elements='floor:'),
+        floorone=Floor.imports(elements='floorone:'),
+        floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:xydbgb')
     )
 
@@ -77,6 +77,7 @@ def test_table_post_tile():
     post_response = azul.post(info=info)
     assert post_response['fact'].export() == 'fact:rgyd.rygd.dggb.-.-'
     assert post_response['patternone'].export() == 'patternone:-.bb.-rr.----.-----'
+    assert post_response['floorone'].export() == 'floorone:x'
     assert post_response['table'].export() == 'table:ydg'
 
     assert post_response['command']['count'] == 2
@@ -108,12 +109,13 @@ def test_table_post_tile():
 
 
 def test_table_post_floor():
+    """Тестирование выставление тайлов на линию пола"""
     azul = Azul(
         factory=Factories.imports(fact='fact:rgyd.rygd.dggb.-.-'),
         patternone=Pattern.imports(pattern='patternone:-.bb.-rr.----.-----'),
         patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.----g'),
-        floorone=Floor.imports(elements='floor:x'),
-        floortwo=Floor.imports(elements='floor:'),
+        floorone=Floor.imports(elements='floorone:x'),
+        floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:yd')
     )
 

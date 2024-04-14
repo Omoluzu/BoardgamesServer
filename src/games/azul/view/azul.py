@@ -6,7 +6,7 @@ import re
 
 from dataclasses import dataclass
 
-from src.games.azul.models import Factories, Pattern, Table, Floor
+from src.games.azul.models import Factories, Pattern, Table, Floor, Tile
 
 
 REGULAR = (
@@ -76,10 +76,17 @@ class Azul:
             tiles=info['color'] * data['count']
         )
 
+        floor = getattr(self, f"floor{info['player']}")
+
+        if Tile.FIRST_PLAYER.value in data.get('clean_table', ''):
+            floor.element_add(element=Tile.FIRST_PLAYER.value)
+
         return {
             'fact': self.factory,
             'patternone': self.patternone,
             'patterntwo': self.patterntwo,
+            'floorone': self.floorone,
+            'floortwo': self.floortwo,
             'table': self.table,
             'command': {
                 'post_pattern_line': f"line.{info['line']},player.{info['player']},tile.{info['color']},count.{data['count']}",

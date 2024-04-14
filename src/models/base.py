@@ -43,3 +43,11 @@ class BaseList:
             'name:join(elements)'
         """
         return f"{self.name}:{''.join(self.elements)}"
+
+    def element_add(self, element: str) -> None:
+        """Добавление элемента в конец списка элементов
+
+        Args:
+            element: Элемент для добавления
+        """
+        self.elements.extend(list(element))
