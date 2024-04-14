@@ -1,4 +1,4 @@
-from typing import Collection, List
+from typing import List
 from dataclasses import dataclass, field
 
 
@@ -11,10 +11,16 @@ class BaseList:
     Attributes:
         name: Наименования группы элементов
         elements: Список элементов
+        suffix: Возможность импортирования элементов, наименование которое
+            может иметь некоторый суффикс.
+            При установке данного параметра в True атрибут name будет
+            переопределен на новый.
+            По умолчанию False,
 
     """
     name: str = 'base'
     elements: List[str] = field(default_factory=list)
+    suffix: bool = False
 
     @classmethod
     def new(cls) -> 'BaseList':
@@ -35,7 +41,15 @@ class BaseList:
         Returns:
             Инициализированный класс с группой элементов из csv
         """
-        return cls(elements=list(elements.replace(f"{cls.name}:", '')))
+        name, _elements = elements.split(':')
+        _elements = list(_elements)
+
+        if cls.suffix:
+            assert name.startswith(cls.name)
+            return cls(name=name, elements=_elements)
+
+        assert name == cls.name
+        return cls(elements=_elements)
 
     def export(self) -> str:
         """Экспорт элементов для сохранения в csv
