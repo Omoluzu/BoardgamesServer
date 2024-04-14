@@ -9,6 +9,7 @@ class Pattern:
     line3: str
     line4: str
     line5: str
+    excess_tile: int = 0
 
     @classmethod
     def imports(cls, pattern: str) -> 'Pattern':
@@ -39,8 +40,9 @@ class Pattern:
                 'rrr'
         """
 
-        pattern: str = getattr(self, f"line{line}")
-        lines = pattern[::-1].replace('-', tiles[0], len(tiles))
+        pattern: str = getattr(self, f"line{line}")[::-1]
+        self.excess_tile = len(tiles) - pattern.count('-')
+        lines = pattern.replace('-', tiles[0], len(tiles))
         setattr(self, f"line{line}", lines[::-1])
 
     def export(self) -> str:

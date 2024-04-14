@@ -77,11 +77,23 @@ class Azul:
         )
 
         floor = getattr(self, f"floor{info['player']}")
+        post_floor_tile = ''
 
         if Tile.FIRST_PLAYER.value in data.get('clean_table', ''):
             floor.element_add(element=Tile.FIRST_PLAYER.value)
+            post_floor_tile += Tile.FIRST_PLAYER.value
+
+        if excess_tile := pattern.excess_tile > 0:
+            elements=info['color'] * excess_tile
+            floor.element_add(element=elements)
+            post_floor_tile += elements
+
+        if post_floor_tile:
+            data['post_floor'] = f"player.{info['player']},tile.{post_floor_tile}"
+
 
         return {
+
             'fact': self.factory,
             'patternone': self.patternone,
             'patterntwo': self.patterntwo,

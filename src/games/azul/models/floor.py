@@ -17,5 +17,5 @@ class Floor(models.BaseList):
                 Текущее состояния линии пола
                 'floorone:x'
         """
-        name, elements = (elements.split(':'))
+        name, elements = elements.split(':')
         return cls(name=name, elements=list(elements))

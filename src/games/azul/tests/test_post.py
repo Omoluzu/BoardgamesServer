@@ -84,7 +84,7 @@ def test_table_post_tile():
     assert post_response['command']['post_pattern_line'] == 'line.2,player.one,tile.b,count.2'
     assert post_response['command'].get('clean_fact') != 0
     assert post_response['command']['clean_table'] == 'xb'
-    assert post_response['command']['post_floor'] == 'player:one,tile.x'
+    assert post_response['command']['post_floor'] == 'player.one,tile.x'
 
     info = {
         'command': 'post',
@@ -129,12 +129,14 @@ def test_table_post_floor():
     }
 
     post_response = azul.post(info=info)
+    # print(po)
     assert post_response['patternone'].export() == 'patternone:g.bb.-rr.----.-----'
+    assert post_response['floorone'].export() == 'floorone:xg'
 
-    assert post_response['command']['post_floor'] == 'player:one,tile.xg'
+    assert post_response['command']['post_floor'] == 'player.one,tile.g'
 
 
 
-test_factory_post_tile()
-test_table_post_tile()
+# test_factory_post_tile()
+# test_table_post_tile()
 test_table_post_floor()
