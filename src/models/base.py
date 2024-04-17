@@ -19,12 +19,15 @@ class BaseList:
             При установке данного параметра в True атрибут name будет
             переопределен на новый.
             По умолчанию False,
+        limit: Лимит хранимых значений в атрибуте elements
         log.element_add: Список добавленных элементов
-
+        log.element_extra: Список элементов не вошедших в атрибут element
+            из-за превышенного лимита значений указанного в атрибуте limit
     """
-    name: str = 'base'
+    name: str = field(default='base')
     elements: List[str] = field(default_factory=list)
-    suffix: bool = False
+    suffix: bool = field(default=False, init=False)
+    limit: int = field(default=0, init=False)
 
     def __post_init__(self):
         self.log = models.Log()
@@ -73,5 +76,11 @@ class BaseList:
             element: Элемент для добавления
         """
         _element = list(element)
+
+        if self.limit and (len(self.elements) + len(_element)) > self.limit:
+            limit = self.limit - len(self.elements)
+            self.log.element_extra = _element[limit:]
+            _element = _element[:limit]
+
         self.elements.extend(_element)
         self.log.element_add = _element

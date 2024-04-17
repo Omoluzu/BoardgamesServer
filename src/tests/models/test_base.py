@@ -51,3 +51,23 @@ def test_base_log_add_element():
     base.element_add(element='g')
     assert base.log.element_add == ['b', 'b', 'g']
 
+
+def test_base_max_add_element():
+    class BaseTest(models.BaseList):
+        limit: int = 6
+
+    base = BaseTest()
+    base.element_add(element='rtyuiofghj')
+
+    assert base.elements == ['r', 't', 'y', 'u', 'i', 'o']
+    assert base.log.element_add == ['r', 't', 'y', 'u', 'i', 'o']
+    assert base.log.element_extra == ['f', 'g', 'h', 'j']
+    assert base.export() == 'base:rtyuio'
+
+    base2 = BaseTest()
+    base2.element_add(element='rtyu')
+    base2.element_add(element='iof')
+
+    assert base2.elements == ['r', 't', 'y', 'u', 'i', 'o']
+    assert base2.export() == 'base:rtyuio'
+
