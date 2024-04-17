@@ -35,5 +35,19 @@ def test_base_add_element():
     assert base.elements == ['t', 'r', 'b']
 
 
+def test_base_log_add_element():
+    class New(models.BaseList):
+        ...
 
+    base = models.BaseList()
+    assert not base.log.element_add
+
+    base.element_add(element='bb')
+    assert base.log.element_add == ['b', 'b']
+
+    new = New()
+    assert not new.log.element_add
+
+    base.element_add(element='g')
+    assert base.log.element_add == ['b', 'b', 'g']
 

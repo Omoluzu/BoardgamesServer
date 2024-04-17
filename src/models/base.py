@@ -1,6 +1,9 @@
 from typing import List
 from dataclasses import dataclass, field
 
+from src import models
+
+
 
 @dataclass
 class BaseList:
@@ -16,11 +19,15 @@ class BaseList:
             При установке данного параметра в True атрибут name будет
             переопределен на новый.
             По умолчанию False,
+        log.element_add: Список добавленных элементов
 
     """
     name: str = 'base'
     elements: List[str] = field(default_factory=list)
     suffix: bool = False
+
+    def __post_init__(self):
+        self.log = models.Log()
 
     @classmethod
     def new(cls) -> 'BaseList':
@@ -65,4 +72,6 @@ class BaseList:
         Args:
             element: Элемент для добавления
         """
-        self.elements.extend(list(element))
+        _element = list(element)
+        self.elements.extend(_element)
+        self.log.element_add = _element
