@@ -36,6 +36,8 @@ def test_base_add_element():
     assert base.elements == ['t']
     base.element_add(element='rb')
     assert base.elements == ['t', 'r', 'b']
+    base.element_add(element=None)
+    assert base.elements == ['t', 'r', 'b']
 
 
 def test_base_log_add_element():

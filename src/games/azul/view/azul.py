@@ -85,19 +85,14 @@ class Azul:
         )
 
         floor = getattr(self, f"floor{info['player']}")
-        post_floor_tile = ''
 
         if models.Tile.FIRST_PLAYER.value in data.get('clean_table', ''):
             floor.element_add(element=models.Tile.FIRST_PLAYER.value)
-            post_floor_tile += models.Tile.FIRST_PLAYER.value
 
-        if pattern.excess_tile > 0:
-            elements=info['color'] * pattern.excess_tile
-            floor.element_add(element=elements)
-            post_floor_tile += elements
-            self.box.element_add(element=floor.log.element_extra)
+        floor.element_add(element=info['color'] * pattern.excess_tile)
+        self.box.element_add(element=floor.log.element_extra)
 
-        if post_floor_tile:
+        if floor.log.element_add:
             data['post_floor'] = f"player.{info['player']},tile.{''.join(floor.log.element_add)}"
 
         return {
