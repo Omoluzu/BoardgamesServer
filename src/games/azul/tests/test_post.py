@@ -138,6 +138,37 @@ def test_table_post_floor():
     assert post_response['command']['post_floor'] == 'player.one,tile.g'
 
 
+def test_table_post_floor_extra():
+    """Тестирование выставление тайлов на линию пола"""
+    azul = Azul(
+        factory=Factories.imports(fact='fact:rgyd.rygd.dggb.-.-'),
+        patternone=Pattern.imports(pattern='patternone:-.bb.-rr.----.-----'),
+        patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.----g'),
+        floorone=Floor.imports(elements='floorone:x'),
+        floortwo=Floor.imports(elements='floortwo:'),
+        table=Table.imports(tiles=f'table:{"r" * 10}'),
+        box=Box.new()
+    )
+
+    info = {
+        'command': 'post',
+        'fact': 0,
+        'color': 'r',
+        'line': 2,
+        'player': 'two'
+        # 'user': 'Omoluzu'
+    }
+
+    post_response = azul.post(info=info)
+    assert post_response['patterntwo'].export() == 'patterntwo:y.rr.---.----.----g'
+    assert post_response['floortwo'].export() == 'floortwo:rrrrrrr'
+    assert post_response['box'].export() == 'box:r'
+
+    assert post_response['command']['post_floor'] == 'player.two,tile.rrrrrrr'
+    assert post_response['command']['post_pattern_line'] == 'line.2,player.two,tile.r,count.2'
+
+
+
 
 # test_factory_post_tile()
 # test_table_post_tile()
