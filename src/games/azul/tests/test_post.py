@@ -1,5 +1,5 @@
 from src.games.azul.view import Azul
-from src.games.azul.models import Factories, Pattern, Table, Floor
+from src.games.azul.models import Factories, Pattern, Table, Floor, Box
 
 
 def test_factory_post_tile():
@@ -10,7 +10,8 @@ def test_factory_post_tile():
         patterntwo=Pattern.imports(pattern='patterntwo:-.--.---.----.-----'),
         floorone=Floor.imports(elements='floorone:'),
         floortwo=Floor.imports(elements='floortwo:'),
-        table=Table.imports(tiles='table:x')
+        table=Table.imports(tiles='table:x'),
+        box=Box.new()
     )
 
     info = {
@@ -62,7 +63,8 @@ def test_table_post_tile():
         patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.-----'),
         floorone=Floor.imports(elements='floorone:'),
         floortwo=Floor.imports(elements='floortwo:'),
-        table=Table.imports(tiles='table:xydbgb')
+        table=Table.imports(tiles='table:xydbgb'),
+        box=Box.new()
     )
 
     info = {
@@ -116,7 +118,8 @@ def test_table_post_floor():
         patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.----g'),
         floorone=Floor.imports(elements='floorone:x'),
         floortwo=Floor.imports(elements='floortwo:'),
-        table=Table.imports(tiles='table:yd')
+        table=Table.imports(tiles='table:yd'),
+        box=Box.new()
     )
 
     info = {
@@ -129,7 +132,6 @@ def test_table_post_floor():
     }
 
     post_response = azul.post(info=info)
-    # print(po)
     assert post_response['patternone'].export() == 'patternone:g.bb.-rr.----.-----'
     assert post_response['floorone'].export() == 'floorone:xg'
 

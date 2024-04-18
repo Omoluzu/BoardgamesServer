@@ -6,7 +6,7 @@ import re
 
 from dataclasses import dataclass
 
-from src.games.azul.models import Factories, Pattern, Table, Floor, Tile
+from src.games.azul import models
 
 
 REGULAR = (
@@ -19,15 +19,21 @@ REGULAR = (
     r'(?P<table>table:[^;]*)'
 )
 
+SERVER_REGULAR = (
+    r'(?P<bag>bag:[^;]*);'
+    r'(?P<box>box:[^;]*);'
+)
+
 
 @dataclass
 class Azul:
-    factory: Factories  # Фабрики
-    patternone: Pattern  # Планшет игрока номер 1
-    patterntwo: Pattern  # Планшет игрока номер 2
-    floorone: Floor  # Линия пола игрока 1
-    floortwo: Floor  # Линия пола игрока 2
-    table: Table  # Игровой стол
+    factory: models.Factories  # Фабрики
+    patternone: models.Pattern  # Планшет игрока номер 1
+    patterntwo: models.Pattern  # Планшет игрока номер 2
+    floorone: models.Floor  # Линия пола игрока 1
+    floortwo: models.Floor  # Линия пола игрока 2
+    table: models.Table  # Игровой стол
+    box: models.Box  # Содержимое игровой коробки (Сбрасываются лишние игровые плитки)
 
     @classmethod
     def open_save(cls, game_id, test=False) -> 'Azul':
@@ -41,14 +47,16 @@ class Azul:
 
         game = game_information(data={'game_id': game_id}, test=test)
         match_game_info = re.match(REGULAR, game['game_info'])
+        match_server_info = re.match(SERVER_REGULAR, game['server_info'])
 
         return cls(
-            factory=Factories.imports(match_game_info.group('fact')),
-            patternone=Pattern.imports(match_game_info.group('patternone')),
-            patterntwo=Pattern.imports(match_game_info.group('patterntwo')),
-            floorone=Floor.imports(match_game_info.group('floorone')),
-            floortwo=Floor.imports(match_game_info.group('floortwo')),
-            table=Table.imports(match_game_info.group('table'))
+            factory=models.Factories.imports(match_game_info.group('fact')),
+            patternone=models.Pattern.imports(match_game_info.group('patternone')),
+            patterntwo=models.Pattern.imports(match_game_info.group('patterntwo')),
+            floorone=models.Floor.imports(match_game_info.group('floorone')),
+            floortwo=models.Floor.imports(match_game_info.group('floortwo')),
+            table=models.Table.imports(match_game_info.group('table')),
+            box=models.Box.imports(match_server_info.group('box'))
         )
 
     def post(self, info: dict) -> dict:
@@ -79,9 +87,9 @@ class Azul:
         floor = getattr(self, f"floor{info['player']}")
         post_floor_tile = ''
 
-        if Tile.FIRST_PLAYER.value in data.get('clean_table', ''):
-            floor.element_add(element=Tile.FIRST_PLAYER.value)
-            post_floor_tile += Tile.FIRST_PLAYER.value
+        if models.Tile.FIRST_PLAYER.value in data.get('clean_table', ''):
+            floor.element_add(element=models.Tile.FIRST_PLAYER.value)
+            post_floor_tile += models.Tile.FIRST_PLAYER.value
 
         if excess_tile := pattern.excess_tile > 0:
             elements=info['color'] * excess_tile

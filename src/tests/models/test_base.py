@@ -11,6 +11,9 @@ def test_base_imports():
     base = models.BaseList.imports(elements='base:xrbg')
     assert base.elements == ['x', 'r', 'b', 'g']
 
+    zero_base = models.BaseList.imports(elements='base:')
+    assert zero_base.elements == []
+
 
 def test_base_suffix_imports():
     class BaseTest(models.BaseList):

@@ -37,5 +37,5 @@ def game_information(data: dict, test=False):
         "command": "game_info",
         "game_id": data['game_id'],
         "game_info": json.loads(game_info) if game_info else None,
-        # "server_info": json.loads(server_info) if server_info else None
+        "server_info": json.loads(server_info) if server_info else None
     }
