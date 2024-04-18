@@ -1,5 +1,8 @@
+from dataclasses import dataclass
+
 from src import models
 
 
+@dataclass
 class Box(models.BaseList):
-    name = 'box'
+    name: str = 'box'

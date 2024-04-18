@@ -10,6 +10,7 @@ class Pattern:
     line4: str
     line5: str
     excess_tile: int = 0
+    put_tile: int = 0
 
     @classmethod
     def imports(cls, pattern: str) -> 'Pattern':
@@ -41,8 +42,10 @@ class Pattern:
         """
 
         pattern: str = getattr(self, f"line{line}")[::-1]
-        self.excess_tile = len(tiles) - pattern.count('-')
-        lines = pattern.replace('-', tiles[0], len(tiles))
+        excess_tile = len(tiles) - pattern.count('-')
+        self.excess_tile = excess_tile if excess_tile > 0 else 0
+        self.put_tile = len(tiles) - self.excess_tile
+        lines = pattern.replace('-', tiles[0], self.put_tile)
         setattr(self, f"line{line}", lines[::-1])
 
     def export(self) -> str:
@@ -57,8 +60,11 @@ class Pattern:
 
 if __name__ == '__main__':
     patterns = Pattern.imports(pattern='patternone:-.--.-rr.---r.-----')
-    patterns.post_tile(line=3, tiles='r')
-    patterns.post_tile(line=4, tiles='rr')
-    patterns.post_tile(line=5, tiles='rrr')
+    patterns.post_tile(line=2, tiles='rrrrrrrrrr')
+    # patterns.post_tile(line=3, tiles='r')
+    # patterns.post_tile(line=4, tiles='rr')
+    # patterns.post_tile(line=5, tiles='rrr')
     print(patterns.export())
-    print(patterns)
+    print(patterns.excess_tile)
+    print(patterns.put_tile)
+    # print(patterns)

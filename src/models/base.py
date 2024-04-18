@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from dataclasses import dataclass, field
 
 from src import models
@@ -69,12 +69,15 @@ class BaseList:
         """
         return f"{self.name}:{''.join(self.elements)}"
 
-    def element_add(self, element: str) -> None:
+    def element_add(self, element: Optional[str]) -> None:
         """Добавление элемента в конец списка элементов
 
         Args:
             element: Элемент для добавления
         """
+        if not element:
+            return
+
         _element = list(element)
 
         if self.limit and (len(self.elements) + len(_element)) > self.limit:

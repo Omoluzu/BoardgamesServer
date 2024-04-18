@@ -8,3 +8,4 @@ from src import models
 class Floor(models.BaseList):
     name: str = 'floor'
     suffix = True
+    limit = 7

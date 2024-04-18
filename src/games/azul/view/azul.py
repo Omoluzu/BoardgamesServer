@@ -91,25 +91,25 @@ class Azul:
             floor.element_add(element=models.Tile.FIRST_PLAYER.value)
             post_floor_tile += models.Tile.FIRST_PLAYER.value
 
-        if excess_tile := pattern.excess_tile > 0:
-            elements=info['color'] * excess_tile
+        if pattern.excess_tile > 0:
+            elements=info['color'] * pattern.excess_tile
             floor.element_add(element=elements)
             post_floor_tile += elements
+            self.box.element_add(element=floor.log.element_extra)
 
         if post_floor_tile:
-            data['post_floor'] = f"player.{info['player']},tile.{post_floor_tile}"
-
+            data['post_floor'] = f"player.{info['player']},tile.{''.join(floor.log.element_add)}"
 
         return {
-
             'fact': self.factory,
             'patternone': self.patternone,
             'patterntwo': self.patterntwo,
             'floorone': self.floorone,
             'floortwo': self.floortwo,
             'table': self.table,
+            'box': self.box,
             'command': {
-                'post_pattern_line': f"line.{info['line']},player.{info['player']},tile.{info['color']},count.{data['count']}",
+                'post_pattern_line': f"line.{info['line']},player.{info['player']},tile.{info['color']},count.{pattern.put_tile}",
                 **data
             }
         }
