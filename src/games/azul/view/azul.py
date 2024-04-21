@@ -13,15 +13,15 @@ REGULAR = (
     r'(?P<fact>fact:[^;]*);'
     r'(?P<patternone>patternone:[^;]*);'
     r'(?P<floorone>floorone:[^;]*);'
-    r'(?P<floortwo>floortwo:[^;]*);'
     r'(?P<patterntwo>patterntwo:[^;]*);'
+    r'(?P<floortwo>floortwo:[^;]*);'
     r'(?P<kind>kind:[^;]*);'
     r'(?P<table>table:[^;]*)'
 )
 
 SERVER_REGULAR = (
     r'(?P<bag>bag:[^;]*);'
-    r'(?P<box>box:[^;]*);'
+    r'(?P<box>box:[^;]*)'
 )
 
 
@@ -46,8 +46,11 @@ class Azul:
         from modules.GameInformation import game_information
 
         game = game_information(data={'game_id': game_id}, test=test)
+        print(game['game_info'])
         match_game_info = re.match(REGULAR, game['game_info'])
         match_server_info = re.match(SERVER_REGULAR, game['server_info'])
+
+        print(match_game_info)
 
         return cls(
             factory=models.Factories.imports(match_game_info.group('fact')),

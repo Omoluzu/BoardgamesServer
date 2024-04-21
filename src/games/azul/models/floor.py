@@ -1,4 +1,4 @@
-"""Описание логики игры с игровым столом"""
+"""Описание логики игры с линией пола"""
 from dataclasses import dataclass
 
 from src import models
