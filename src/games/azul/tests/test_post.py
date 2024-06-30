@@ -1,7 +1,10 @@
+import pytest
+
 from src.games.azul.view import Azul
 from src.games.azul.models import Factories, Pattern, Table, Floor, Box, Active
 
 
+@pytest.mark.azul
 def test_factory_post_tile():
     """Тестирование выставление тайлов с фабрики"""
     azul = Azul(
@@ -56,6 +59,7 @@ def test_factory_post_tile():
     assert post_response['command']['post_pattern_line'] == 'line.1,player.two,tile.y,count.1'
 
 
+@pytest.mark.azul
 def test_table_post_tile():
     """Тестирование выставление тайлов со стола"""
     azul = Azul(
@@ -112,6 +116,7 @@ def test_table_post_tile():
     assert not post_response['command'].get('post_floor')
 
 
+@pytest.mark.azul
 def test_table_post_floor():
     """Тестирование выставление тайлов на линию пола"""
     azul = Azul(
@@ -141,6 +146,7 @@ def test_table_post_floor():
     assert post_response['command']['post_floor'] == 'player.one,tile.g'
 
 
+@pytest.mark.azul
 def test_table_post_floor_extra():
     """Тестирование выставление тайлов на линию пола"""
     azul = Azul(
@@ -172,6 +178,7 @@ def test_table_post_floor_extra():
     assert post_response['command']['post_pattern_line'] == 'line.2,player.two,tile.r,count.2'
 
 
+@pytest.mark.azul
 def test_change_active_player():
     azul = Azul(
         factory=Factories.imports(fact='fact:rgyd.rygd.dggb.bygb.yrdr'),
@@ -209,8 +216,3 @@ def test_change_active_player():
     post_response = azul.post(info=info)
     assert post_response['active'].export() == 'active:one'
     assert post_response['command']['new_player'] == 'one'
-
-
-# test_factory_post_tile()
-# test_table_post_tile()
-test_table_post_floor()

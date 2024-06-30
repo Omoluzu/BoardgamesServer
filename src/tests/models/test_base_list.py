@@ -1,12 +1,16 @@
+import pytest
+
 from src import models
 
 
+@pytest.mark.engine
 def test_base_new():
     base = models.BaseList.new()
     assert base.name == 'base'
     assert base.elements == []
 
 
+@pytest.mark.engine
 def test_base_imports():
     base = models.BaseList.imports(elements='base:xrbg')
     assert base.elements == ['x', 'r', 'b', 'g']
@@ -15,6 +19,7 @@ def test_base_imports():
     assert zero_base.elements == []
 
 
+@pytest.mark.engine
 def test_base_suffix_imports():
     class BaseTest(models.BaseList):
         suffix = True
@@ -25,11 +30,13 @@ def test_base_suffix_imports():
     assert base.export() == 'baseone:xrbg'
 
 
+@pytest.mark.engine
 def test_base_export():
     base = models.BaseList(elements=['x', 'r', 'b', 'g'])
     assert base.export() == 'base:xrbg'
 
 
+@pytest.mark.engine
 def test_base_add_element():
     base = models.BaseList()
     base.element_add(element='t')
@@ -40,6 +47,7 @@ def test_base_add_element():
     assert base.elements == ['t', 'r', 'b']
 
 
+@pytest.mark.engine
 def test_base_log_add_element():
     class New(models.BaseList):
         ...
@@ -57,6 +65,7 @@ def test_base_log_add_element():
     assert base.log.element_add == ['b', 'b', 'g']
 
 
+@pytest.mark.engine
 def test_base_max_add_element():
     class BaseTest(models.BaseList):
         limit: int = 6

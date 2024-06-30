@@ -1,18 +1,26 @@
+import pytest
+
 from src import models
 
 
-def test_base_new():
-    base = models.BaseString.new()
-    assert base.name == 'base'
-    assert base.element == ''
+@pytest.fixture()
+def base_list() -> 'models.BaseString':
+    return models.BaseString.new()
 
 
+@pytest.mark.engine
+def test_base_new(base_list):
+    assert base_list.name == 'base'
+    assert base_list.element == ''
+
+
+@pytest.mark.engine
 def test_base_imports():
     base = models.BaseString.imports(element='base:LongString')
     assert base.element == 'LongString'
 
 
-def test_base_export():
-    base = models.BaseString.new()
-    base.element = 'NewElement'
-    assert base.export() == 'base:NewElement'
+@pytest.mark.engine
+def test_base_export(base_list):
+    base_list.element = 'NewElement'
+    assert base_list.export() == 'base:NewElement'
