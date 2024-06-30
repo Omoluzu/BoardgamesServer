@@ -1,5 +1,5 @@
 from src.games.azul.view import Azul
-from src.games.azul.models import Factories, Pattern, Table, Floor, Box
+from src.games.azul.models import Factories, Pattern, Table, Floor, Box, Active
 
 
 def test_factory_post_tile():
@@ -11,7 +11,8 @@ def test_factory_post_tile():
         floorone=Floor.imports(elements='floorone:'),
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:x'),
-        box=Box.new()
+        box=Box.new(),
+        active=Active.imports(active='active:one')
     )
 
     info = {
@@ -64,7 +65,8 @@ def test_table_post_tile():
         floorone=Floor.imports(elements='floorone:'),
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:xydbgb'),
-        box=Box.new()
+        box=Box.new(),
+        active=Active.imports(active='active:one')
     )
 
     info = {
@@ -119,7 +121,8 @@ def test_table_post_floor():
         floorone=Floor.imports(elements='floorone:x'),
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:yd'),
-        box=Box.new()
+        box=Box.new(),
+        active=Active.imports(active='active:one')
     )
 
     info = {
@@ -147,7 +150,8 @@ def test_table_post_floor_extra():
         floorone=Floor.imports(elements='floorone:x'),
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles=f'table:{"r" * 10}'),
-        box=Box.new()
+        box=Box.new(),
+        active=Active.imports(active='active:one')
     )
 
     info = {
@@ -168,6 +172,43 @@ def test_table_post_floor_extra():
     assert post_response['command']['post_pattern_line'] == 'line.2,player.two,tile.r,count.2'
 
 
+def test_change_active_player():
+    azul = Azul(
+        factory=Factories.imports(fact='fact:rgyd.rygd.dggb.bygb.yrdr'),
+        patternone=Pattern.imports(pattern='patternone:-.--.---.----.-----'),
+        patterntwo=Pattern.imports(pattern='patterntwo:-.--.---.----.-----'),
+        floorone=Floor.imports(elements='floorone:'),
+        floortwo=Floor.imports(elements='floortwo:'),
+        table=Table.imports(tiles='table:x'),
+        box=Box.new(),
+        active=Active.imports(active='active:one')
+    )
+
+    info = {
+        'command': 'post',
+        'fact': 5,
+        'color': 'r',
+        'line': 3,
+        'player': 'one'
+        # 'user': 'Omoluzu'
+    }
+
+    post_response = azul.post(info=info)
+    assert post_response['active'].export() == 'active:two'
+    assert post_response['command']['new_player'] == 'two'
+
+    info = {
+        'command': 'post',
+        'fact': 4,
+        'color': 'y',
+        'line': 1,
+        'player': 'two'
+        # 'user': 'Omoluzu'
+    }
+
+    post_response = azul.post(info=info)
+    assert post_response['active'].export() == 'active:one'
+    assert post_response['command']['new_player'] == 'one'
 
 
 # test_factory_post_tile()

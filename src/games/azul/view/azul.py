@@ -17,6 +17,7 @@ REGULAR = (
     r'(?P<floortwo>floortwo:[^;]*);'
     r'(?P<kind>kind:[^;]*);'
     r'(?P<table>table:[^;]*)'
+    r'(?P<active>active:[^;]*)'
 )
 
 SERVER_REGULAR = (
@@ -34,6 +35,7 @@ class Azul:
     floortwo: models.Floor  # Линия пола игрока 2
     table: models.Table  # Игровой стол
     box: models.Box  # Содержимое игровой коробки (Сбрасываются лишние игровые плитки)
+    active: models.Active  # Активный игрок
 
     @classmethod
     def open_save(cls, game_id, test=False) -> 'Azul':
@@ -59,7 +61,8 @@ class Azul:
             floorone=models.Floor.imports(match_game_info.group('floorone')),
             floortwo=models.Floor.imports(match_game_info.group('floortwo')),
             table=models.Table.imports(match_game_info.group('table')),
-            box=models.Box.imports(match_server_info.group('box'))
+            active=models.Active.imports(match_server_info.group('active')),
+            box=models.Box.imports(match_server_info.group('box')),
         )
 
     def post(self, info: dict) -> dict:
@@ -98,6 +101,8 @@ class Azul:
         if floor.log.element_add:
             data['post_floor'] = f"player.{info['player']},tile.{''.join(floor.log.element_add)}"
 
+        self.active.change_player()
+
         return {
             'fact': self.factory,
             'patternone': self.patternone,
@@ -106,8 +111,10 @@ class Azul:
             'floortwo': self.floortwo,
             'table': self.table,
             'box': self.box,
+            'active': self.active,
             'command': {
                 'post_pattern_line': f"line.{info['line']},player.{info['player']},tile.{info['color']},count.{pattern.put_tile}",
+                'new_player': self.active.player,
                 **data
             }
         }
