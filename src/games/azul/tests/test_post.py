@@ -12,7 +12,7 @@ def test_factory_post_tile():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:x'),
         box=Box.new(),
-        active=Active.imports(active='active:one')
+        active=Active.imports(element='active:one')
     )
 
     info = {
@@ -66,7 +66,7 @@ def test_table_post_tile():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:xydbgb'),
         box=Box.new(),
-        active=Active.imports(active='active:one')
+        active=Active.imports(element='active:one')
     )
 
     info = {
@@ -122,7 +122,7 @@ def test_table_post_floor():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:yd'),
         box=Box.new(),
-        active=Active.imports(active='active:one')
+        active=Active.imports(element='active:one')
     )
 
     info = {
@@ -151,7 +151,7 @@ def test_table_post_floor_extra():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles=f'table:{"r" * 10}'),
         box=Box.new(),
-        active=Active.imports(active='active:one')
+        active=Active.imports(element='active:one')
     )
 
     info = {
@@ -181,7 +181,7 @@ def test_change_active_player():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:x'),
         box=Box.new(),
-        active=Active.imports(active='active:one')
+        active=Active.imports(element='active:one')
     )
 
     info = {

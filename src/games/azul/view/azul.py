@@ -114,7 +114,7 @@ class Azul:
             'active': self.active,
             'command': {
                 'post_pattern_line': f"line.{info['line']},player.{info['player']},tile.{info['color']},count.{pattern.put_tile}",
-                'new_player': self.active.player,
+                'new_player': self.active.element,
                 **data
             }
         }

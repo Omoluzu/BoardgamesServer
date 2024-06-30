@@ -1,29 +1,22 @@
 from dataclasses import dataclass
 
+from src import models
+
 
 SELECT = ('one', 'two', )
 
 
 @dataclass
-class Active:
-    player: str
+class Active(models.BaseString):
+    name: str = 'active'
 
     @classmethod
     def new(cls) -> 'Active':
-        return cls(player='one')
-
-    @classmethod
-    def imports(cls, active: str) -> 'Active':
-        active = active.replace('active:', '')
-        return cls(player=active)
+        return cls(element='one')
 
     def change_player(self) -> None:
-        index = SELECT.index(self.player)
+        index = SELECT.index(self.element)
         try:
-            self.player = SELECT[index + 1]
+            self.element = SELECT[index + 1]
         except IndexError:
-            self.player = SELECT[0]
-
-    def export(self) -> str:
-        return f"active:{self.player}"
-
+            self.element = SELECT[0]
