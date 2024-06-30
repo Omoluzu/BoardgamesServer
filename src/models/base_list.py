@@ -43,7 +43,7 @@ class BaseList:
 
     @classmethod
     def imports(cls, elements: str) -> 'BaseList':
-        """Импорт базовых односимвольных элементов из базы данных
+        """Импорт базовых односимвольных элементов из csv игры
 
         Args:
              elements: Группа элементов
