@@ -16,7 +16,7 @@ REGULAR = (
     r'(?P<patterntwo>patterntwo:[^;]*);'
     r'(?P<floortwo>floortwo:[^;]*);'
     r'(?P<kind>kind:[^;]*);'
-    r'(?P<table>table:[^;]*)'
+    r'(?P<table>table:[^;]*);'
     r'(?P<active>active:[^;]*)'
 )
 
@@ -61,7 +61,7 @@ class Azul:
             floorone=models.Floor.imports(match_game_info.group('floorone')),
             floortwo=models.Floor.imports(match_game_info.group('floortwo')),
             table=models.Table.imports(match_game_info.group('table')),
-            active=models.Active.imports(match_server_info.group('active')),
+            active=models.Active.imports(match_game_info.group('active')),
             box=models.Box.imports(match_server_info.group('box')),
         )
 
