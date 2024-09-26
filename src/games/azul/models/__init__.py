@@ -7,3 +7,4 @@ from .active import Active
 from .pattern import Pattern
 from .factory import Factory
 from .factories import Factories
+from .first_player import FirstPlayer

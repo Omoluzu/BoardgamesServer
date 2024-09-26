@@ -1,7 +1,7 @@
 import pytest
 
 from src.games.azul.view import Azul
-from src.games.azul.models import Factories, Pattern, Table, Floor, Box, Active
+from src.games.azul.models import Factories, Pattern, Table, Floor, Box, Active, FirstPlayer
 
 
 @pytest.mark.azul
@@ -15,7 +15,8 @@ def test_factory_post_tile():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:x'),
         box=Box.new(),
-        active=Active.imports(element='active:one')
+        active=Active.imports(element='active:one'),
+        first_player=FirstPlayer.imports(element='first_player:one')
     )
 
     info = {
@@ -70,7 +71,8 @@ def test_table_post_tile():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:xydbgb'),
         box=Box.new(),
-        active=Active.imports(element='active:one')
+        active=Active.imports(element='active:one'),
+        first_player=FirstPlayer.imports(element='first_player:one')
     )
 
     info = {
@@ -127,7 +129,8 @@ def test_table_post_floor():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:yd'),
         box=Box.new(),
-        active=Active.imports(element='active:one')
+        active=Active.imports(element='active:one'),
+        first_player=FirstPlayer.imports(element='first_player:one')
     )
 
     info = {
@@ -157,7 +160,8 @@ def test_table_post_floor_extra():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles=f'table:{"r" * 10}'),
         box=Box.new(),
-        active=Active.imports(element='active:one')
+        active=Active.imports(element='active:one'),
+        first_player=FirstPlayer.imports(element='first_player:one')
     )
 
     info = {
@@ -188,7 +192,8 @@ def test_change_active_player():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:x'),
         box=Box.new(),
-        active=Active.imports(element='active:one')
+        active=Active.imports(element='active:one'),
+        first_player=FirstPlayer.imports(element='first_player:one')
     )
 
     info = {
@@ -216,3 +221,44 @@ def test_change_active_player():
     post_response = azul.post(info=info)
     assert post_response['active'].export() == 'active:one'
     assert post_response['command']['new_player'] == 'one'
+
+
+@pytest.mark.azul
+def test_change_first_player():
+    azul = Azul(
+        factory=Factories.imports(fact='fact:rgyd.rygd.dggb.-.-'),
+        patternone=Pattern.imports(pattern='patternone:-.--.-rr.----.-----'),
+        patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.-----'),
+        floorone=Floor.imports(elements='floorone:'),
+        floortwo=Floor.imports(elements='floortwo:'),
+        table=Table.imports(tiles='table:xydbgb'),
+        box=Box.new(),
+        active=Active.imports(element='active:one'),
+        first_player=FirstPlayer.imports(element='first_player:one')
+    )
+
+    info = {
+        'command': 'post',
+        'fact': 0,
+        'color': 'b',
+        'line': 2,
+        'player': 'two'
+        # 'user': 'Omoluzu'
+    }
+
+    post_response = azul.post(info=info)
+    assert post_response['first_player'].export() == 'first_player:two'
+    assert post_response['command']['change_first_player'] == 'two'
+
+    info = {
+        'command': 'post',
+        'fact': 0,
+        'color': 'g',
+        'line': 2,
+        'player': 'one'
+        # 'user': 'Omoluzu'
+    }
+
+    post_response = azul.post(info=info)
+    assert post_response['first_player'].export() == 'first_player:two'
+    assert not post_response['command'].get('change_first_player')

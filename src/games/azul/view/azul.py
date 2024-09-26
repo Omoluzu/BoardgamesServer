@@ -17,7 +17,8 @@ REGULAR = (
     r'(?P<floortwo>floortwo:[^;]*);'
     r'(?P<kind>kind:[^;]*);'
     r'(?P<table>table:[^;]*);'
-    r'(?P<active>active:[^;]*)'
+    r'(?P<active>active:[^;]*);'
+    r'(?P<first_player>first_player:[^;]*)'
 )
 
 SERVER_REGULAR = (
@@ -36,6 +37,7 @@ class Azul:
     table: models.Table  # Игровой стол
     box: models.Box  # Содержимое игровой коробки (Сбрасываются лишние игровые плитки)
     active: models.Active  # Активный игрок
+    first_player: models.FirstPlayer  # Первый игрок
 
     @classmethod
     def open_save(cls, game_id, test=False) -> 'Azul':
@@ -62,6 +64,7 @@ class Azul:
             floortwo=models.Floor.imports(match_game_info.group('floortwo')),
             table=models.Table.imports(match_game_info.group('table')),
             active=models.Active.imports(match_game_info.group('active')),
+            first_player=models.FirstPlayer.imports(match_game_info.group('first_player')),
             box=models.Box.imports(match_server_info.group('box')),
         )
 
@@ -83,6 +86,9 @@ class Azul:
             data['clean_fact'] = info['fact']
         else:
             data = self.table.get_tile(color=info['color'])
+            if models.Tile.FIRST_PLAYER.value in list(data['clean_table']):
+                self.first_player.change_first_player(info['player'])
+                data['change_first_player'] = info['player']
 
         pattern = getattr(self, f"pattern{info['player']}")
         pattern.post_tile(
@@ -112,6 +118,7 @@ class Azul:
             'table': self.table,
             'box': self.box,
             'active': self.active,
+            'first_player': self.first_player,
             'command': {
                 'post_pattern_line': f"line.{info['line']},player.{info['player']},tile.{info['color']},count.{pattern.put_tile}",
                 'new_player': self.active.element,
