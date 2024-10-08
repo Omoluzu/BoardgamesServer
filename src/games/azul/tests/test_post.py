@@ -207,7 +207,7 @@ def test_change_active_player():
 
     post_response = azul.post(info=info)
     assert post_response['active'].export() == 'active:two'
-    assert post_response['command']['new_player'] == 'two'
+    assert post_response['command']['active_player'] == 'two'
 
     info = {
         'command': 'post',
@@ -220,7 +220,7 @@ def test_change_active_player():
 
     post_response = azul.post(info=info)
     assert post_response['active'].export() == 'active:one'
-    assert post_response['command']['new_player'] == 'one'
+    assert post_response['command']['active_player'] == 'one'
 
 
 @pytest.mark.azul
