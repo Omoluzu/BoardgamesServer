@@ -65,7 +65,7 @@ class ORM:
     databases = None
 
     if not databases:
-        _engine = create_engine(URL(**settings.DATABASE))
+        _engine = create_engine(URL.create(**settings.DATABASE))
         DeclarativeBase.metadata.create_all(_engine)
         _Session = sessionmaker(bind=_engine)
         databases = _Session()

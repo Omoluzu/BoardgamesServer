@@ -20,8 +20,8 @@ def started_configure(games_config: dict) -> dict:
     kind = f'kind:one.{one},two.{two}'
 
     return {
-        "server": bag.export(),
-        "players": f"{factories.export()};patternone:-.--.---.----.-----;patterntwo:-.--.---.----.----;{kind}"
+        "server": f"{bag.export()};box:",
+        "players": f"{factories.export()};patternone:-.--.---.----.-----;floorone:;patterntwo:-.--.---.----.----;floortwo:;{kind};table:x;active:one;first_player:one"
     }
 
 
