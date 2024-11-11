@@ -38,6 +38,7 @@ class Azul:
     box: models.Box  # Содержимое игровой коробки (Сбрасываются лишние игровые плитки)
     active: models.Active  # Активный игрок
     first_player: models.FirstPlayer  # Первый игрок
+    kind: str  # Порядок хода игроков
 
     @classmethod
     def open_save(cls, game_id, test=False) -> 'Azul':
@@ -50,11 +51,8 @@ class Azul:
         from modules.GameInformation import game_information
 
         game = game_information(data={'game_id': game_id}, test=test)
-        print(game['game_info'])
         match_game_info = re.match(REGULAR, game['game_info'])
         match_server_info = re.match(SERVER_REGULAR, game['server_info'])
-
-        print(match_game_info)
 
         return cls(
             factory=models.Factories.imports(match_game_info.group('fact')),
@@ -65,6 +63,7 @@ class Azul:
             table=models.Table.imports(match_game_info.group('table')),
             active=models.Active.imports(match_game_info.group('active')),
             first_player=models.FirstPlayer.imports(match_game_info.group('first_player')),
+            kind=match_game_info.group('kind'),
             box=models.Box.imports(match_server_info.group('box')),
         )
 
@@ -119,6 +118,7 @@ class Azul:
             'box': self.box,
             'active': self.active,
             'first_player': self.first_player,
+            'kind': self.kind,
             'command': {
                 'post_pattern_line': f"line.{info['line']},player.{info['player']},tile.{info['color']},count.{pattern.put_tile}",
                 'active_player': self.active.element,
