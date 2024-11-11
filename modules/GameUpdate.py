@@ -68,7 +68,8 @@ def game_update(data: dict):
             writer = csv.writer(f)
             writer.writerow([
                 int(game_info[0]) + 1,
-                json.dumps(data['game_info'])
+                json.dumps(data['game_info']),
+                json.dumps(data['server_info'])
             ])
 
     return {

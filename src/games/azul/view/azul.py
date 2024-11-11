@@ -36,6 +36,7 @@ class Azul:
     floortwo: models.Floor  # Линия пола игрока 2
     table: models.Table  # Игровой стол
     box: models.Box  # Содержимое игровой коробки (Сбрасываются лишние игровые плитки)
+    bag: models.Bag  # Сумка с плитками игрока.
     active: models.Active  # Активный игрок
     first_player: models.FirstPlayer  # Первый игрок
     kind: str  # Порядок хода игроков
@@ -65,6 +66,7 @@ class Azul:
             first_player=models.FirstPlayer.imports(match_game_info.group('first_player')),
             kind=match_game_info.group('kind'),
             box=models.Box.imports(match_server_info.group('box')),
+            bag=models.Bag.upload(match_server_info.group('bag')),
         )
 
     def post(self, info: dict) -> dict:
@@ -116,6 +118,7 @@ class Azul:
             'floortwo': self.floortwo,
             'table': self.table,
             'box': self.box,
+            'bag': self.bag,
             'active': self.active,
             'first_player': self.first_player,
             'kind': self.kind,
