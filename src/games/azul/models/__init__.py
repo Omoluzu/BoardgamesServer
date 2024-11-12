@@ -1,6 +1,7 @@
 from .tile import Tile
 from .bag import Bag
 from .box import Box
+from .wall import Wall
 from .floor import Floor
 from .table import Table
 from .active import Active

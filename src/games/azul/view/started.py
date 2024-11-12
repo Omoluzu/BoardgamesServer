@@ -2,15 +2,16 @@ import random
 
 from copy import copy
 
-from src.games.azul.models import Bag, Factories
+from src.games.azul.models import Bag, Factories, Wall
 
 
 def started_configure(games_config: dict) -> dict:
-    """
-    Создание стартовой конфигурации для игры AZUL
+    """Создание стартовой конфигурации для игры AZUL
 
-    games_config: Данный пришедшие с сервера.
+    :param games_config: Данный пришедшие с сервера.
     """
+
+    wall = Wall.new()
     bag = Bag.new()
     factories = Factories.new(bag=bag, players=games_config['games_config']['select_players'])
 
@@ -21,7 +22,7 @@ def started_configure(games_config: dict) -> dict:
 
     return {
         "server": f"{bag.export()};box:",
-        "players": f"{factories.export()};patternone:-.--.---.----.-----;floorone:;patterntwo:-.--.---.----.-----;floortwo:;{kind};table:x;active:one;first_player:one"
+        "players": f"{factories.export()};patternone:-.--.---.----.-----;floorone:;wallone:{wall.export('one')};patterntwo:-.--.---.----.-----;floortwo:;walltwo:{wall.export('two')};{kind};table:x;active:one;first_player:one"
     }
 
 
