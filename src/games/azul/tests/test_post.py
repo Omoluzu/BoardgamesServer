@@ -8,7 +8,7 @@ from src.games.azul.models import (
 
 @pytest.mark.azul
 def test_factory_post_tile():
-    """Тестирование выставление тайлов с фабрики"""
+    """Тестирование выставление плиток с фабрики"""
     azul = Azul(
         factory=Factories.imports(fact='fact:rgyd.rygd.dggb.bygb.yrdr'),
         patternone=Pattern.imports(pattern='patternone:-.--.---.----.-----'),
