@@ -11,7 +11,8 @@ def started_configure(games_config: dict) -> dict:
     :param games_config: Данный пришедшие с сервера.
     """
 
-    wall = Wall.new()
+    wallone = Wall.new('one')
+    walltwo = Wall.new('two')
     bag = Bag.new()
     factories = Factories.new(bag=bag, players=games_config['games_config']['select_players'])
 
@@ -22,7 +23,7 @@ def started_configure(games_config: dict) -> dict:
 
     return {
         "server": f"{bag.export()};box:",
-        "players": f"{factories.export()};patternone:-.--.---.----.-----;floorone:;wallone:{wall.export('one')};patterntwo:-.--.---.----.-----;floortwo:;walltwo:{wall.export('two')};{kind};table:x;active:one;first_player:one"
+        "players": f"{factories.export()};patternone:-.--.---.----.-----;floorone:;{wallone.export()};patterntwo:-.--.---.----.-----;floortwo:;{walltwo.export()};{kind};table:x;active:one;first_player:one"
     }
 
 
