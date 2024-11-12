@@ -1,7 +1,9 @@
 import pytest
 
 from src.games.azul.view import Azul
-from src.games.azul.models import Factories, Pattern, Table, Floor, Box, Active, FirstPlayer
+from src.games.azul.models import (
+    Factories, Pattern, Table, Floor, Box, Active, FirstPlayer, Bag
+)
 
 
 @pytest.mark.azul
@@ -15,6 +17,8 @@ def test_factory_post_tile():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:x'),
         box=Box.new(),
+        bag=Bag.new(),
+        kind='kind:one.Hokage,two.Omoluzu',
         active=Active.imports(element='active:one'),
         first_player=FirstPlayer.imports(element='first_player:one')
     )
@@ -71,6 +75,8 @@ def test_table_post_tile():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:xydbgb'),
         box=Box.new(),
+        bag=Bag.new(),
+        kind='kind:one.Hokage,two.Omoluzu',
         active=Active.imports(element='active:one'),
         first_player=FirstPlayer.imports(element='first_player:one')
     )
@@ -129,6 +135,8 @@ def test_table_post_floor():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:yd'),
         box=Box.new(),
+        bag=Bag.new(),
+        kind='kind:one.Hokage,two.Omoluzu',
         active=Active.imports(element='active:one'),
         first_player=FirstPlayer.imports(element='first_player:one')
     )
@@ -160,6 +168,8 @@ def test_table_post_floor_extra():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles=f'table:{"r" * 10}'),
         box=Box.new(),
+        bag=Bag.new(),
+        kind='kind:one.Hokage,two.Omoluzu',
         active=Active.imports(element='active:one'),
         first_player=FirstPlayer.imports(element='first_player:one')
     )
@@ -192,6 +202,8 @@ def test_change_active_player():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:x'),
         box=Box.new(),
+        bag=Bag.new(),
+        kind='kind:one.Hokage,two.Omoluzu',
         active=Active.imports(element='active:one'),
         first_player=FirstPlayer.imports(element='first_player:one')
     )
@@ -233,6 +245,8 @@ def test_change_first_player():
         floortwo=Floor.imports(elements='floortwo:'),
         table=Table.imports(tiles='table:xydbgb'),
         box=Box.new(),
+        bag=Bag.new(),
+        kind='kind:one.Hokage,two.Omoluzu',
         active=Active.imports(element='active:one'),
         first_player=FirstPlayer.imports(element='first_player:one')
     )
