@@ -2,7 +2,7 @@ import pytest
 
 from src.games.azul.view import Azul
 from src.games.azul.models import (
-    Factories, Pattern, Table, Floor, Box, Active, FirstPlayer, Bag
+    Factories, Pattern, Table, Floor, Box, Active, FirstPlayer, Bag, Wall
 )
 
 
@@ -15,6 +15,8 @@ def test_factory_post_tile():
         patterntwo=Pattern.imports(pattern='patterntwo:-.--.---.----.-----'),
         floorone=Floor.imports(elements='floorone:'),
         floortwo=Floor.imports(elements='floortwo:'),
+        wallone=Wall.new('one'),
+        walltwo=Wall.new('two'),
         table=Table.imports(tiles='table:x'),
         box=Box.new(),
         bag=Bag.new(),
@@ -73,6 +75,8 @@ def test_table_post_tile():
         patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.-----'),
         floorone=Floor.imports(elements='floorone:'),
         floortwo=Floor.imports(elements='floortwo:'),
+        wallone=Wall.new('one'),
+        walltwo=Wall.new('two'),
         table=Table.imports(tiles='table:xydbgb'),
         box=Box.new(),
         bag=Bag.new(),
@@ -133,6 +137,8 @@ def test_table_post_floor():
         patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.----g'),
         floorone=Floor.imports(elements='floorone:x'),
         floortwo=Floor.imports(elements='floortwo:'),
+        wallone=Wall.new('one'),
+        walltwo=Wall.new('two'),
         table=Table.imports(tiles='table:yd'),
         box=Box.new(),
         bag=Bag.new(),
@@ -166,6 +172,8 @@ def test_table_post_floor_extra():
         patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.----g'),
         floorone=Floor.imports(elements='floorone:x'),
         floortwo=Floor.imports(elements='floortwo:'),
+        wallone=Wall.new('one'),
+        walltwo=Wall.new('two'),
         table=Table.imports(tiles=f'table:{"r" * 10}'),
         box=Box.new(),
         bag=Bag.new(),
@@ -200,6 +208,8 @@ def test_change_active_player():
         patterntwo=Pattern.imports(pattern='patterntwo:-.--.---.----.-----'),
         floorone=Floor.imports(elements='floorone:'),
         floortwo=Floor.imports(elements='floortwo:'),
+        wallone=Wall.new('one'),
+        walltwo=Wall.new('two'),
         table=Table.imports(tiles='table:x'),
         box=Box.new(),
         bag=Bag.new(),
@@ -243,6 +253,8 @@ def test_change_first_player():
         patterntwo=Pattern.imports(pattern='patterntwo:y.--.---.----.-----'),
         floorone=Floor.imports(elements='floorone:'),
         floortwo=Floor.imports(elements='floortwo:'),
+        wallone=Wall.new('one'),
+        walltwo=Wall.new('two'),
         table=Table.imports(tiles='table:xydbgb'),
         box=Box.new(),
         bag=Bag.new(),
