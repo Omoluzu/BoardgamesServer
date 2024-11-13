@@ -7,6 +7,10 @@ from src.games.azul.models import Bag
 class Factory:
     tiles: list
 
+    def __bool__(self) -> bool:
+        """Проверка наличия плиток на фабрике"""
+        return self.tiles != ['-']
+
     @classmethod
     def new(cls, bag: Bag) -> 'Factory':
         """Инициализация новой фабрики.
@@ -110,4 +114,7 @@ if __name__ == '__main__':
     print(factory3.tiles)
 
     print(len(bag_))
+
+    fact = Factory.imports('-')
+    print(bool(fact))
 

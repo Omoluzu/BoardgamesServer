@@ -48,6 +48,23 @@ class Pattern:
         lines = pattern.replace('-', tiles[0], self.put_tile)
         setattr(self, f"line{line}", lines[::-1])
 
+    def post_wall(self) -> list[str]:
+        """Выставление собранных плиток на линиях на стену
+
+        Returns:
+            g.r.d.d.-
+            d.r.y.-.-
+        """
+        data = []
+        for i in range(1, 6):
+            line = getattr(self, f"line{i}")
+            if len(line) == i:
+                data.append(line[0])
+                continue
+            data.append('-')
+
+        return data
+
     def export(self) -> str:
         """Экспорт содержимого
 

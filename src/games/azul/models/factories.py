@@ -14,6 +14,10 @@ COUNT_FACTORY = {
 class Factories:
     factory: list[Factory, ...]
 
+    def __bool__(self) -> bool:
+        """Проверка наличия плиток на фабриках"""
+        return all(self.factory)
+
     @classmethod
     def new(cls, bag: Bag, players: int) -> 'Factories':
         """Инициализация фабрик доступных на игровом поле

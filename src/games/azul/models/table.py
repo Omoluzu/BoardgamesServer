@@ -13,6 +13,10 @@ class Table:
     """
     tiles: list[str, ...]
 
+    def __bool__(self) -> bool:
+        """Проверка на наличие плиток на игровом столе"""
+        return bool(self.tiles)
+
     @classmethod
     def imports(cls, tiles: str) -> 'Table':
         """Импорт состояния игрового стала

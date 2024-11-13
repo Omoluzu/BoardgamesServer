@@ -114,6 +114,9 @@ class Azul:
         if floor.log.element_add:
             data['post_floor'] = f"player.{info['player']},tile.{''.join(floor.log.element_add)}"
 
+        if not self.table and not self.factory:
+            data.update(self.post_wall())
+
         self.active.change_player()
 
         return {
@@ -136,3 +139,17 @@ class Azul:
                 **data
             }
         }
+
+    def post_wall(self) -> dict[str, str]:
+        """Команда на выставление плиток на линию пола
+
+        Returns:
+            Информация для передачи клиентскому приложению
+        """
+        playerone = self.patternone.post_wall()
+        playertwo = self.patterntwo.post_wall()
+
+        return {
+            'post_wall': f'one.{"".join(playerone)},two.{"".join(playertwo)}'
+        }
+
