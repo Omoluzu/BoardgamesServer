@@ -6,7 +6,7 @@ from src.games.azul import models, view
 
 
 @pytest.mark.azul
-def test_past_wall_command_post_wall():
+def test_post_wall_command_post_wall():
     """Тестирование команды на выставление плиток на стену игрока"""
     azul = view.Azul(
         factory=models.Factories.imports(fact='fact:-.-.-.-.-'),
@@ -34,10 +34,14 @@ def test_past_wall_command_post_wall():
 
     post_response = azul.post(info=info)
     assert post_response['command']['post_wall'] == 'one.grdd-,two.dry--'
+    assert post_response['wallone'].export() == 'wallone:g+.y-.r-.d-.b-,b-.g-.y-.r+.d-,d+.b-.g-.y-.r-,r-.d+.b-.g-.y-,y-.r-.d-.b-.g-'
+    assert post_response['walltwo'].export() == 'walltwo:g-.y-.r-.d+.b-,b-.g-.y-.r+.d-,d-.b-.g-.y+.r-,r-.d-.b-.g-.y-,y-.r-.d-.b-.g-'
+
 
 
 @pytest.mark.azul
-def test_past_wall_save_info_wall():
+def test_post_clean_pattern():
+    """тестирование очистки pattern"""
     azul = view.Azul(
         factory=models.Factories.imports(fact='fact:-.-.-.-.-'),
         patternone=models.Pattern.imports(pattern='patternone:g.rr.ddd.dddd.-----'),
@@ -63,10 +67,11 @@ def test_past_wall_save_info_wall():
     }
 
     post_response = azul.post(info=info)
-    assert post_response['wallone'].export() == 'wallone:g+.y-.r-.d-.b-,b-.g-.y-.r+.d-,d+.b-.g-.y-.r-,r-.d+.b-.g-.y-,y-.r-.d-.b-.g-'
-    assert post_response['walltwo'].export() == 'walltwo:g-.y-.r-.d+.b-,b-.g-.y-.r+.d-,d-.b-.g-.y+.r-,r-.d-.b-.g-.y-,y-.r-.d-.b-.g-'
+    assert post_response['patternone'].export() == 'patternone:-.--.---.----.----y'
+    assert post_response['patterntwo'].export() == 'patterntwo:-.--.---.---g.---bb'
 
-# todo тестирование очистки pattern
+
+
 # todo выставление новых плиток на фабрику
 # todo Жетон первого игрока на столе
 # todo Очистка линии пола

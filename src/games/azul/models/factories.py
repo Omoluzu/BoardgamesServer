@@ -16,7 +16,11 @@ class Factories:
 
     def __bool__(self) -> bool:
         """Проверка наличия плиток на фабриках"""
-        return all(self.factory)
+        for factory in self.factory:
+            if factory:
+                return True
+
+        return False
 
     @classmethod
     def new(cls, bag: Bag, players: int) -> 'Factories':

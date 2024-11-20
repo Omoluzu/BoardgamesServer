@@ -115,6 +115,8 @@ class Azul:
             data['post_floor'] = f"player.{info['player']},tile.{''.join(floor.log.element_add)}"
 
         if not self.table and not self.factory:
+            print(self.table, self.factory)
+            print(bool(self.table), bool(self.factory))
             data.update(self.post_wall())
 
         self.active.change_player()

@@ -9,6 +9,7 @@ class Factory:
 
     def __bool__(self) -> bool:
         """Проверка наличия плиток на фабрике"""
+        # print(self.tiles != ['-'])
         return self.tiles != ['-']
 
     @classmethod
