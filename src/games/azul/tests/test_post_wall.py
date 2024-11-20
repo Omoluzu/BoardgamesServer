@@ -35,36 +35,36 @@ def test_past_wall_command_post_wall():
     post_response = azul.post(info=info)
     assert post_response['command']['post_wall'] == 'one.grdd-,two.dry--'
 
-#
-# @pytest.mark.azul
-# def test_past_wall_save_info_wall():
-#     azul = view.Azul(
-#         factory=models.Factories.imports(fact='fact:-.-.-.-.-'),
-#         patternone=models.Pattern.imports(pattern='patternone:g.rr.ddd.dddd.-----'),
-#         patterntwo=models.Pattern.imports(pattern='patterntwo:d.rr.yyy.---g.---bb'),
-#         floorone=models.Floor.imports(elements='floorone:'),
-#         floortwo=models.Floor.imports(elements='floorone:x'),
-#         wallone=models.Wall.new('one'),
-#         walltwo=models.Wall.new('two'),
-#         table=models.Table.imports(tiles='table:y'),
-#         box=models.Box.new(),
-#         bag=models.Bag.new(),
-#         kind='kind:one.Hokage,two.Omoluzu',
-#         active=models.Active.imports(element='active:one'),
-#         first_player=models.FirstPlayer.imports(element='first_player:two')
-#     )
-#
-#     info = {
-#         'command': 'post',
-#         'fact': 0,
-#         'color': 'y',
-#         'line': 5,
-#         'player': 'one'
-#     }
-#
-#     post_response = azul.post(info=info)
-#     assert post_response['wallone'].export() == 'wallone:g-.y-.r-.d-.b-,b-.g-.y-.r-.d-,d-.b-.g-.y-.r-,r-.d-.b-.g-.y-,y-.r-.d-.b-.g-'
-#     assert post_response['walltwo'].export() == 'walltwo:g-.y-.r-.d-.b-,b-.g-.y-.r-.d-,d-.b-.g-.y-.r-,r-.d-.b-.g-.y-,y-.r-.d-.b-.g-'
+
+@pytest.mark.azul
+def test_past_wall_save_info_wall():
+    azul = view.Azul(
+        factory=models.Factories.imports(fact='fact:-.-.-.-.-'),
+        patternone=models.Pattern.imports(pattern='patternone:g.rr.ddd.dddd.-----'),
+        patterntwo=models.Pattern.imports(pattern='patterntwo:d.rr.yyy.---g.---bb'),
+        floorone=models.Floor.imports(elements='floorone:'),
+        floortwo=models.Floor.imports(elements='floorone:x'),
+        wallone=models.Wall.new('one'),
+        walltwo=models.Wall.new('two'),
+        table=models.Table.imports(tiles='table:y'),
+        box=models.Box.new(),
+        bag=models.Bag.new(),
+        kind='kind:one.Hokage,two.Omoluzu',
+        active=models.Active.imports(element='active:one'),
+        first_player=models.FirstPlayer.imports(element='first_player:two')
+    )
+
+    info = {
+        'command': 'post',
+        'fact': 0,
+        'color': 'y',
+        'line': 5,
+        'player': 'one'
+    }
+
+    post_response = azul.post(info=info)
+    assert post_response['wallone'].export() == 'wallone:g+.y-.r-.d-.b-,b-.g-.y-.r+.d-,d+.b-.g-.y-.r-,r-.d+.b-.g-.y-,y-.r-.d-.b-.g-'
+    assert post_response['walltwo'].export() == 'walltwo:g-.y-.r-.d+.b-,b-.g-.y-.r+.d-,d-.b-.g-.y+.r-,r-.d-.b-.g-.y-,y-.r-.d-.b-.g-'
 
 # todo тестирование очистки pattern
 # todo выставление новых плиток на фабрику

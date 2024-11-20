@@ -52,8 +52,8 @@ class Pattern:
         """Выставление собранных плиток на линиях на стену
 
         Returns:
-            g.r.d.d.-
-            d.r.y.-.-
+            ['g', 'r', 'd', 'd', '-']
+            ['d', 'r', 'y', '-', '-']
         """
         data = []
         for i in range(1, 6):
@@ -73,6 +73,7 @@ class Pattern:
             'patterntwo:-.--.-rr.----.-----'
         """
         return f"{self.name}:{self.line1}.{self.line2}.{self.line3}.{self.line4}.{self.line5}"
+
 
 
 if __name__ == '__main__':

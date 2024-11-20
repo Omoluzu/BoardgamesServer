@@ -149,6 +149,9 @@ class Azul:
         playerone = self.patternone.post_wall()
         playertwo = self.patterntwo.post_wall()
 
+        self.wallone.post_wall(playerone)
+        self.walltwo.post_wall(playertwo)
+
         return {
             'post_wall': f'one.{"".join(playerone)},two.{"".join(playertwo)}'
         }
