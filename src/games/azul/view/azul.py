@@ -115,8 +115,6 @@ class Azul:
             data['post_floor'] = f"player.{info['player']},tile.{''.join(floor.log.element_add)}"
 
         if not self.table and not self.factory:
-            print(self.table, self.factory)
-            print(bool(self.table), bool(self.factory))
             data.update(self.post_wall())
 
         self.active.change_player()
@@ -154,7 +152,10 @@ class Azul:
         self.wallone.post_wall(playerone)
         self.walltwo.post_wall(playertwo)
 
+        post_tiles = self.factory.post_tile(bag=self.bag)
+
         return {
-            'post_wall': f'one.{"".join(playerone)},two.{"".join(playertwo)}'
+            'post_wall': f'one.{"".join(playerone)},two.{"".join(playertwo)}',
+            'post_fact': '.'.join(post_tiles)
         }
 

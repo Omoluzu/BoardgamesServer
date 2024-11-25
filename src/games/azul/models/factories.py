@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Iterable
 
 from src.games.azul.models import Factory, Bag
 
@@ -67,7 +68,7 @@ class Factories:
         """
         Экспорт содержимого фабрик игрового поля.
 
-        Returned:
+        Returns:
             fac:ygbr.rbdd.rydy.rrrr.dbgr
         """
         def export_factory():
@@ -84,11 +85,26 @@ class Factories:
             tile: цвет тайла который необходимо взять с фабрики.
                 'r'
 
-        Return:
+        Returns:
             Информация о взятии
         """
         factory = self.factory[factory_number - 1]
         return factory.action_get_tile(tile=tile)
+
+    def post_tile(self, bag: Bag) -> Iterable[str]:
+        """Заполнение фабрик плитками из мешка
+
+        Args:
+            bag:
+                Экземпляр класса мешка. Для взятия плиток
+
+        Returns:
+            Генератор содержащий информацию о выставленных плитках
+        """
+        for factory in self.factory:
+            tiles = bag.give_me_tile(count=4)
+            factory.post_tile(tiles=tiles)
+            yield ''.join(tiles)
 
 
 if __name__ == '__main__':

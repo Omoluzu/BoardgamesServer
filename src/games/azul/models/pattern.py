@@ -66,7 +66,6 @@ class Pattern:
                 continue
             data.append('-')
 
-        print(data)
         return data
 
     def export(self) -> str:

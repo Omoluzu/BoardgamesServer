@@ -9,7 +9,6 @@ class Factory:
 
     def __bool__(self) -> bool:
         """Проверка наличия плиток на фабрике"""
-        # print(self.tiles != ['-'])
         return self.tiles != ['-']
 
     @classmethod
@@ -99,6 +98,17 @@ class Factory:
         self.tiles = ['-']
 
         return data
+
+    def post_tile(self, tiles: list[str]) -> None:
+        """Действие на выставление плиток на фабрику
+
+        Args:
+            tiles:
+                Плитки для выставления их на фабрику
+                ['r', 'b', 'g', 'r']
+        """
+        self.tiles = tiles
+
 
 
 if __name__ == '__main__':
