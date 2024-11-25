@@ -151,11 +151,13 @@ class Azul:
 
         self.wallone.post_wall(playerone)
         self.walltwo.post_wall(playertwo)
+        self.table.put(tiles=models.Tile.FIRST_PLAYER.value)
 
         post_tiles = self.factory.post_tile(bag=self.bag)
 
         return {
             'post_wall': f'one.{"".join(playerone)},two.{"".join(playertwo)}',
-            'post_fact': '.'.join(post_tiles)
+            'post_fact': '.'.join(post_tiles),
+            'add_desc': models.Tile.FIRST_PLAYER.value
         }
 
