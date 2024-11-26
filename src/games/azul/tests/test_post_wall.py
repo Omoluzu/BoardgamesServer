@@ -100,8 +100,8 @@ def test_post_clean_pattern():
 
     post_response = azul.post(info=info)
 
-    post_fact_regex = re.compile("^((?:\w{4}\.){4}\w{4})")
-    export_fact_regex = re.compile("^(fact:(?:\w{4}\.){4}\w{4})")
+    post_fact_regex = re.compile(r"^((?:\w{4}\.){4}\w{4})")
+    export_fact_regex = re.compile(r"^(fact:(?:\w{4}\.){4}\w{4})")
 
     assert post_fact_regex.match(post_response['command']['post_fact']) is not None
     assert export_fact_regex.match(post_response['fact'].export()) is not None
@@ -175,7 +175,41 @@ def test_post_clean_floor():
     assert post_response['command']['floor_clear'] == '+'
 
 
-# todo Уменьшение содержимого мешка
+@pytest.mark.azul
+def test_post_reducing_contents_of_bag():
+    """Уменьшение содержимого мешка"""
+    azul = view.Azul(
+        factory=models.Factories.imports(fact='fact:-.-.-.-.-'),
+        patternone=models.Pattern.imports(pattern='patternone:g.rr.ddd.dddd.-----'),
+        patterntwo=models.Pattern.imports(pattern='patterntwo:d.rr.yyy.---g.---bb'),
+        floorone=models.Floor.imports(elements='floorone:'),
+        floortwo=models.Floor.imports(elements='floortwo:x'),
+        wallone=models.Wall.new('one'),
+        walltwo=models.Wall.new('two'),
+        table=models.Table.imports(tiles='table:y'),
+        box=models.Box.new(),
+        bag=models.Bag.new(),
+        kind='kind:one.Hokage,two.Omoluzu',
+        active=models.Active.imports(element='active:one'),
+        first_player=models.FirstPlayer.imports(element='first_player:two')
+    )
+
+    info = {
+        'command': 'post',
+        'fact': 0,
+        'color': 'y',
+        'line': 5,
+        'player': 'one'
+    }
+
+    post_response = azul.post(info=info)
+
+    export_bag = re.compile(r"^(bag:\w{80})")
+
+    assert len(post_response['bag']) == 100 - (5 * 4)
+    assert export_bag.match(post_response['bag'].export()) is not None
+
+
 # todo Увеличение содержимое коробки
 # todo Ходит тот игрок у кого был жетон первого игрока (Не важно кто последний сделал ход)
 # todo Подсчет и сохранение кол-ва победных очков
