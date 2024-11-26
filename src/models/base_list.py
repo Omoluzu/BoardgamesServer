@@ -24,6 +24,7 @@ class BaseList:
         log.element_add: Список добавленных элементов
         log.element_extra: Список элементов не вошедших в атрибут element
             из-за превышенного лимита значений указанного в атрибуте limit
+        log.element_clear: Список удаленных элементов.
     """
     name: str = field(default='base')
     elements: List[str] = field(default_factory=list)
