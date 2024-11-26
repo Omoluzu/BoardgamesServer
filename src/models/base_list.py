@@ -1,5 +1,6 @@
 from typing import List, Optional
 from dataclasses import dataclass, field
+from copy import copy
 
 from src import models
 
@@ -87,3 +88,8 @@ class BaseList:
 
         self.elements.extend(_element)
         self.log.element_add = _element
+
+    def clear(self) -> None:
+        """Удаление всех элементов входящих в данной группу"""
+        self.log.element_clear = copy(self.elements)
+        self.elements.clear()

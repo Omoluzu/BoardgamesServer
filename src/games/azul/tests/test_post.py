@@ -288,3 +288,7 @@ def test_change_first_player():
     post_response = azul.post(info=info)
     assert post_response['first_player'].export() == 'first_player:two'
     assert not post_response['command'].get('change_first_player')
+
+
+# todo: Предусмотреть класть плитки сразу же на линию пола если планшет игрока занят и нету возможность положить новые плитки на него
+# todo: Предусмотреть класть плитки вне линии пола, если сложилась ситуация описанная выше плюс занята вся линия пола

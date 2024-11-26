@@ -85,3 +85,13 @@ def test_base_max_add_element():
     assert base2.elements == ['r', 't', 'y', 'u', 'i', 'o']
     assert base2.export() == 'base:rtyuio'
 
+
+@pytest.mark.engine
+def test_base_clean_element():
+    """Тестирование очистки всех элементов"""
+    base = models.BaseList(elements=['x', 'r', 'b', 'g'])
+    base.clear()
+
+    assert base.elements == []
+    assert base.log.element_clear == ['x', 'r', 'b', 'g']
+    assert base.export() == 'base:'
