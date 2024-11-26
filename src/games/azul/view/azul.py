@@ -155,9 +155,13 @@ class Azul:
 
         post_tiles = self.factory.post_tile(bag=self.bag)
 
+        self.floorone.clear()
+        self.floortwo.clear()
+
         return {
             'post_wall': f'one.{"".join(playerone)},two.{"".join(playertwo)}',
             'post_fact': '.'.join(post_tiles),
-            'add_desc': models.Tile.FIRST_PLAYER.value
+            'add_desc': models.Tile.FIRST_PLAYER.value,
+            'floor_clear': '+'
         }
 
