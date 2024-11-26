@@ -34,6 +34,9 @@ class BaseList:
     def __post_init__(self):
         self.log = models.Log()
 
+    def __len__(self):
+        return len(self.elements)
+
     @classmethod
     def new(cls) -> 'BaseList':
         """Создание пустой группы элементов игры

@@ -58,9 +58,7 @@ class Pattern:
         data = []
         for i in range(1, 6):
             line = getattr(self, f"line{i}")
-            # if len(line) == i:
             if line[0] != '-':
-                # print(line)
                 data.append(line[0])
                 setattr(self, f"line{i}", '-' * i)
                 continue

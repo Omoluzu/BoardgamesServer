@@ -206,11 +206,49 @@ def test_post_reducing_contents_of_bag():
 
     export_bag = re.compile(r"^(bag:\w{80})")
 
-    assert len(post_response['bag']) == 100 - (5 * 4)
+    assert len(post_response['bag']) == 80
     assert export_bag.match(post_response['bag'].export()) is not None
 
 
-# todo Увеличение содержимое коробки
+@pytest.mark.azul
+def test_post_enlarge_contents_of_box():
+    """Увеличение содержимое коробки"""
+    azul = view.Azul(
+        factory=models.Factories.imports(fact='fact:-.-.-.-.-'),
+        patternone=models.Pattern.imports(pattern='patternone:g.rr.ddd.dddd.-----'),
+        patterntwo=models.Pattern.imports(pattern='patterntwo:d.rr.yyy.---g.---bb'),
+        floorone=models.Floor.imports(elements='floorone:'),
+        floortwo=models.Floor.imports(elements='floortwo:x'),
+        wallone=models.Wall.new('one'),
+        walltwo=models.Wall.new('two'),
+        table=models.Table.imports(tiles='table:y'),
+        box=models.Box.new(),
+        bag=models.Bag.new(),
+        kind='kind:one.Hokage,two.Omoluzu',
+        active=models.Active.imports(element='active:one'),
+        first_player=models.FirstPlayer.imports(element='first_player:two')
+    )
+
+    info = {
+        'command': 'post',
+        'fact': 0,
+        'color': 'y',
+        'line': 5,
+        'player': 'one'
+    }
+
+    post_response = azul.post(info=info)
+
+    export_box = re.compile(r"^(box:\w{9})")
+
+    assert len(post_response['box']) == 9
+    assert post_response['box'].elements.count('r') == 2
+    assert post_response['box'].elements.count('d') == 5
+    assert post_response['box'].elements.count('y') == 2
+    assert post_response['box'].elements.count('x') == 0
+    assert export_box.match(post_response['box'].export()) is not None
+
+
 # todo Ходит тот игрок у кого был жетон первого игрока (Не важно кто последний сделал ход)
 # todo Подсчет и сохранение кол-ва победных очков
 # todo Если на линии пола были лишние плитки, они должны положиться в box

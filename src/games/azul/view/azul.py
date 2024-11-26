@@ -157,6 +157,8 @@ class Azul:
 
         self.floorone.clear()
         self.floortwo.clear()
+        self.box.add_element_before_post_wall(
+            element_player_one=playerone, element_player_two=playertwo)
 
         return {
             'post_wall': f'one.{"".join(playerone)},two.{"".join(playertwo)}',
