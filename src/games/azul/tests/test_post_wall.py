@@ -16,6 +16,8 @@ def test_post_wall_command_post_wall():
         floortwo=models.Floor.imports(elements='floortwo:x'),
         wallone=models.Wall.new('one'),
         walltwo=models.Wall.new('two'),
+        countone=models.Count.new('one'),
+        counttwo=models.Count.new('two'),
         table=models.Table.imports(tiles='table:y'),
         box=models.Box.new(),
         bag=models.Bag.new(),
@@ -50,6 +52,8 @@ def test_post_clean_pattern():
         floortwo=models.Floor.imports(elements='floortwo:x'),
         wallone=models.Wall.new('one'),
         walltwo=models.Wall.new('two'),
+        countone=models.Count.new('one'),
+        counttwo=models.Count.new('two'),
         table=models.Table.imports(tiles='table:y'),
         box=models.Box.new(),
         bag=models.Bag.new(),
@@ -82,6 +86,8 @@ def test_post_clean_pattern():
         floortwo=models.Floor.imports(elements='floortwo:x'),
         wallone=models.Wall.new('one'),
         walltwo=models.Wall.new('two'),
+        countone=models.Count.new('one'),
+        counttwo=models.Count.new('two'),
         table=models.Table.imports(tiles='table:y'),
         box=models.Box.new(),
         bag=models.Bag.new(),
@@ -119,6 +125,8 @@ def test_post_tile_first_player_in_table():
         floortwo=models.Floor.imports(elements='floortwo:x'),
         wallone=models.Wall.new('one'),
         walltwo=models.Wall.new('two'),
+        countone=models.Count.new('one'),
+        counttwo=models.Count.new('two'),
         table=models.Table.imports(tiles='table:y'),
         box=models.Box.new(),
         bag=models.Bag.new(),
@@ -152,6 +160,8 @@ def test_post_clean_floor():
         floortwo=models.Floor.imports(elements='floortwo:x'),
         wallone=models.Wall.new('one'),
         walltwo=models.Wall.new('two'),
+        countone=models.Count.new('one'),
+        counttwo=models.Count.new('two'),
         table=models.Table.imports(tiles='table:y'),
         box=models.Box.new(),
         bag=models.Bag.new(),
@@ -186,6 +196,8 @@ def test_post_reducing_contents_of_bag():
         floortwo=models.Floor.imports(elements='floortwo:x'),
         wallone=models.Wall.new('one'),
         walltwo=models.Wall.new('two'),
+        countone=models.Count.new('one'),
+        counttwo=models.Count.new('two'),
         table=models.Table.imports(tiles='table:y'),
         box=models.Box.new(),
         bag=models.Bag.new(),
@@ -221,6 +233,8 @@ def test_post_enlarge_contents_of_box():
         floortwo=models.Floor.imports(elements='floortwo:x'),
         wallone=models.Wall.new('one'),
         walltwo=models.Wall.new('two'),
+        countone=models.Count.new('one'),
+        counttwo=models.Count.new('two'),
         table=models.Table.imports(tiles='table:y'),
         box=models.Box.new(),
         bag=models.Bag.new(),
@@ -261,6 +275,8 @@ def test_post_change_first_player():
         floortwo=models.Floor.imports(elements='floortwo:x'),
         wallone=models.Wall.new('one'),
         walltwo=models.Wall.new('two'),
+        countone=models.Count.new('one'),
+        counttwo=models.Count.new('two'),
         table=models.Table.imports(tiles='table:y'),
         box=models.Box.new(),
         bag=models.Bag.new(),
@@ -289,6 +305,8 @@ def test_post_change_first_player():
         floortwo=models.Floor.imports(elements='floortwo:'),
         wallone=models.Wall.new('one'),
         walltwo=models.Wall.new('two'),
+        countone=models.Count.new('one'),
+        counttwo=models.Count.new('two'),
         table=models.Table.imports(tiles='table:y'),
         box=models.Box.new(),
         bag=models.Bag.new(),
@@ -312,5 +330,40 @@ def test_post_change_first_player():
 
 
 
-# todo Подсчет и сохранение кол-ва победных очков
+@pytest.mark.azul
+def test_post_summary_count():
+    """Подсчет и сохранение кол-ва победных очков"""
+    azul = view.Azul(
+        factory=models.Factories.imports(fact='fact:-.-.-.-.-'),
+        patternone=models.Pattern.imports(pattern='patternone:g.rr.ddd.dddd.-----'),
+        patterntwo=models.Pattern.imports(pattern='patterntwo:d.rr.yyy.---g.---bb'),
+        floorone=models.Floor.imports(elements='floorone:'),
+        floortwo=models.Floor.imports(elements='floortwo:x'),
+        wallone=models.Wall.new('one'),
+        walltwo=models.Wall.new('two'),
+        countone=models.Count.new('one'),
+        counttwo=models.Count.new('two'),
+        table=models.Table.imports(tiles='table:y'),
+        box=models.Box.new(),
+        bag=models.Bag.new(),
+        kind='kind:one.Omoluzu,two.Hokage',
+        active=models.Active.imports(element='active:one'),
+        first_player=models.FirstPlayer.imports(element='first_player:one')
+    )
+
+    info = {
+        'command': 'post',
+        'fact': 0,
+        'color': 'y',
+        'line': 5,
+        'player': 'one'
+    }
+
+    post_response = azul.post(info=info)
+    assert post_response['countone'].export() == 'countone:4'
+    assert post_response['counttwo'].export() == 'counttwo:5'
+    assert post_response['command']['change_count'] == 'one.4|4,two.5|5'
+
+
+
 # todo Если на линии пола были лишние плитки, они должны положиться в box

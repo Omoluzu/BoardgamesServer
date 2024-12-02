@@ -4,6 +4,7 @@ from .box import Box
 from .wall import Wall
 from .floor import Floor
 from .table import Table
+from .count import Count
 from .active import Active
 from .pattern import Pattern
 from .factory import Factory

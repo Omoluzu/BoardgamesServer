@@ -2,7 +2,8 @@ import pytest
 
 from src.games.azul.view import Azul
 from src.games.azul.models import (
-    Factories, Pattern, Table, Floor, Box, Active, FirstPlayer, Bag, Wall
+    Factories, Pattern, Table, Floor, Box, Active,
+    FirstPlayer, Bag, Wall, Count
 )
 
 
@@ -17,6 +18,8 @@ def test_factory_post_tile():
         floortwo=Floor.imports(elements='floortwo:'),
         wallone=Wall.new('one'),
         walltwo=Wall.new('two'),
+        countone=Count.new('one'),
+        counttwo=Count.new('two'),
         table=Table.imports(tiles='table:x'),
         box=Box.new(),
         bag=Bag.new(),
@@ -77,6 +80,8 @@ def test_table_post_tile():
         floortwo=Floor.imports(elements='floortwo:'),
         wallone=Wall.new('one'),
         walltwo=Wall.new('two'),
+        countone=Count.new('one'),
+        counttwo=Count.new('two'),
         table=Table.imports(tiles='table:xydbgb'),
         box=Box.new(),
         bag=Bag.new(),
@@ -139,6 +144,8 @@ def test_table_post_floor():
         floortwo=Floor.imports(elements='floortwo:'),
         wallone=Wall.new('one'),
         walltwo=Wall.new('two'),
+        countone=Count.new('one'),
+        counttwo=Count.new('two'),
         table=Table.imports(tiles='table:yd'),
         box=Box.new(),
         bag=Bag.new(),
@@ -174,6 +181,8 @@ def test_table_post_floor_extra():
         floortwo=Floor.imports(elements='floortwo:'),
         wallone=Wall.new('one'),
         walltwo=Wall.new('two'),
+        countone=Count.new('one'),
+        counttwo=Count.new('two'),
         table=Table.imports(tiles=f'table:{"r" * 10}'),
         box=Box.new(),
         bag=Bag.new(),
@@ -210,6 +219,8 @@ def test_change_active_player():
         floortwo=Floor.imports(elements='floortwo:'),
         wallone=Wall.new('one'),
         walltwo=Wall.new('two'),
+        countone=Count.new('one'),
+        counttwo=Count.new('two'),
         table=Table.imports(tiles='table:x'),
         box=Box.new(),
         bag=Bag.new(),
@@ -255,6 +266,8 @@ def test_change_first_player():
         floortwo=Floor.imports(elements='floortwo:'),
         wallone=Wall.new('one'),
         walltwo=Wall.new('two'),
+        countone=Count.new('one'),
+        counttwo=Count.new('two'),
         table=Table.imports(tiles='table:xydbgb'),
         box=Box.new(),
         bag=Bag.new(),

@@ -14,9 +14,11 @@ REGULAR = (
     r'(?P<patternone>patternone:[^;]*);'
     r'(?P<floorone>floorone:[^;]*);'
     r'(?P<wallone>wallone:[^;]*);'
+    r'(?P<countone>countone:[^;]*);'
     r'(?P<patterntwo>patterntwo:[^;]*);'
     r'(?P<floortwo>floortwo:[^;]*);'
     r'(?P<walltwo>walltwo:[^;]*);'
+    r'(?P<counttwo>counttwo:[^;]*);'
     r'(?P<kind>kind:[^;]*);'
     r'(?P<table>table:[^;]*);'
     r'(?P<active>active:[^;]*);'
@@ -38,6 +40,8 @@ class Azul:
     floortwo: models.Floor  # Линия пола игрока 2
     wallone: models.Wall  # Стена игрока 1
     walltwo: models.Wall  # Стена игрока 2
+    countone: models.Count  # Стена игрока 2
+    counttwo: models.Count  # Стена игрока 2
     table: models.Table  # Игровой стол
     box: models.Box  # Содержимое игровой коробки (Сбрасываются лишние игровые плитки)
     bag: models.Bag  # Сумка с плитками игрока.
@@ -67,6 +71,8 @@ class Azul:
             floortwo=models.Floor.imports(match_game_info.group('floortwo')),
             wallone=models.Wall.imports(match_game_info.group('wallone')),
             walltwo=models.Wall.imports(match_game_info.group('walltwo')),
+            countone=models.Count.imports(match_game_info.group('countone')),
+            counttwo=models.Count.imports(match_game_info.group('counttwo')),
             table=models.Table.imports(match_game_info.group('table')),
             active=models.Active.imports(match_game_info.group('active')),
             first_player=models.FirstPlayer.imports(match_game_info.group('first_player')),
@@ -127,6 +133,8 @@ class Azul:
             'floortwo': self.floortwo,
             'wallone': self.wallone,
             'walltwo': self.walltwo,
+            'countone': self.countone,
+            'counttwo': self.counttwo,
             'table': self.table,
             'box': self.box,
             'bag': self.bag,
