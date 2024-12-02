@@ -249,6 +249,68 @@ def test_post_enlarge_contents_of_box():
     assert export_box.match(post_response['box'].export()) is not None
 
 
-# todo Ходит тот игрок у кого был жетон первого игрока (Не важно кто последний сделал ход)
+
+@pytest.mark.azul
+def test_post_change_first_player():
+    """Ходит тот игрок у кого был жетон первого игрока (Не важно кто последний сделал ход)"""
+    azul = view.Azul(
+        factory=models.Factories.imports(fact='fact:-.-.-.-.-'),
+        patternone=models.Pattern.imports(pattern='patternone:g.rr.ddd.dddd.-----'),
+        patterntwo=models.Pattern.imports(pattern='patterntwo:d.rr.yyy.---g.---bb'),
+        floorone=models.Floor.imports(elements='floorone:'),
+        floortwo=models.Floor.imports(elements='floortwo:x'),
+        wallone=models.Wall.new('one'),
+        walltwo=models.Wall.new('two'),
+        table=models.Table.imports(tiles='table:y'),
+        box=models.Box.new(),
+        bag=models.Bag.new(),
+        kind='kind:one.Hokage,two.Omoluzu',
+        active=models.Active.imports(element='active:one'),
+        first_player=models.FirstPlayer.imports(element='first_player:one')
+    )
+
+    info = {
+        'command': 'post',
+        'fact': 0,
+        'color': 'y',
+        'line': 5,
+        'player': 'one'
+    }
+
+    post_response = azul.post(info=info)
+    assert post_response['first_player'].export() == 'first_player:two'
+    assert post_response['command']['change_first_player'] == 'two'
+
+    azul = view.Azul(
+        factory=models.Factories.imports(fact='fact:-.-.-.-.-'),
+        patternone=models.Pattern.imports(pattern='patternone:g.rr.ddd.dddd.-----'),
+        patterntwo=models.Pattern.imports(pattern='patterntwo:d.rr.yyy.---g.---bb'),
+        floorone=models.Floor.imports(elements='floorone:x'),
+        floortwo=models.Floor.imports(elements='floortwo:'),
+        wallone=models.Wall.new('one'),
+        walltwo=models.Wall.new('two'),
+        table=models.Table.imports(tiles='table:y'),
+        box=models.Box.new(),
+        bag=models.Bag.new(),
+        kind='kind:one.Hokage,two.Omoluzu',
+        active=models.Active.imports(element='active:one'),
+        first_player=models.FirstPlayer.imports(element='first_player:two')
+    )
+
+
+    info = {
+        'command': 'post',
+        'fact': 0,
+        'color': 'y',
+        'line': 5,
+        'player': 'one'
+    }
+
+    post_response = azul.post(info=info)
+    assert post_response['first_player'].export() == 'first_player:one'
+    assert post_response['command']['change_first_player'] == 'one'
+
+
+
 # todo Подсчет и сохранение кол-ва победных очков
 # todo Если на линии пола были лишние плитки, они должны положиться в box

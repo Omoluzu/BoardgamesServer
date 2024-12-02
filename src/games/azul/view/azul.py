@@ -155,6 +155,11 @@ class Azul:
 
         post_tiles = self.factory.post_tile(bag=self.bag)
 
+        if models.Tile.FIRST_PLAYER.value in self.floorone.elements:
+            self.first_player.change_first_player(value='one')
+        elif models.Tile.FIRST_PLAYER.value in self.floortwo.elements:
+            self.first_player.change_first_player(value='two')
+
         self.floorone.clear()
         self.floortwo.clear()
         self.box.add_element_before_post_wall(
@@ -164,6 +169,7 @@ class Azul:
             'post_wall': f'one.{"".join(playerone)},two.{"".join(playertwo)}',
             'post_fact': '.'.join(post_tiles),
             'add_desc': models.Tile.FIRST_PLAYER.value,
-            'floor_clear': '+'
+            'floor_clear': '+',
+            'change_first_player': self.first_player.element
         }
 
