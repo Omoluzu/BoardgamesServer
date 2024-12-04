@@ -360,8 +360,8 @@ def test_post_summary_count():
     }
 
     post_response = azul.post(info=info)
-    assert post_response['countone'].export() == 'countone:4'
-    assert post_response['counttwo'].export() == 'counttwo:5'
+    assert post_response['countone'].export() == 'countone:4|4'
+    assert post_response['counttwo'].export() == 'counttwo:5|5'
     assert post_response['command']['change_count'] == 'one.4|4,two.5|5'
 
 

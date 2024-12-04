@@ -30,6 +30,17 @@ SERVER_REGULAR = (
     r'(?P<box>box:[^;]*)'
 )
 
+NEGATIVE_COUNT_FLOOR = {
+    0: 0,
+    1: -1,
+    2: -2,
+    3: -4,
+    4: -6,
+    5: -8,
+    6: -11,
+    7: -14
+}
+
 
 @dataclass
 class Azul:
@@ -157,8 +168,15 @@ class Azul:
         playerone = self.patternone.post_wall()
         playertwo = self.patterntwo.post_wall()
 
-        self.wallone.post_wall(playerone)
-        self.walltwo.post_wall(playertwo)
+        countone = self.wallone.post_wall(playerone)
+        countone += NEGATIVE_COUNT_FLOOR[len(self.floorone)]
+
+        counttwo = self.walltwo.post_wall(playertwo)
+        counttwo += NEGATIVE_COUNT_FLOOR[len(self.floortwo)]
+
+        self.countone.update(value=countone)
+        self.counttwo.update(value=counttwo)
+
         self.table.put(tiles=models.Tile.FIRST_PLAYER.value)
 
         post_tiles = self.factory.post_tile(bag=self.bag)
@@ -178,6 +196,7 @@ class Azul:
             'post_fact': '.'.join(post_tiles),
             'add_desc': models.Tile.FIRST_PLAYER.value,
             'floor_clear': '+',
-            'change_first_player': self.first_player.element
+            'change_first_player': self.first_player.element,
+            'change_count': f'one.{self.countone.element},two.{self.counttwo.element}'
         }
 

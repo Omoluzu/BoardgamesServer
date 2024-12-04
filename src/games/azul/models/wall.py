@@ -43,15 +43,42 @@ class Wall:
             tiles=list(element.split('.') for element in _element.split(','))
         )
 
-    def post_wall(self, data: list[str]) -> None:
+    def post_wall(self, data: list[str]) -> int:
         """Выставление собранных плиток на линиях на стену
 
         Args:
             data: содержимое плиток которые должны быть выставлены на стену.
+                ['g', 'r', 'd', 'd', '-']
+                ['d', 'r', 'y', '-', '-']
+
+        Return:
+            Количество победных очков заработанные игроком после
+                выставление плиток на стол.
         """
-        for i, tile in enumerate(data):
+        count = 0
+
+        for line, tile in enumerate(data):
             if tile != '-':
-                self.tiles[i][self.tiles[i].index(f"{tile}-")] = f'{tile}+'
+                index_position = self.tiles[line].index(f"{tile}-")
+                self.tiles[line][index_position] = f'{tile}+'
+
+                index_check_up = line
+                while True:
+                    index_check_up -= 1
+                    try:
+                        tile = self.tiles[index_check_up][index_position]
+                    except IndexError:
+                        break
+                    else:
+                        if tile[1] == "+":
+                            count += 1
+                        else:
+                            break
+
+                count += 1
+
+        return count
+
 
     def export(self) -> str:
         """Экспорт данных стены
