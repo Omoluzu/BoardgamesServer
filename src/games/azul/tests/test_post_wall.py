@@ -365,5 +365,5 @@ def test_post_summary_count():
     assert post_response['command']['change_count'] == 'one.4|4,two.5|5'
 
 
-
 # todo Если на линии пола были лишние плитки, они должны положиться в box
+# todo Количество победных очков не может принять отрицательное значение.

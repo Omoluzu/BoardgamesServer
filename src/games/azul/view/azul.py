@@ -199,4 +199,3 @@ class Azul:
             'change_first_player': self.first_player.element,
             'change_count': f'one.{self.countone.element},two.{self.counttwo.element}'
         }
-

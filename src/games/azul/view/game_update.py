@@ -38,6 +38,6 @@ def update_azul(data: dict, test=False) -> dict:
             response = {}
 
     data['game_command'] = zip_game_command(response.get('command'))
-    data['game_info'] = f"{response.get('fact').export()};{response.get('patternone').export()};{response.get('floorone').export()};{response.get('wallone').export()};{response.get('patterntwo').export()};{response.get('floortwo').export()};{response.get('walltwo').export()};{response.get('kind')};{response.get('table').export()};{response.get('active').export()};{response.get('first_player').export()}"
+    data['game_info'] = f"{response.get('fact').export()};{response.get('patternone').export()};{response.get('floorone').export()};{response.get('wallone').export()};{response.get('countone').export()};{response.get('patterntwo').export()};{response.get('floortwo').export()};{response.get('walltwo').export()};{response.get('counttwo').export()};{response.get('kind')};{response.get('table').export()};{response.get('active').export()};{response.get('first_player').export()}"
     data['server_info'] = f"{response.get('bag').export()};{response.get('box').export()}"
     return data
