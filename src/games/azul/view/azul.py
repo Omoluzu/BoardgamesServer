@@ -123,6 +123,7 @@ class Azul:
         Returns:
             Ответ на его действия
         """
+        data = {}
 
         count_tile_table = self.table.tiles.count(info['color'])
         self.table.remove(info['color'])
@@ -130,11 +131,15 @@ class Azul:
         floor = getattr(self, f"floor{info['player']}")
         floor.element_add(element=info['color'] * count_tile_table)
 
+        if not self.table and not self.factory:
+            data.update(self.post_wall())
+
         return {
             **self.save(),
             'command': {
                 'post_floor': f"player.{info['player']},tile.{info['color']}",
-                'clean_table': info['color'] * count_tile_table
+                'clean_table': info['color'] * count_tile_table,
+                **data
             }
         }
 

@@ -365,5 +365,38 @@ def test_post_summary_count():
     assert post_response['command']['change_count'] == 'one.4|4,two.5|5'
 
 
+    azul = view.Azul(
+        factory=models.Factories.imports(fact='fact:-.-.-.-.-'),
+        patternone=models.Pattern.imports(pattern='patternone:d.yy.-yy.----.ggggg'),
+        patterntwo=models.Pattern.imports(pattern='patterntwo:-.bb.rrr.yyyy.-bbbb'),
+        floorone=models.Floor.imports(elements='floorone:x'),
+        floortwo=models.Floor.imports(elements='floortwo:'),
+        wallone=models.Wall.imports(elements='wallone:g+.y-.r-.d-.b-,b-.g-.y-.r+.d-,d+.b-.g-.y-.r-,r-.d+.b-.g-.y-,y-.r-.d-.b-.g-'),
+        walltwo=models.Wall.imports(elements='walltwo:g-.y-.r-.d+.b-,b-.g-.y-.r+.d-,d-.b-.g-.y+.r-,r-.d-.b-.g-.y-,y-.r-.d-.b-.g-'),
+        countone=models.Count.imports(element='countone:4|4'),
+        counttwo=models.Count.imports(element='counttwo:5|5'),
+        table=models.Table.imports(tiles='table:d'),
+        box=models.Box.imports(elements='box:rdddddryy'),
+        bag=models.Bag.upload(tiles='bag:rdyrbdyrbdgbdgbgyrbrdgybgbgrbdgbdyrbdgyrbdgyrgrbgrgrbgyrdbgy'),
+        kind='kind:one.Omoluzu,two.Hokage',
+        active=models.Active.imports(element='active:one'),
+        first_player=models.FirstPlayer.imports(element='first_player:one')
+    )
+
+    info = {
+        'command': 'trash',
+        'fact': 0,
+        'color': 'd',
+        'player': 'one'
+    }
+
+    post_response = azul.post_trash(info=info)
+    assert post_response['countone'].export() == 'countone:7|3'
+    assert post_response['counttwo'].export() == 'counttwo:10|5'
+    assert post_response['command']['change_count'] == 'one.7|3,two.10|5'
+
+
+
 # todo Если на линии пола были лишние плитки, они должны положиться в box
 # todo Количество победных очков не может принять отрицательное значение.
+# todo Тестирование если очки считаются и за горизонтальную и вертикальную линию.
