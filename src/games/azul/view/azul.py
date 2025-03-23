@@ -92,6 +92,52 @@ class Azul:
             bag=models.Bag.upload(match_server_info.group('bag')),
         )
 
+    def save(self) -> dict:
+        """Сбор информации о всех ключевых элементах игры"""
+        return {
+            'fact': self.factory,
+            'patternone': self.patternone,
+            'patterntwo': self.patterntwo,
+            'floorone': self.floorone,
+            'floortwo': self.floortwo,
+            'wallone': self.wallone,
+            'walltwo': self.walltwo,
+            'countone': self.countone,
+            'counttwo': self.counttwo,
+            'table': self.table,
+            'box': self.box,
+            'bag': self.bag,
+            'active': self.active,
+            'first_player': self.first_player,
+            'kind': self.kind,
+        }
+
+
+    def post_trash(self, info: dict) -> dict:
+        """Выставление плиток на линию пола, миную планшет игрока.
+            Происходит когда игрок не может выставить плитку на свой планшет
+
+        Args:
+            info: Информация пришедшая с клиента
+
+        Returns:
+            Ответ на его действия
+        """
+
+        count_tile_table = self.table.tiles.count(info['color'])
+        self.table.remove(info['color'])
+
+        floor = getattr(self, f"floor{info['player']}")
+        floor.element_add(element=info['color'] * count_tile_table)
+
+        return {
+            **self.save(),
+            'command': {
+                'post_floor': f"player.{info['player']},tile.{info['color']}",
+                'clean_table': info['color'] * count_tile_table
+            }
+        }
+
     def post(self, info: dict) -> dict:
         """Выставление плитки на планшет игрока
 
@@ -137,21 +183,7 @@ class Azul:
         self.active.change_player()
 
         return {
-            'fact': self.factory,
-            'patternone': self.patternone,
-            'patterntwo': self.patterntwo,
-            'floorone': self.floorone,
-            'floortwo': self.floortwo,
-            'wallone': self.wallone,
-            'walltwo': self.walltwo,
-            'countone': self.countone,
-            'counttwo': self.counttwo,
-            'table': self.table,
-            'box': self.box,
-            'bag': self.bag,
-            'active': self.active,
-            'first_player': self.first_player,
-            'kind': self.kind,
+            **self.save(),
             'command': {
                 'post_pattern_line': f"line.{info['line']},player.{info['player']},tile.{info['color']},count.{pattern.put_tile}",
                 'active_player': self.active.element,

@@ -34,8 +34,10 @@ def update_azul(data: dict, test=False) -> dict:
     match game_command['command']:
         case 'post':
             response = azul.post(game_command)
-        case _:
-            response = {}
+        case 'trash':
+            response = azul.post_trash(game_command)
+        # case _:
+        #     response = {}
 
     data['game_command'] = zip_game_command(response.get('command'))
     data['game_info'] = f"{response.get('fact').export()};{response.get('patternone').export()};{response.get('floorone').export()};{response.get('wallone').export()};{response.get('countone').export()};{response.get('patterntwo').export()};{response.get('floortwo').export()};{response.get('walltwo').export()};{response.get('counttwo').export()};{response.get('kind')};{response.get('table').export()};{response.get('active').export()};{response.get('first_player').export()}"
